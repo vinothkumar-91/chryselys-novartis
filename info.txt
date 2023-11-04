@@ -1,6 +1,6 @@
-https://www.figma.com/file/jnVE9Lqr10RKQBMnuICFuW/Chryselys---PIT-Dashboard?node-id=413%3A403&mode=dev
+https://www.figma.com/file/WMA6AwKbcvaFv1Q0zJcjFW/Chatbot---Novartis?node-id=141%3A5005&mode=dev
 
-https://www.figma.com/proto/jnVE9Lqr10RKQBMnuICFuW/Chryselys---PIT-Dashboard?page-id=413%3A402&type=design&node-id=413-403&viewport=-2963%2C668%2C0.5&t=7zY7MpKb5qbCDdgM-1&scaling=scale-down-width
+https://www.figma.com/proto/WMA6AwKbcvaFv1Q0zJcjFW/Chatbot---Novartis?node-id=141-5005&starting-point-node-id=172%3A951
 
 
 

@@ -1,18 +1,16 @@
 <!-- <div class="body-container-wrapper gradient-l-r"> -->
 
 <div class="login-container">
-  <div class="left" style="background-image:url(./assets/image/bg1.png)">
+  <div class="left" >
 
     <div class="mx-auto w-full max-w-sm lg:w-96"
       style="margin: 0 auto;max-width: 30rem;width: 24rem;background: #fff;padding: 50px;border-radius:10px">
       <div class="mb-8 text-center">
-        <img class="" src="./assets/image/PITlogo.svg" alt="" width="300">
+        <img class="" src="./assets/image/logo.svg" alt="" width="300">
         <p class="mt-2 text-sm text-center text-gray-600"
           style="margin-top:2px;text-align: center;font-size: 12px;color: cornflowerblue;">
-          <!-- <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500" >Demo</a> -->
         </p>
       </div>
-      <!-- <h2 class="welcome-msg">Welcome to PIT</h2> -->
       <div class="mt-8 text-center">
 
         <div class="sso-button" *ngIf="type == 'sso'">
@@ -22,16 +20,6 @@
           </button>
 
         </div>
-
-        <!-- <div class="relative mt-5" >
-                <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                  <div class="w-full bg-line"></div>
-                </div>
-                 <div class="relative flex justify-center text-sm">
-                  <span class="bg-white px-2 text-gray-500">Or continue with</span>
-                </div>
-              </div> -->
-
 
         <div class="relative mt-5">
           <h4 *ngIf="popupType == 'forgetPassword' ">Forgot Password</h4>
@@ -53,12 +41,14 @@
             </div>
           </div>
         </ng-container>
-        <!-- *ngIf="!((popupType != 'login') && apiCall)" -->
+
         <div class="fw-100" *ngIf="type == 'default'">
           <div class="loginpage l-form mt-0">
             <form #loginForm="ngForm" name="form" (ngSubmit)="loginForm.valid && onSubmit()" autocomplete="off"
               class="form form-login full-form text-start" novalidate>
               <div class="loginform">
+
+
                 <div class="f-row">
                   <div class="f-feilds" *ngIf="popupType == 'login' || popupType == 'forgetPassword'">
                     <label>Email*</label>
@@ -71,6 +61,13 @@
                         email.</small>
                     </div>
                   </div>
+
+                  <mat-form-field appearance="outline" >
+                    <mat-label>שדה תאריך</mat-label>
+                    <input matInput placeholder="יש למלא את השדה"/>
+                  </mat-form-field>
+
+
                   <div class="f-feilds" *ngIf="popupType == 'OTP'">
                     <label>OTP*</label>
                     <input type="password" name="OTP" class="form-control" required [(ngModel)]="loginform.OTP"
@@ -153,24 +150,6 @@
 
 
 
-        <!--
-         <div class="sso-button">
-          <button  class="sso-button-link" [disabled]="(Gloader.val =='true')">
-            <span class="self-center" *ngIf="apiCall">Connecting SAML...</span>
-            <span class="self-center" *ngIf="!(Gloader.val =='true') && !apiCall">Sign in via SSO (Microsoft)</span>
-          </button>
-
-      </div>
-
-           <div class="relative mt-5">
-              <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                <div class="w-full bg-line"></div>
-              </div>
-               <div class="relative flex justify-center text-sm">
-                <span class="bg-white px-2 text-gray-500">Or continue with</span>
-              </div>
-            </div> -->
-
       </div>
     </div>
   </div>
@@ -179,12 +158,8 @@
   </div>
 </div>
 
-<!-- </div> -->
-<!-- <button (click)="login()" class="btn btn-default">Login</button> -->
-
 <div id="loaderContainer" *ngIf="Gloader && Gloader.val =='true'">
   <div id="loaderGif">
-    <!-- <img src='./../assets/image/loader-animated.gif' height="100" /> -->
     <span>{{Gloader.msg}}</span>
   </div>
 </div>

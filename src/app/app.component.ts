@@ -15,7 +15,7 @@ import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular
 })
 export class AppComponent {
   local: number = window.location.href.indexOf('localhost');
-  title = 'chryselys-PIT';
+  title = 'Novartis-gpt';
   apicall:boolean=false;
   currentRoute: any;
   passwordForm:any={current_password:'',new_password:'',new_confirm:''}

@@ -50,11 +50,6 @@ export class HeaderComponent implements OnInit {
 
   user: any = null;
   userItem: any = [
-    // { name: 'VinothKumar', account: 'Roche', role: 'Doctor', id: 1, path: 'http://xsgames.co/randomusers/assets/avatars/male/1.jpg', hex: '#C0E6FF' },
-    // { name: 'Pratheepa', account: 'ABC', role: 'Doctor', id: 2, path: 'http://xsgames.co/randomusers/assets/avatars/female/1.jpg', hex: '#C8F08F' },
-    // { name: 'Velmurugan', account: 'Test', role: 'Doctor', id: 3, path: 'http://xsgames.co/randomusers/assets/avatars/male/2.jpg', hex: '#FFD2DD' },
-    // { name: 'Sudharsan', account: 'Chryselys', role: 'Doctor', id: 4, path: 'http://xsgames.co/randomusers/assets/avatars/male/3.jpg', hex: '#FDE876' },
-    // { name: 'Sanjeev', account: 'Chryselys', role: 'Doctor', id: 5, path: 'http://xsgames.co/randomusers/assets/avatars/male/4.jpg', hex: '#FDE876' }
   ]
 
 

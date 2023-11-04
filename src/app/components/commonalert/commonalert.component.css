@@ -1,0 +1,5 @@
+.modal{background-color:rgb(226, 236, 255, 0.6);position:fixed;border-radius: 0;z-index: 1051;}
+.modal .modal-dialog,.modal-content{padding: 30px;}
+.modal button.btn{margin:20px 0 10px 0}
+.modal.show{display:block}
+.modal .modal-dialog{max-width: 1500px;}

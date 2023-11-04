@@ -1,0 +1,287 @@
+
+                    <div *ngIf="!userFormVisible" class="fw-100">
+                        <div class="table-responsive table-theme1 fw-100" [ngClass]="{'blur-loader-layer':apiCall['list']}">
+
+
+
+                            <div class="table-header-area mt-1">
+                                <div class="float-start">
+                                </div>
+                                <div class="float-end tablesearch">
+                                    <button type="button" class="btn btn-secondary btn-sm float-end ms-2" (click)="formType='add';userFormVisible=true">NEW ADD USER</button>
+                                    <mat-form-field appearance="fill" class="float-end">
+                                        <img src="./assets/image/search.svg" class="search-icon" height="36" alt="">
+                                        <input type="text" class="table-search" placeholder="Type keywords ..." matInput
+                                            #searchContainer autocomplete="off" [(ngModel)]="filterValue" #ctrl="ngModel"
+                                            (keyup)="applyFilter(searchContainer.value)" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <mat-table [dataSource]="data_dataSource" matTableExporter matSort #dataTable class="no-wrap"
+                            (matSortChange)="sortData()" matSortActive="created_on" matSortStart="asc" matSortDisableClear
+                            #exporter="matTableExporter">
+
+
+                                <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        <!--
+                        "user_no","user_name","created_on","role","email","therapeutic_area","disease_area","subscription","last_activity"              -->
+
+                                        <span *ngIf="column == 'user_id'">ID</span>
+                                        <span *ngIf="column == 'first_name'">first name</span>
+                                        <span *ngIf="column == 'last_name'">last name</span>
+                                        <span *ngIf="column == 'client_name'">client</span>
+                                        <span *ngIf="column == 'status'">status</span>
+                                        <span *ngIf="column == 'action'">Action</span>
+
+                                        <span *ngIf="column == 'user_no'">ID</span>
+                                        <span *ngIf="column == 'user_name'">Name</span>
+                                        <span *ngIf="column == 'created_on'">Created On</span>
+                                        <span *ngIf="column == 'role'">role</span>
+                                        <span *ngIf="column == 'email'">email</span>
+                                        <span *ngIf="column == 'therapeutic_area'">therapeutic area</span>
+                                        <span *ngIf="column == 'disease_area'">disease area</span>
+                                        <span *ngIf="column == 'subscription'">subscription</span>
+                                        <span *ngIf="column == 'last_activity'">last activity</span>
+                                    </th>
+                                    <td mat-cell *matCellDef="let element" [title]="(element[column])?element[column]:''">
+                                        <!-- [ngClass]="{'text-center':(column=='ROLE')}" -->
+
+
+
+                                        <div *ngIf="column != 'action'">
+                                            {{element[column]}}
+                                        </div>
+                                        <div *ngIf="column == 'action'" class="action">
+                                            <span class="d-inline-block me-3" (click)="formType='edit';currentObj=element;userForm=element;userFormVisible=true">
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 32 32" class="c-p"
+                                                    fill="none">
+                                                    <g clip-path="url(#clip0_644_3904)">
+                                                        <path
+                                                            d="M0 8.66561C0.217555 7.76289 0.618282 6.96527 1.32846 6.34656C2.05302 5.71597 2.89136 5.3425 3.85348 5.33812C7.44064 5.32311 11.0284 5.32999 14.6162 5.33312C15.307 5.33312 15.9047 5.83734 15.9866 6.46543C16.0822 7.19424 15.689 7.82608 15.0257 8.02064C14.8635 8.05789 14.6967 8.07137 14.5306 8.06067C11.1405 8.06067 7.75051 8.06067 4.36048 8.06067C4.16318 8.05632 3.96593 8.07141 3.77158 8.10571C3.13329 8.23083 2.70881 8.72505 2.70381 9.38003C2.69756 10.6106 2.70381 11.8405 2.70381 13.071C2.70381 18.0023 2.70381 22.9338 2.70381 27.8655C2.70381 28.8427 3.20956 29.3531 4.17981 29.3531C10.2213 29.3531 16.2629 29.34 22.3044 29.3656C23.3772 29.37 23.9548 28.7932 23.948 27.6953C23.9261 24.2546 23.9411 20.8139 23.9386 17.3732C23.9386 16.8433 24.1655 16.4423 24.6181 16.1908C25.0707 15.9393 25.5602 15.9406 26.0122 16.2214C26.4536 16.4948 26.663 16.9096 26.6624 17.4288C26.6624 18.909 26.6624 20.3895 26.6624 21.8705C26.6624 23.8936 26.6624 25.9164 26.6624 27.9387C26.6624 29.8699 25.5446 31.3832 23.7029 31.955C23.6635 31.9675 23.6254 31.9844 23.5866 31.9994H2.99513C2.61191 31.8405 2.21431 31.7166 1.86172 31.487C0.858343 30.8326 0.257565 29.908 0 28.7463V8.66561Z"
+                                                            fill="#004567" />
+                                                        <path
+                                                            d="M12.0359 20.7188C11.5745 20.7188 11.2482 20.3547 11.3313 19.8849C11.4926 18.9728 11.6814 18.0657 11.8602 17.1573C11.9765 16.5649 12.1015 15.9744 12.2122 15.3813C12.2592 15.1033 12.3926 14.8471 12.5935 14.6494C15.979 11.262 19.3604 7.87031 22.738 4.4742C22.9568 4.254 23.0831 4.2784 23.2875 4.48609C24.6841 5.90117 26.0886 7.30874 27.5011 8.7088C27.7299 8.93464 27.7161 9.06413 27.4973 9.28246C24.1239 12.6531 20.7558 16.0288 17.3929 19.4095C17.1994 19.6145 16.9475 19.755 16.6714 19.8117C15.2256 20.0991 13.7801 20.3875 12.3347 20.6769C12.2328 20.6982 12.129 20.7063 12.0359 20.7188Z"
+                                                            fill="#004567" />
+                                                        <path
+                                                            d="M28.6414 1.86238e-05C30.0518 0.0625773 31.1139 0.701301 31.6828 2.00565C32.2417 3.2881 32.0642 4.52363 31.1327 5.58651C30.5644 6.23461 29.9261 6.82016 29.3279 7.442C29.1703 7.6059 29.0659 7.57462 28.9203 7.42761C27.4699 5.96791 26.016 4.51008 24.5585 3.05413C24.4222 2.91775 24.3916 2.81641 24.5442 2.66815C25.1481 2.08135 25.732 1.47953 26.344 0.895859C26.9823 0.287163 27.7525 -0.00561165 28.6414 1.86238e-05Z"
+                                                            fill="#004567" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_644_3904">
+                                                            <rect width="32" height="32" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                            </span>
+                                            <span class="d-inline-block mr-3" (click)="popuptype = 'projectDelete'">
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 26 32" class="c-p"
+                                                    fill="none">
+                                                    <g clip-path="url(#clip0_644_3908)">
+                                                        <path
+                                                            d="M4.82446 32C3.89785 31.7497 3.16957 31.2491 2.7171 30.3773C2.51915 29.9976 2.40545 29.5795 2.38379 29.1517C2.32712 28.1247 2.29546 27.0961 2.24546 26.0649C2.17213 24.5632 2.0888 23.0548 2.01381 21.5497C1.96381 20.5427 1.92381 19.5357 1.87548 18.5287C1.77716 16.4708 1.67689 14.4154 1.57467 12.3625C1.52967 11.474 1.6055 11.4882 2.37712 11.489C9.50722 11.494 16.6373 11.494 23.7674 11.489C24.3865 11.489 24.4482 11.5457 24.419 12.1731C24.3174 14.4057 24.2121 16.638 24.1032 18.87C24.0432 20.1364 23.9827 21.4029 23.9216 22.6693C23.8182 24.8184 23.7216 26.9676 23.6074 29.1159C23.5366 30.4549 22.6841 31.5195 21.4009 31.9157C21.3176 31.9399 21.2442 31.9683 21.1651 31.9942L4.82446 32ZM8.9817 20.5244C8.9817 18.4537 8.9817 16.3832 8.9817 14.3131C8.98617 14.1161 8.96289 13.9195 8.91253 13.7291C8.84187 13.5105 8.69486 13.3248 8.49848 13.2061C8.3021 13.0873 8.06952 13.0434 7.84344 13.0825C7.29597 13.1901 7.02932 13.5731 7.02932 14.2705C7.02932 18.4325 7.02932 22.5942 7.02932 26.7557C7.02752 26.9221 7.04684 27.088 7.08682 27.2496C7.1279 27.4086 7.20949 27.5543 7.32363 27.6723C7.43776 27.7903 7.58053 27.8766 7.73797 27.9229C7.89541 27.9691 8.06214 27.9737 8.22186 27.9361C8.38159 27.8985 8.52883 27.82 8.64922 27.7084C8.92753 27.4523 8.98253 27.1244 8.98253 26.7707L8.9817 20.5244ZM12.019 20.4927C12.019 22.5622 12.019 24.6327 12.019 26.7039C12.0139 26.9009 12.0369 27.0975 12.0873 27.2879C12.1574 27.5073 12.3042 27.6939 12.5009 27.8133C12.6975 27.9327 12.9306 27.977 13.1573 27.9379C13.7039 27.8302 13.973 27.444 13.973 26.7498C13.973 22.5873 13.973 18.4256 13.973 14.2647C13.975 14.0876 13.9531 13.9111 13.908 13.7399C13.8408 13.5143 13.6919 13.3219 13.4905 13.2003C13.2891 13.0787 13.0496 13.0367 12.8189 13.0825C12.299 13.1893 12.0207 13.5772 12.0198 14.2205C12.0176 16.3112 12.0173 18.4019 12.019 20.4927ZM17.0087 20.5093C17.0087 22.5673 17.0087 24.6274 17.0087 26.6898C17.0038 26.8865 17.0257 27.0829 17.0737 27.2738C17.1406 27.4941 17.2846 27.6829 17.4793 27.8055C17.674 27.928 17.9063 27.9762 18.1336 27.9412C18.6852 27.8377 18.9627 27.4506 18.9627 26.764C18.9627 22.5926 18.9627 18.4211 18.9627 14.2497C18.9619 14.094 18.9435 13.939 18.9077 13.7875C18.8683 13.6229 18.7856 13.472 18.6681 13.3503C18.5507 13.2286 18.4028 13.1407 18.2399 13.0956C18.077 13.0505 17.905 13.05 17.7418 13.0941C17.5786 13.1381 17.4302 13.2252 17.312 13.3461C17.0512 13.6014 17.012 13.9301 17.012 14.2638L17.0087 20.5093Z"
+                                                            fill="#004567" />
+                                                        <path
+                                                            d="M12.9797 9.53929H1.19716C0.363884 9.53929 0.00473953 9.18305 0.00390625 8.34542C0.00390625 7.73139 0.00390625 7.11735 0.00390625 6.50331C0.00807265 5.08502 1.098 4.00044 2.51958 4.00044C4.19336 4.00044 5.86686 4.00044 7.54009 4.00044C7.98673 4.00044 7.99256 4.00044 7.98589 3.56244C7.97506 2.91503 7.96923 2.2718 8.28921 1.67695C8.865 0.604885 9.74661 0.0183801 10.9715 0.00836861C12.3331 -0.00498002 13.6947 0.00252858 15.0546 0.00836861C15.8377 0.0134192 16.5872 0.327695 17.1402 0.882898C17.6931 1.4381 18.0049 2.18937 18.0078 2.97343C18.0078 3.21287 18.0227 3.45398 18.0078 3.69176C17.9878 3.94705 18.0961 4.00962 18.3344 4.00879C20.0285 4.00044 21.7233 4.03965 23.4174 3.99377C24.8206 3.95539 26.0781 5.16928 26.0006 6.60092C25.9672 7.2233 26.0006 7.85236 25.9947 8.4739C25.9947 9.14133 25.5939 9.54179 24.9273 9.54179C20.9398 9.54124 16.9573 9.5404 12.9797 9.53929ZM12.9956 4.00044C13.8897 4.00044 14.783 4.00044 15.6771 4.00044C15.8879 4.00044 15.9854 3.93871 15.9704 3.71595C15.9571 3.50821 15.9762 3.29881 15.9637 3.0919C15.9271 2.46535 15.5637 2.06322 14.9438 2.05238C13.6444 2.02957 12.3453 2.02957 11.0465 2.05238C10.4274 2.06322 10.0624 2.46952 10.0266 3.09274C10.0149 3.28963 10.0374 3.48902 10.0191 3.68508C9.99577 3.94037 10.1074 4.00462 10.3457 4.00211C11.229 3.9946 12.1131 4.00128 12.9956 4.00044Z"
+                                                            fill="#004567" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_644_3908">
+                                                            <rect width="26" height="32" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg></span>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+
+
+
+                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="currentObj=row">
+                                </mat-row>
+                            </mat-table>
+                            <table class="mat-table">
+                                <tr class="mat-row"
+                                    *ngIf="!data_dataSource.data.length || !data_dataSource.filteredData.length">
+                                    <td class="mat-cell" style="text-align: center;"
+                                        [attr.colspan]="displayedColumns.length">
+                                        No Records Found!<span
+                                            *ngIf="!data_dataSource.filteredData.length && data_dataSource.data.length">(Search
+                                            Result)</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <mat-paginator #orderMatPaginator showFirstLastButtons (page)="pageChanged($event)" [length]="totalRows"
+                            [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+                    </div>
+                    <div *ngIf="userFormVisible" class="fw-100">
+                        <div class="box-title" >
+                            <span (click)="userFormVisible=false" class="pe-2 c-p">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="16" viewBox="0 0 24 21"
+                                fill="none">
+                                <path d="M23 10.5H1M1 10.5L10.625 1M1 10.5L10.625 20" stroke="#C98B27" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></span>
+                            <span *ngIf="formType=='add'">Add</span>
+                            <span *ngIf="formType=='edit'">Update</span>
+                            User
+
+
+                        </div>
+
+                        <hr class="mb-4">
+
+                        <form class="" #form="ngForm" (ngSubmit)="form.form.valid && adduser()" autocomplete="off">
+                            <div class="f-row offside">
+                                <div class="f-feilds">
+                                    <label>First Name*</label>
+                                    <input type="text" class="form-control" required name="first_name"
+                                        [(ngModel)]="userForm.first_name" #first_name="ngModel" autocomplete="off">
+                                    <div class="fw-100"
+                                        *ngIf="(first_name.invalid && (first_name.dirty || first_name.touched)) || (form.submitted && first_name.invalid)">
+                                        <small class="msg error" *ngIf="first_name.errors?.['required']">First name is
+                                            required.</small>
+                                    </div>
+                                </div>
+                                <div class="f-feilds">
+                                    <label>Last Name*</label>
+                                    <input type="text" class="form-control" required name="last_name"
+                                        [(ngModel)]="userForm.last_name" #last_name="ngModel" autocomplete="off">
+                                    <div class="fw-100"
+                                        *ngIf="(last_name.invalid && (last_name.dirty || last_name.touched)) || (form.submitted && last_name.invalid)">
+                                        <small class="msg error" *ngIf="last_name.errors?.['required']">Last name is
+                                            required.</small>
+                                    </div>
+                                </div>
+                                <div class="f-feilds">
+                                    <label>Role*</label>
+
+                                    <div class="form-control-layer fw-100" [ngClass]="{'empty':!userForm.role}">
+                                        <ngx-select [allowClear]="true" [items]="list.role" optionValueField="role_name"
+                                            optionTextField="role_name" [(ngModel)]="userForm.role"
+                                            placeholder="Select Role" required="" name="role">
+                                            <ng-template ngx-select-option ngx-select-option-selected let-option
+                                                let-text="text">
+                                                <!-- <img [src] = "option.data.flag" alt="" height="20" style="margin-right:10px"/> -->
+                                                <span [innerHtml]="text"></span>
+                                            </ng-template>
+                                            <ng-template ngx-select-option-not-found let-input>"{{input}}" not found
+                                            </ng-template>
+                                        </ngx-select>
+                                        <small class="msg error" *ngIf="!form.submitted && userForm.role==null">Please
+                                            select Role</small>
+                                    </div>
+                                    <small class="msg error" *ngIf="(form.submitted && userForm.role==null)">Please select
+                                        Role</small>
+                                </div>
+
+
+                                <div class="f-feilds">
+                                    <label>Email*</label><input email type="email" name="email" class="form-control"
+                                        required [(ngModel)]="userForm.email" #email="ngModel" autocomplete="off">
+                                    <div class="fw-100"
+                                        *ngIf="(email.invalid && (email.dirty || email.touched)) || (form.submitted && email.invalid)">
+                                        <small class="msg error" *ngIf="email.errors?.['required']">Email is
+                                            required.</small>
+                                        <small class="msg error" *ngIf="email.invalid && userForm.email!=''">Please enter
+                                            the valid email.</small>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="f-feilds">
+                                    <label>Therapeutic Area*</label>
+                                    <div class="form-control-layer fw-100" [ngClass]="{'empty':!userForm.ta}">
+                                        <ngx-select [allowClear]="true" [items]="list.therapeutic_area"
+                                            optionValueField="therapeutic_name" optionTextField="therapeutic_name"
+                                            [(ngModel)]="userForm.ta" placeholder="Select Order Currency" required=""
+                                            name="ta">
+                                            <ng-template ngx-select-option ngx-select-option-selected let-option
+                                                let-text="text">
+                                                <span [innerHtml]="text"></span>
+                                            </ng-template>
+                                            <ng-template ngx-select-option-not-found let-input>"{{input}}" not found
+                                            </ng-template>
+                                        </ngx-select>
+                                        <small class="msg error" *ngIf="!form.submitted && userForm.ta==null">Please select
+                                            Therapeutic Area</small>
+                                    </div>
+                                    <small class="msg error" *ngIf="(form.submitted && userForm.ta==null)">Please select
+                                        Therapeutic Area</small>
+                                </div>
+
+
+                                <div class="f-feilds">
+                                    <label>Disease*</label>
+                                    <div class="form-control-layer fw-100" [ngClass]="{'empty':!userForm.disease}">
+                                        <ngx-select [allowClear]="true" [items]="list.disease[userForm.ta]"
+                                            optionValueField="disease_name" optionTextField="disease_name"
+                                            [(ngModel)]="userForm.disease" placeholder="Select Order Currency" required=""
+                                            name="disease">
+                                            <ng-template ngx-select-option ngx-select-option-selected let-option
+                                                let-text="text">
+                                                <span [innerHtml]="text"></span>
+                                            </ng-template>
+                                            <ng-template ngx-select-option-not-found let-input>"{{input}}" not found
+                                            </ng-template>
+                                        </ngx-select>
+                                        <small class="msg error" *ngIf="!form.submitted && userForm.disease==null">Please
+                                            select Disease</small>
+                                    </div>
+                                    <small class="msg error" *ngIf="(form.submitted && userForm.disease==null)">Please
+                                        select Disease</small>
+                                </div> -->
+
+                                <!--
+                            <div class="f-feilds">
+                                <label >Organisation*</label>
+                                <input type="text" class="form-control" required name="organisation" [(ngModel)]="userForm.organisation" #organisation="ngModel">
+                                <div class="fw-100"  *ngIf="(organisation.invalid && (organisation.dirty || organisation.touched)) || (form.submitted && organisation.invalid)">
+                                    <small class="msg error" *ngIf="organisation.errors?.['required']">Organisation is required.</small>
+                                </div>
+                            </div> -->
+                                <div class="f-feilds">
+                                    <label>Notes*</label>
+                                    <input type="text" class="form-control" required name="notes"
+                                        [(ngModel)]="userForm.notes" #notes="ngModel" autocomplete="off">
+                                    <div class="fw-100"
+                                        *ngIf="(notes.invalid && (notes.dirty || notes.touched)) || (form.submitted && notes.invalid)">
+                                        <small class="msg error" *ngIf="notes.errors?.['required']">Last name is
+                                            required.</small>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="f-row">
+                                <!-- <button type="button" class="btn btn-primary btn-sm float-end" (click)="userFormVisible=false">back</button> -->
+                                <button class="btn btn-primary btn-sm" [ngClass]="{'forminvalid':!form.valid}" type="submit"
+                                    [disabled]="apiCall['common']">
+                                    <span>Submit</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+
+            <div class="modal show confirm-popup" tabindex="-1" role="dialog" aria-labelledby=""
+            *ngIf="popuptype == 'projectDelete'">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content p-4">
+                    <h3 class="fw-100 my-2 text-center">Are you sure to delete {{currentObj.first_name}}?</h3>
+
+                    <div class="fw-100 p-2 text-center mt-2">
+                        <button class="btn btn-light my-md me-3" (click)="this.popuptype = ''">Cancel</button>
+                        <button class="btn btn-danger my-md me-3" (click)="deleteCallback(currentObj.user_id)"
+                            [disabled]="apiCall['common']">Delete</button>
+                    </div>
+                </div>
+            </div>
+            </div>

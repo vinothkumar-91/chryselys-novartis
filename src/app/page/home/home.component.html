@@ -1,0 +1,86 @@
+<div class="fw-100">
+    <div class="ms-4 mt-5" style="color: #767676;position: relative;top: 10px;">Powered by</div>
+    <div class="mb-2">
+        <img src="./assets/image/chryselys_logo.svg" alt="" height="50">
+    </div>
+</div>
+
+<div class="text-center hd">Therapeutic Area</div>
+<div class="text-center" *ngIf="!apiCall && TA.length == 0">No Data Available</div>
+<app-loader   *ngIf="apiCall"></app-loader>
+
+<div class="flex-container" *ngIf="!apiCall">
+    <div class="t-box" [ngClass]="(t.isLock)?'ta-lock':'ta-unlock'" *ngFor="let t of TA;let i=index">
+        <img src="./assets/image/icons/lock.svg" height="30" class="lock" *ngIf="t.isLock">
+        <div class="t-box-inner">
+            <img [src]="t.img" height="110" onerror="this.src='./assets/image/icons/home/Oncology.svg'">
+            <div class="th-name">{{t.therapeutic_name}} </div>
+        </div>
+        <div class="t-box-inner2">
+            <ol class="flex-list">
+                <ng-container  *ngFor="let d of t.disease_data;let j=index">
+                <li [ngClass]="(d.isLock)?'':'c-p'" (click)="setTAD(t,d)">
+                    <div class="disease">{{d.disease_name}}</div>
+                    <div *ngIf="d.isLock"><img src="./assets/image/icons/lock.svg" height="20"></div>
+                    <div *ngIf="!d.isLock"><img src="./assets/image/icons/arrow-up-right.svg" height="20"></div>
+                </li>
+                <li *ngIf="!t.disease_data || t.disease_data.length == 0;" class="justify-content-center">
+                    <div class="disease">No Data Available</div>
+                </li>
+                </ng-container>
+            </ol>
+        </div>
+    </div>
+
+    <!-- <div class="t-box" [ngClass]="(t.isLock)?'ta-lock':'ta-unlock'" *ngFor="let t of TA;let i=index">
+        <img src="./assets/image/icons/lock.svg" height="30" class="lock" *ngIf="t.isLock">
+        <div class="t-box-inner">
+            <img [src]="t.img" height="110">
+            <div class="th-name">{{t.therapeutic_name}} </div>
+        </div>
+        <div class="t-box-inner2">
+            <ol class="flex-list">
+                <ng-container  *ngFor="let d of t.disease_data;let j=index">
+                <li [ngClass]="(d.isLock)?'':'c-p'" (click)="setTAD(t,d)">
+                    <div class="disease">{{d.disease_name}}</div>
+                    <div *ngIf="d.isLock"><img src="./assets/image/icons/lock.svg" height="20"></div>
+                    <div *ngIf="!d.isLock"><img src="./assets/image/icons/arrow-up-right.svg" height="20"></div>
+                </li>
+                <li *ngIf="!t.disease_data || t.disease_data.length == 0;" class="justify-content-center">
+                    <div class="disease">No Data Available</div>
+                </li>
+                </ng-container>
+            </ol>
+        </div>
+    </div> -->
+
+
+    <!-- <div class="t-box" >
+        <div class="t-box-inner">
+            <img src="./assets/image/icons/psychiatry.svg" height="110">
+            <div class="th-name">psychiatry</div>
+        </div>
+        <div class="t-box-inner2">
+            <ol class="flex-list">
+                <li routerLink="/PIT/Landscape" >
+                    <div class="disease">Major Depressive Disorder</div>
+                    <div><img src="./assets/image/icons/arrow-up-right.svg" height="20"></div>
+                </li>
+                <li>
+                    <div class="disease">Bipolar Disorder</div>
+                    <div><img src="./assets/image/icons/arrow-up-right.svg" height="20"></div>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="t-box">
+        <div class="t-box-inner">
+        <img src="./assets/image/icons/neurology.svg" height="110">
+        <div class="th-name">Neurology</div></div>
+    </div>
+    <div class="t-box">
+        <div class="t-box-inner">
+        <img src="./assets/image/icons/oncology.svg" height="110">
+        <div class="th-name">oncology</div></div>
+    </div> -->
+  </div>

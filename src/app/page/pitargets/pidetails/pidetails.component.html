@@ -1,0 +1,338 @@
+<div class="box-shadow p-4 grid-system" #maincontainer>
+    <div class="box-title">
+        <span [routerLink]="'/PIT/PITargets'" class="pr-2 c-p">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 21" fill="none">
+                <path d="M23 10.5H1M1 10.5L10.625 1M1 10.5L10.625 20" stroke="#C98B27" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </svg></span> {{detailView['basic'].pi_name}}
+
+    </div>
+    <div class="row px-2">
+
+        <div class="col-4">
+            <div class="fw-100 box-shadow card-box left-info" style="min-height:500px">
+
+                <div class="scale-0_5">
+                    <app-loader *ngIf="apiCall['basic']"></app-loader>
+                </div>
+                <div class="fw-100 left-info-inner " *ngIf="!apiCall['basic']">
+                    <!-- {{detailView | json}} -->
+
+                    <img src='./assets/image/redplanup-profile.svg' height="100" class="profile-icon" />
+                    <table class="detail-profile">
+                        <tr>
+                            <td colspan="2">
+                                <div class="lb">Name :</div>
+                                <div class="vl text-capitalize">{{detailView['basic'].pi_name.toLowerCase()}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="lb">Gender :</div>
+                                <div class="vl text-capitalize">{{detailView['basic'].gender.toLowerCase()}}</div>
+                            </td>
+                            <td>
+                                <div class="lb">Rank :</div>
+                                <div class="vl"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="lb">Address :</div>
+                                <div class="vl text-capitalize">{{detailView['basic'].practice_location_address1.toLowerCase()}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="lb">Affiliation :</div>
+                                <div class="vl text-capitalize">{{detailView['basic'].org_nm.toLowerCase()}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="lb">Email :</div>
+                                <div class="vl"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="lb">Phone :</div>
+                                <div class="vl">{{detailView['basic'].practice_tel}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="lb">Med School :</div>
+                                <div class="vl text-capitalize">{{detailView['basic'].med_sch.toLowerCase()}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="lb">Grad Year :</div>
+                                <div class="vl">{{detailView['basic'].grd_yr}}</div>
+                            </td>
+                            <!-- <td>
+                                <div class="lb">Race and Ethnicity :</div>
+                                <div class="vl">{{detailView['basic'].prvdr_specialty}}</div>
+                            </td> -->
+                        </tr>
+                    </table>
+
+                </div>
+                    <div class="redplaup-box text-center">
+                        <img src="./assets/image/redplanup.png" style="max-width:200px;width:100%"/>
+                        <button class="btn btn-secondary fw-100 explore-btn mt-2">Explore PI's Patient diversity</button>
+                    </div>
+            </div>
+        </div>
+
+        <div class="col-8">
+            <div class="row px-2">
+
+                <div class="col-12">
+                    <div class="box-shadow card-box">
+                        <div class="row px-2">
+                            <div class="col-3">
+
+                        <div class="row px-2">
+                            <div class="col-12">
+                                <div class="box-shadow card-box" style="height:90px">
+                                    <div class="scale-0_5">
+                                        <app-loader *ngIf="apiCall['trails']"></app-loader>
+                                    </div>
+                                    <h6 class="title-inner mb-0" *ngIf="!apiCall['trails']">
+                                        <span class="float-start mt-2">Trial </span>
+                                    <h2 class="float-end fw-big">{{detailView['trails'].trails_count}}</h2></h6>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="box-shadow card-box" style="height:90px">
+                                    <div class="scale-0_5">
+                                        <app-loader *ngIf="apiCall['trails']"></app-loader>
+                                    </div>
+                                    <h6 class="title-inner mb-0" *ngIf="!apiCall['trails']">
+                                        <span class="float-start">Trial <br>Success </span>
+                                        <h3 class="float-end fw-big">{{detailView['trails'].trails_success_per.toFixed(0)}}%</h3>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+
+                            </div>
+                            <div class="col-3">
+                                <div class="box-shadow card-box" style="height:190px">
+                                    <h6 class="title-inner" style="height:50px">No. of Patients Treated</h6>
+                                    <div class="scale-0_5">
+                                        <app-loader *ngIf="apiCall['payment']"></app-loader>
+                                    </div>
+                                    <div class="fw-100 val-data" *ngIf="!apiCall['payment']">
+                                        <h2 class="fw-big" style="color:#004567"></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="box-shadow card-box" style="height:190px">
+                                    <h6 class="title-inner" style="height:50px">Total Payments</h6>
+                                    <div class="scale-0_5">
+                                        <app-loader *ngIf="apiCall['payment']"></app-loader>
+                                    </div>
+                                    <div class="fw-100 val-data" *ngIf="!apiCall['payment']">
+                                            <h2 class="fw-big" style="color:#004567"  *ngIf="detailView['payment'].total_amount">${{detailView['payment'].total_amount | shortNumber}}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="box-shadow card-box" style="height:190px">
+                                    <h6 class="title-inner"  style="height:50px">Avg. Payments Per Study</h6>
+                                    <div class="scale-0_5">
+                                        <app-loader *ngIf="apiCall['payment']"></app-loader>
+                                    </div>
+                                    <div class="fw-100 val-data" *ngIf="!apiCall['payment']">
+                                            <h2 class="fw-big" style="color:#004567" *ngIf="detailView['payment'].avg_payment">${{detailView['payment'].avg_payment | shortNumber}}</h2>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-6">
+                                <div class="box-shadow card-box" style="height:222px">
+                                    <h6 class="title-inner">Trial History<div class="float-end"><img src="./assets/image/icons/info.svg" height="16"  alt=""
+                                        matTooltip="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"></div></h6>
+                                    <div class="fw-100 val-data">
+                                        <div class="scale-0_5">
+                                            <app-loader *ngIf="apiCall['trail_history']"></app-loader>
+                                        </div>
+                                        <div class="fw-100 val-data" *ngIf="!apiCall['trail_history']">
+                                                <div class="row">
+
+                                                    <div class="col b-r" *ngFor="let d of detailView['trail_history']">
+                                                        <app-simple
+                                                            [val]="{val:(d.val),per:(d.percentage)}"
+                                                            [color]="'#004567'" [color2]="'rgb(201 139 39 / 20%)'"
+                                                            [width]="80" height="auto" class="mt-3"></app-simple>
+                                                        <div
+                                                            class="fw-100 text-center my-2 text-capitalize" style="color: #585858;font-size: 14px;">{{d.completed_status}}</div>
+                                                    </div>
+
+
+                                                    <!-- <div class="col b-r">
+
+                                                        <app-simple
+                                                            [val]="{val:detailView['trail_history'].completed_status,per:detailView['trail_history'].completed_status}"
+                                                            [color]="'#004567'" [color2]="'rgb(201 139 39 / 20%)'"
+                                                            [width]="80" height="auto" class="mt-3"></app-simple>
+                                                        <div
+                                                            class="fw-100 text-center my-2" style="color: #585858;font-size: 14px;">Successful</div>
+                                                    </div>
+                                                    <div class="col b-r">
+                                                        <app-simple
+                                                            [val]="{val:(100-detailView['trail_history'].completed_status),per:(100-detailView['trail_history'].completed_status)}"
+                                                            [color]="'#004567'" [color2]="'rgb(201 139 39 / 20%)'"
+                                                            [width]="80" height="auto" class="mt-3"></app-simple>
+                                                        <div
+                                                            class="fw-100 text-center my-2" style="color: #585858;font-size: 14px;">Unsuccesful</div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <app-simple
+                                                            [val]="{val:detailView['trail_history'].completed_status,per:detailView['trail_history'].completed_status}"
+                                                            [color]="'#004567'" [color2]="'rgb(201 139 39 / 20%)'"
+                                                            [width]="80" height="auto" class="mt-3"></app-simple>
+                                                        <div
+                                                            class="fw-100 text-center my-2"  style="color: #585858;font-size: 14px;">Neutral</div>
+                                                    </div> -->
+                                                </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="box-shadow card-box" style="height:222px">
+                                    <h6 class="title-inner">Site history
+<span class="float-end site-info">
+    <span><span class="dot success"></span> Successful</span>
+    <span><span class="dot fail"></span> Unsuccessful</span>
+</span>
+                                    </h6>
+                                    <div class="fw-100 val-data">
+                                        <div class="scale-0_5">
+                                            <app-loader *ngIf="apiCall['site_history']"></app-loader>
+                                        </div>
+                                        <div class="fw-100 site-history y-auto" *ngIf="!apiCall['site_history']" style="height:140px">
+                                            <table class="w-100">
+                                                <tr  *ngFor="let s of detailView['site_history']">
+                                                    <td>{{s.site_name}}</td>
+                                                    <td><span class="badge success">{{s.completed_status.Successful}}</span></td>
+                                                    <td><span class="badge fail">{{s.completed_status.Unsuccessful}}</span></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="box-shadow card-box" style="height:250px">
+                                    <h6 class="title-inner">Payment Trend<div class="float-end"><img src="./assets/image/icons/info.svg" height="16"  alt=""
+                                        matTooltip="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"></div></h6>
+                                    <div class="fw-100 val-data">
+                                        <div class="scale-0_5">
+                                            <app-loader *ngIf="apiCall['basic']"></app-loader>
+                                        </div>
+                                        <div class="fw-100 val-data" *ngIf="!apiCall['basic']">
+
+      <div class="body"  *ngIf="!apiCall['trialsPhase']" echarts [options]="detailView['paymentTrend']" [extentions]="echartsExtentions"  style="height:150px"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="box-shadow card-box" style="height:250px">
+                                    <h6 class="title-inner">Payment by Sponsors<div class="float-end"><img src="./assets/image/icons/info.svg" height="16"  alt=""
+                                        matTooltip="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"></div></h6>
+                                    <div class="fw-100 val-data">
+                                        <div class="scale-0_5" *ngIf="apiCall['paymentsponsor']">
+                                            <app-loader></app-loader>
+                                        </div>
+                                        <div class="fw-100 sponser-list scroll-div" *ngIf="!apiCall['paymentsponsor']">
+
+                                            <!-- {{detailVie~w['paymentsponsor']|json}} -->
+            <ul  >
+              <li *ngFor="let s of detailView['paymentsponsor']" class="d-flex align-items-center">
+                <div class="pe-2 ps-0 name">{{s.sponsor}}</div>
+                <div class="px-2 py-0 ps-0  w-100 per">
+                  <div class="progress fw-100" style="--bs-progress-height: 10px;">
+                    <div class="progress-bar" role="progressbar" [style.width.%]="s.percentage" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+                    ></div>
+                  </div>
+                </div>
+                <div class="ms-auto px-2 flex-shrink-1 val">${{(s.amount).toFixed(0) | shortNumber}}</div>
+              </li>
+            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="box-shadow card-box">
+                                    <h6 class="title-inner">Study Details<div class="float-end"><img src="./assets/image/icons/info.svg" height="16"  alt=""
+                                        matTooltip="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"></div></h6>
+                                    <div class="fw-100 val-data">
+                                        <div class="scale-0_5">
+                                            <app-loader *ngIf="apiCall['get_study_details']"></app-loader>
+                                        </div>
+                                        <div class="fw-100"  *ngIf="!apiCall['get_study_details']">
+                                            <div class="table-responsive table-theme1 fw-100">
+                                              <mat-table  [dataSource]="data_dataSource" matTableExporter matSort #dataTable class="no-wrap"
+                                                  (matSortChange)="sortData()" matSortActive="name" matSortStart="asc" matSortDisableClear
+                                                  #exporter="matTableExporter">
+                                                  <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns_order">
+                                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                                                          <span *ngIf="column == 'nct_id'">NCT ID</span>
+                                                          <span *ngIf="column == 'completed_status'">Status</span>
+                                                          <span *ngIf="column == 'site_name'">Site Name</span>
+                                                          <span *ngIf="column == 'sponsor'">Sponsor</span>
+                                                        </th>
+                                                      <td mat-cell *matCellDef="let element" [title]="element[column]" >
+                                                          <!-- [ngClass]="{'text-center':(column=='ROLE')}" -->
+                                                          {{element[column]}}
+
+
+                                                        </td>
+                                                  </ng-container>
+
+                                                  <mat-header-row *matHeaderRowDef="displayedColumns_order"></mat-header-row>
+                                                  <mat-row *matRowDef="let row; columns: displayedColumns_order;" [routerLink]="'/PIT/TrialAnalysisdetail/'+row.nct_id+'/Landscape'"></mat-row>
+                                              </mat-table>
+
+                                              <table class="mat-table no-data">
+                                                  <tr class="mat-row"
+                                                      *ngIf="data_dataSource && (!data_dataSource.data.length || !data_dataSource.filteredData.length) && !apiCall['trialDetails']">
+                                                      <td class="mat-cell" style="text-align: center;" [attr.colspan]="displayedColumns_order.length">
+                                                          No Records Found! <span
+                                                              *ngIf="!data_dataSource.filteredData.length && data_dataSource.data.length">(Search
+                                                              Result)</span>
+                                                      </td>
+                                                  </tr>
+                                              </table>
+                                          </div>
+                                          <mat-paginator #orderMatPaginator showFirstLastButtons (page)="pageChanged($event)" [length]="totalRows"
+                                              [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

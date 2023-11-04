@@ -1,0 +1,259 @@
+<div class="box-shadow p-4 grid-system"  #maincontainer>
+    <div class="box-title" >
+        <span [routerLink]="'/PIT/'+back" class="pr-2 c-p">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 21"
+            fill="none">
+            <path d="M23 10.5H1M1 10.5L10.625 1M1 10.5L10.625 20" stroke="#C98B27" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+        </svg></span> {{id}}</div>
+    <div class="row px-2 row2">
+        <div class="col-3">
+            <div class="box-shadow card-box">
+                <h6 class="title-inner">NCT ID </h6>
+
+                <div class="scale-0_5"><app-loader *ngIf="apiCall['basic']" ></app-loader></div>
+                <div class="fw-100 val-data" *ngIf="!apiCall['basic']">
+                    {{id}}
+                    <span *ngIf="!apiCall['basic'] && detailView.basic.acronym">({{detailView.basic.acronym}})</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-6">
+            <div class="box-shadow card-box">
+                <h6 class="title-inner">Brief Title</h6>
+                <div class="fw-100 val-data">
+                    <div class="scale-0_5"><app-loader *ngIf="apiCall['basic']" ></app-loader></div>
+                    {{detailView.basic.brief_title}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="box-shadow card-box">
+                <h6 class="title-inner">Study Status</h6>
+                <div class="fw-100 val-data">
+                    <div class="scale-0_5"><app-loader *ngIf="apiCall['basic']" ></app-loader></div>
+                    {{detailView.basic.study_status}}
+                </div>
+            </div>
+        </div>
+</div>
+        <div class="row px-2 row3">
+            <div class="col-3">
+                <div class="box-shadow card-box">
+                    <h6 class="title-inner">Sponsor</h6>
+                    <div class="fw-100 val-data">
+                        <div class="scale-0_5"><app-loader *ngIf="apiCall['basic']" ></app-loader></div>
+                        {{detailView.basic.sponsor}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="box-shadow card-box">
+                    <h6 class="title-inner">Phase</h6>
+                    <div class="fw-100 val-data">
+                        <div class="scale-0_5"><app-loader *ngIf="apiCall['basic']" ></app-loader></div>
+                        {{detailView.basic.phase}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="box-shadow card-box">
+                    <h6 class="title-inner">Study Start Date</h6>
+                    <div class="fw-100 val-data">
+                        <div class="scale-0_5"><app-loader *ngIf="apiCall['basic']" ></app-loader></div>
+                        {{detailView.basic.start_date}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="box-shadow card-box">
+                    <h6 class="title-inner">Primary Completion Date
+                        <span *ngIf="!detailView.basic.actual_primary_completion_date && detailView.basic.anticipated_primary_completion_date">(Anticipated)</span>
+                    </h6>
+                    <div class="fw-100 val-data">
+                        <div class="scale-0_5"><app-loader *ngIf="apiCall['basic']" ></app-loader></div>
+                        {{
+                            (detailView.basic.actual_primary_completion_date)?
+                            (detailView.basic.actual_primary_completion_date):
+                            (detailView.basic.anticipated_primary_completion_date)?
+                            (detailView.basic.anticipated_primary_completion_date):'-'
+                        }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row px-2 row4">
+        <div class="col-4">
+            <div class="box-shadow card-box">
+                <h6 class="title-inner">#Sites by Country</h6>
+                <div class=""><app-loader *ngIf="apiCall['sites_by_country']" ></app-loader></div>
+
+                <div class="body" echarts  *ngIf="!apiCall['sites_by_country'] && detailView['sites_by_country']" [options]="pieChartStudyStatus" [extentions]="echartsExtentions" style="height:170px"></div>
+                    <div class="no-data"  *ngIf="!apiCall['sites_by_country'] && !detailView['sites_by_country']" >No data Available</div>
+            </div>
+        </div>
+
+
+        <div class="col-4">
+            <div class="box-shadow card-box">
+                <h6 class="title-inner">Enrollment</h6>
+                <div class=""><app-loader *ngIf="apiCall['basic']" ></app-loader></div>
+
+                <div class="no-data"  *ngIf="!apiCall['basic'] && (detailView.basic.actual_enrollment==null || detailView.basic.anticipated_enrollment_max==null)" >No data Available</div>
+                <div *ngIf="!apiCall['basic'] && detailView.basic.actual_enrollment!=null && detailView.basic.anticipated_enrollment_max!=null" class="enrollment-list scroll-div">
+                  <ul>
+                      <h5 class="pe-2 py-1 ps-0 name">Actual</h5>
+                    <li class="d-flex align-items-center" style="height:20px">
+                      <div class="py-1 w-100">
+                        <div class="progress fw-100">
+                          <div class="progress-bar actual" role="progressbar" [style.width.%]="
+                          ((detailView.basic.actual_enrollment>=detailView.basic.anticipated_enrollment_max)?'100':
+                          (detailView.basic.actual_enrollment * (100 / detailView.basic.anticipated_enrollment_max)))
+                          " aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="ms-auto p-2 flex-shrink-1 val">{{detailView.basic.actual_enrollment}}</div>
+                    </li>
+                      <h5 class="pe-2 py-1 ps-0 mt-3 name">Target</h5>
+                    <li class="d-flex align-items-center" style="height:20px">
+                      <div class="py-1 w-100">
+                        <div class="progress fw-100">
+                          <div class="progress-bar target" role="progressbar"
+                          [style.width.%]="
+                          (detailView.basic.actual_enrollment<=detailView.basic.anticipated_enrollment_max)?'100':
+                        (detailView.basic.anticipated_enrollment_max * (100 / detailView.basic.actual_enrollment))
+                          " aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="ms-auto p-2 flex-shrink-1 val">{{detailView.basic.anticipated_enrollment_max}}</div>
+                    </li>
+                  </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="box-shadow card-box">
+                <h6 class="title-inner">PI by Recruiting Status</h6>
+                <div class=""><app-loader *ngIf="apiCall['pi_by_rec_status']" ></app-loader></div>
+                <div class="body" echarts *ngIf="!apiCall['pi_by_rec_status'] && detailView['pi_by_rec_status']" [options]="pieChartPI" [extentions]="echartsExtentions"
+                    style="height:170px"></div>
+                    <div class="no-data"  *ngIf="!apiCall['pi_by_rec_status'] && !detailView['pi_by_rec_status']" >No data Available</div>
+            </div>
+        </div>
+    </div>
+    <div class="row px-2 row5">
+        <div class="col-6">
+            <div class="box-shadow card-box">
+                <h6 class="title-inner">Site Location by Status</h6>
+                <div class=""><app-loader *ngIf="apiCall['pi_by_rec_status']" ></app-loader></div>
+
+
+<!--
+
+
+<agm-map
+[latitude]="lat"
+[longitude]="lng"
+[zoom]="zoom"
+[disableDefaultUI]="false"
+[zoomControl]="false"
+(mapClick)="mapClicked($event)">
+
+<agm-marker
+    *ngFor="let m of markers; let i = index"
+    (markerClick)="clickedMarker(m.label, i)"
+    [latitude]="m.lat"
+    [longitude]="m.lng"
+    [label]="m.label"
+    [markerDraggable]="m.draggable"
+    (dragEnd)="markerDragEnd(m, $event)">
+
+  <agm-info-window>
+    <strong>InfoWindow content</strong>
+  </agm-info-window>
+
+</agm-marker>
+
+<agm-circle [latitude]="lat + 0.3" [longitude]="lng"
+    [radius]="5000"
+    [fillColor]="'red'"
+    [circleDraggable]="true"
+    [editable]="true">
+</agm-circle>
+
+</agm-map>
+ -->
+
+
+                <!-- <google-map height="400px"
+                width="750px"
+                center="center'"
+                zoom="2"
+                (mapClick)="moveMap($event)"
+                (mapMousemove)="move($event)">
+    </google-map>
+
+    <div>Latitude: {{display?.lat}}</div>
+    <div>Longitude: {{display?.lng}}</div> -->
+
+                <!-- <google-map width="100%" height="450px" [zoom]="zoom?zoom:2">
+
+                    <map-marker *ngFor="let marker of markers"
+                    [position]="marker.position"
+                    [label]="marker.label">
+
+                    </map-marker>
+
+                </google-map> -->
+
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="box-shadow card-box">
+                <h6 class="title-inner">Payment Across PI</h6>
+                <div class="fw-100">
+                    <div class=""><app-loader *ngIf="apiCall['payment_accross_pi']" ></app-loader></div>
+                  <div class="sponser-list scroll-div" *ngIf="!apiCall['payment_accross_pi'] && detailView['payment_accross_pi'].length!=0"
+                  style="
+                  overflow-y: scroll;
+                  height: 368px;
+                  overflow-x: hidden;"
+                  >
+                    <ul>
+
+                      <li *ngFor="let s of detailView['payment_accross_pi']" class="fw-100">
+
+                        <div class="name">{{s.pi_name}}</div>
+                        <div class="d-flex align-items-center pb-1">
+                        <div class="w-100">
+                          <div class="progress fw-100" style="">
+                            <div class="progress-bar" role="progressbar" [style.width]="s.percentage+'%'" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                        <div class="ms-auto flex-shrink-1 val">${{s.total_amount.toFixed(2)}}</div>
+                    </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="no-data"  *ngIf="!apiCall['payment_accross_pi'] && (detailView['payment_accross_pi'].length ==0) " >No data Available</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <!-- <div class="box-shadow card-box">
+                <h6 class="title-inner">Investigator Details</h6>-->
+                <div class="fw-100">
+                    <app-investigator [id]="id" ></app-investigator>
+                </div>
+            <!-- </div> -->
+        </div>
+    </div>
+</div>

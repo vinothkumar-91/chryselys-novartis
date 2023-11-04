@@ -1,0 +1,9 @@
+
+.curved-image{
+    position: fixed;
+    top: 157px;
+    left: 279px;
+    z-index: -1;
+    height: 115px;
+    width: 70px;
+    background-size: cover;}

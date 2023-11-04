@@ -1,0 +1,100 @@
+#loaderContainer {
+    height: 100vh;
+    width: 100vw;
+    background: radial-gradient(circle, #ffffff 0%, rgb(255 255 255 / 100%) 100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100000;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+}
+
+#loaderGif {
+    height: 100px;
+}
+
+.network-disconnected {
+    height: 100vh;
+    width: 100vw;
+    background: radial-gradient(circle, #ffffff 0%, rgb(255 255 255 / 100%) 100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100000;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+}
+
+.network-disconnected .h-full {
+    height: 100px;
+}
+
+
+.modal.apimodal .modal-dialog {
+    max-width: 500px
+}
+
+@media screen and (max-width: 576px) {
+    .modal.apimodal .modal-dialog {
+        max-width: 90%
+    }
+}
+
+.break-word {
+    word-break: break-word;
+}
+
+.forceReload {
+    font-size: 60%;
+    font-weight: 600;
+    cursor: pointer;
+    color: blue
+}
+
+
+
+.mat-menu-item {
+    height: 40px;
+    line-height: 1;
+    background: #e6f4ff;
+    border-bottom: 1px solid #cbdaff;
+}
+
+.mat-menu-item:last-child {
+    border-bottom: 0
+}
+
+::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+    line-height: 20px;
+}
+
+::ng-deep .mat-button-toggle-standalone.mat-button-toggle-appearance-standard,
+::ng-deep .mat-button-toggle-group-appearance-standard {
+    border-radius: 0;
+}
+
+::ng-deep .mat-radio-button {
+    margin-left: 25px;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle,
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple),
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple,
+::ng-deep .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+    background-color: var(--light-blue)
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: var(--light-blue);
+}
+/* 
+::ng-deep .mat-radio-button:not(.mat-radio-disabled).cdk-keyboard-focused .mat-radio-persistent-ripple,
+::ng-deep .mat-radio-button:not(.mat-radio-disabled).cdk-program-focused .mat-radio-persistent-ripple {
+    opacity: 0 !important
+} */
+
+
+

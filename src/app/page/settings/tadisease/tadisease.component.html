@@ -1,0 +1,96 @@
+<app-loader *ngIf="apiCall['common']"></app-loader>
+
+<ng-container *ngIf="!apiCall['common']">
+  <form class="" #form="ngForm" (ngSubmit)="form.form.valid && addTAD()" autocomplete="off" *ngIf="!apiCall['form']">
+    <div class="f-feilds" >
+      <label>Therapeutic Name*</label><input type="text" name="therapeutic_name" class="form-control" required
+        [(ngModel)]="therapeuticFrom.therapeutic_name" #therapeutic_name="ngModel" autocomplete="off" [disabled]="therapeuticFrom.type=='adddisease' || therapeuticFrom.type=='updatedisease'">
+      <div class="fw-100" *ngIf="(therapeutic_name.invalid && (therapeutic_name.dirty || therapeutic_name.touched)) || (form.submitted && therapeutic_name.invalid)">
+        <small class="msg error" *ngIf="therapeutic_name.errors?.['required']">Therapeutic is
+          required.</small>
+      </div>
+    </div>
+    <div class="f-feilds" *ngIf="therapeuticFrom.type=='adddisease' || therapeuticFrom.type=='updatedisease'">
+      <label>Disease Name*</label><input type="text" name="disease_name" class="form-control" required
+        [(ngModel)]="therapeuticFrom.disease_name" #disease_name="ngModel" autocomplete="off">
+      <div class="fw-100" *ngIf="(disease_name.invalid && (disease_name.dirty || disease_name.touched)) || (form.submitted && disease_name.invalid)">
+        <small class="msg error" *ngIf="disease_name.errors?.['required']">Disease is
+          required.</small>
+      </div>
+    </div>
+
+    <div class="f-feilds">
+      <label> &nbsp; </label>
+      <button class="btn btn-primary btn-sm" [ngClass]="{'forminvalid':!form.valid}" type="submit" style="min-width: 85px;"
+        [disabled]="apiCall['addTA']">
+        <span *ngIf="therapeuticFrom.type=='addta' || therapeuticFrom.type=='adddisease'">Add</span>
+        <span *ngIf="therapeuticFrom.type=='updateta' || therapeuticFrom.type=='updatedisease'">Update</span>
+      </button>
+
+      <button class="btn btn-default btn-sm" (click)="therapeuticFrom = { type:'addta',disease_name:'',disease_id:'',therapeutic_name:'',therapeutic_id:''}" style="min-width: 85px;" *ngIf="therapeuticFrom.type!='addta'">
+        <span>Cancel</span>
+      </button>
+    </div>
+  </form>
+
+
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="ta-tree">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle [ngClass]="(node.type=='ta')?'ta-list':'d-list'">
+
+      <div class="mat-tree-node"  [ngClass]="(node.type=='ta')?'ta-list':'d-list'">
+
+        <button mat-icon-button [disabled]="node.childCount==0" *ngIf="node.type=='ta'">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+
+        <span class="me-auto">{{node.name}}</span>
+        <button class="btn btn-primary add-disease me-2" *ngIf="node.type=='ta'" (click)="addUpdateDisease(node,'add')">
+          <span>Add disease</span>
+        </button>
+
+        <img alt="1" class="c-p me-2" src="./assets/image/icons/edit.svg" (click)="(node.type=='ta')?addUpdateta(node):addUpdateDisease(node,'update')">
+        <img alt="1" class="c-p me-3" src="./assets/image/icons/delete.svg" (click)="this.popuptype = 'nodeDelete';deleteNode(node,(node.type=='ta')?'t':'d')">
+
+      </div>
+
+    </mat-tree-node>
+    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+      <div class="mat-tree-node" [ngClass]="(node.type=='ta')?'ta-list':'d-list'">
+        <button mat-icon-button matTreeNodeToggle [disabled]="node.childCount==0" *ngIf="node.type=='ta'"
+          [attr.aria-label]="'Toggle ' + node.name">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+        <span class="me-auto">{{node.name}}</span>
+        <button class="btn btn-primary add-disease me-2" *ngIf="node.type=='ta'"  (click)="addUpdateDisease(node,'add')">
+          <span>Add disease</span>
+        </button>
+
+        <img alt="" class="c-p me-2" src="./assets/image/icons/edit.svg" (click)="addUpdateta(node)">
+        <img alt="" class="c-p me-3" src="./assets/image/icons/delete.svg" (click)="this.popuptype = 'nodeDelete';deleteNode(node,'t')">
+      </div>
+      <div [class.ta-tree-invisible]="!treeControl.isExpanded(node)" role="group">
+        <ng-container matTreeNodeOutlet></ng-container>
+      </div>
+    </mat-nested-tree-node>
+  </mat-tree>
+</ng-container>
+
+
+<div class="modal show confirm-popup" tabindex="-1" role="dialog" aria-labelledby=""
+*ngIf="popuptype == 'nodeDelete'">
+<div class="modal-dialog" role="document">
+    <div class="modal-content p-4">
+        <h3 class="fw-100 my-2 text-center">Are you sure to delete {{currentObj.name}}?</h3>
+
+        <div class="fw-100 p-2 text-center mt-2">
+            <button class="btn btn-light my-md me-3" (click)="this.popuptype = ''">Cancel</button>
+            <button class="btn btn-danger my-md me-3" (click)="deleteCallback(currentObj.user_id)"
+                [disabled]="apiCall['addTA']">Delete</button>
+        </div>
+    </div>
+</div>
+</div>

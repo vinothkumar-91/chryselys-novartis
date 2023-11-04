@@ -1,0 +1,23 @@
+<div class="chart-parent" [style.height.px]="height">
+    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="sbarChartOptions" [legend]="true"
+        [colors]="color" chartType="horizontalBar" style="padding-bottom: 30px;"></canvas>
+        
+</div>
+<div class="fw-100">
+    <div class="table-responsive chat-table">
+    <table class="mat-table table table-bordered table-sm text-start">
+        <thead>
+            <tr class="mat-row" >
+                <th class="mat-header-cell"></th>
+                <th class="mat-header-cell">Eligible Patients</th>
+                <th class="mat-header-cell">Affording Patients</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr class="mat-row" *ngFor="let row of tableData">
+            <td  class="mat-cell text-end" *ngFor="let cell of row">{{ cell }}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+</div>

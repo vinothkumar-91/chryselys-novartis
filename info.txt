@@ -1,0 +1,93 @@
+https://www.figma.com/file/jnVE9Lqr10RKQBMnuICFuW/Chryselys---PIT-Dashboard?node-id=413%3A403&mode=dev
+
+https://www.figma.com/proto/jnVE9Lqr10RKQBMnuICFuW/Chryselys---PIT-Dashboard?page-id=413%3A402&type=design&node-id=413-403&viewport=-2963%2C668%2C0.5&t=7zY7MpKb5qbCDdgM-1&scaling=scale-down-width
+
+
+
+Application (client) ID
+60196527-e255-4df0-abba-b50e1f26c234
+
+Object ID
+78b93442-fc1b-4e25-a4ee-c8387df6eb8a
+
+Directory (tenant) ID
+c524a319-0e84-442f-a458-0d09d0622a65
+
+
+http://localhost:4200/#/login-redirect
+https://localhost:4200/#/logout-redirect
+
+
+{
+            "acronym": "",
+            "actual_duration": "14",
+            "actual_enrollment": 133,
+            "actual_primary_completion_date": "2017-08-31",
+            "anticipated_enrollment_max": 131,
+            "anticipated_primary_completion_date": "2018-04-01",
+            "brief_title": "A Study of Prexasertib (LY2606368) in Participants With Extensive Stage Disease Small Cell Lung Cancer",
+            "condition": "Small Cell Lung Cancer",
+            "interventions": "Prexasertib",
+            "nct_id": "NCT02735980",
+            "number_of_facilities": 41,
+            "official_title": "A Phase 2 Study of LY2606368 in Patients With Extensive Stage Disease Small Cell Lung Cancer",
+            "phase": "Phase 2",
+            "sponsor": "Eli Lilly and Company",
+            "start_date": "11-05-2016",
+            "study_status": "Completed",
+            "total_payments": 994646
+        }
+		
+		
+{ condition:[], nct_id:[], phase:[], sponsor:[], start_date:[], study_status:[], }
+
+
+From our perspective,
+
+We've made significant progress in meeting the current project requirements. However, we are striving for a 100% output.
+
+Challenges we're encountering include:
+
+Our project heavily relies on .NET, and Bhavan is the sole .NET developer, although he is not at a senior level.
+In terms of our .NET experience, we are not on par with the MOJO Team.
+While the project's architectural plan is sound, there are issues with the code and file structure.
+The project lacks adherence to a file/module/component structure, making it challenging to handle change requests (CRs).
+Given the current timeline, dedicating three days to unit testing is insufficient.
+We need to establish a stable testing environment that does not trigger errors in our dependent modules.
+Our team's PCs are not adequately equipped for the demands of this project, necessitating an upgrade.
+To address these challenges, we believe it is essential for both myself and my team to receive advanced .NET training. Moreover, a comprehensive understanding of the project's code and structure is crucial, as it will significantly benefit our handling of future CRs.
+
+
+
+Hi Mani,
+
+From my perspective,
+
+We almost completed the given requirement currently. We trying to get 100% output.
+
+Challage Facing:
+	- Our project heavily relies on .NET, and Bhavan is the sole .NET developer, although he is not at a senior level.
+	- In terms of our .NET experience, we are not on par with the MOJO Team.
+	- Their project/architect plan is good but in code structure is not fine to understand/handle.
+	- They are not followed the file/module/component structure. So it is very defecult to handle the CR's.
+	- Given the current timeline, dedicating four days to unit testing is insufficient. 
+	- Need to setup for testing(without error in our dependent module) before we take unit testing.
+	- Our team's PCs are not support for this project. so, we need to upgrade all of our team PC's.
+	
+To address these challenges, we believe it is essential for both myself and my team to receive advanced .NET training. Moreover, a comprehensive understanding of the project's code and structure is crucial, as it will significantly benefit our handling of future CRs.
+
+1326052085
+
+
+Home page : Currently we have only Psychiatry,Neurology,Oncology icons.we need other therapeutic Icons also.
+	- Cardiology,
+	- Dermatology,
+	- Endocrinology,
+	- gynaecology,
+	- Haematology,
+	- Ophthalmology,
+	- Pulmonology,
+	- Radiology
+	
+Header Filter icon issue
+Bookmark start icon issue

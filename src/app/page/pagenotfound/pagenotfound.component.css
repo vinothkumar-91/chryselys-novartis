@@ -1,0 +1,11 @@
+.box-shadow{border-radius: 20px;
+    background: #FFF;
+    box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.10);}
+.box-title{color: #004567;
+    font-family: Segoe UI;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.5px;
+    text-transform: capitalize;margin-bottom:20px;}

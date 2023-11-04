@@ -1,0 +1,36 @@
+<!--<ng-container >
+    <div class="d-flex left-nav-p" routerLinkActive="active" [routerLink]="obj.routerLink"  [attr.data-page-active]="obj.dataPageActive"
+    *ngFor="let obj of menuList;" [ngClass]="{'pointer-events-none':(_gv.GloaderBtnGet.val=='true')}"
+    >
+
+        <mat-nav-list class="tp-section"  >
+            <img [src]="obj.src" alt="">
+            <span class="alignTop">{{obj.name}} </span>
+        </mat-nav-list>
+    </div>
+</ng-container> -->
+<!-- {{menuList[_gv.userDetail.role]|json}} -->
+<ng-container *ngIf="_gv.userDetail && _gv.userDetail.role">
+    <div class="navbar ">
+    <a class="navbar-brand" href="#">
+        <img class="logo mt-3" src="./assets/image/PITlogo.svg" height="60" style="margin-left: 30px;">
+    </a>
+</div>
+    <div style="margin-left:30px">
+        <div class="ms-4 mt-3" style="color: #767676;position: relative;top: 10px;">Powered by</div>
+        <div class="mb-5">
+            <img src="./assets/image/chryselys_logo.svg" alt="" height="50">
+        </div>
+    </div>
+    <div [class]="'d-flex left-nav-p '+obj.linetype"  routerLinkActive="active" [routerLink]="obj.routerLink" (click)="clickedNav(obj.routerLink)"
+        [attr.data-page-active]="obj.dataPageActive" *ngFor="let obj of menuList"
+        [ngClass]="{'pointer-events-none':(_gv.GloaderBtnGet.val=='true')}">
+
+        <mat-nav-list class="tp-section">
+            <img [src]="'./assets/image/menu-icon/'+obj.dataPageActive+'.svg'" alt="" class="normalmode">
+            <img [src]="'./assets/image/menu-icon/'+obj.dataPageActive+'_blue.svg'" alt="" class="activemode">
+            <!-- <div [innerHTML]="obj.src" class="inline"></div> -->
+            <span class="alignTop">{{obj.name}} </span>
+        </mat-nav-list>
+    </div>
+</ng-container>

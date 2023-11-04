@@ -1,0 +1,158 @@
+.box-shadow {
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.1);
+}
+.box-title {
+  color: #004567;
+  font-family: Segoe UI;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.5px;
+  text-transform: capitalize;
+  margin-bottom: 20px;
+}
+
+.grid-system [class^="col"] {
+  padding: 3px;
+}
+.grid-system .card-box {
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  overflow: hidden;
+}
+.profile-icon {
+  border-radius: 20px;
+  border: 1px solid #e8e8e8;
+  background: #fff;
+  box-shadow: 10px 10px 3px 0px rgba(0, 0, 0, 0.1);
+  padding: 25px 35px;
+  height: 140px;
+  display: block;
+  margin: auto;
+  margin-bottom: 30px;
+  margin-top: 10px;
+}
+
+.detail-profile {
+  table-layout: fixed;
+  text-transform: capitalize;
+  width: 100%;
+}
+.detail-profile tr td {
+  border-right: 1px solid #e8e8e8;
+  padding: 15px 0;
+  border-top: 1px solid #e8e8e8;
+  padding: 15px 0;
+}
+.detail-profile tr:first-child td {
+  border-top: 0px solid #e8e8e8;
+}
+.detail-profile tr:last-child td {
+  border-bottom: 0px solid #e8e8e8;
+}
+.detail-profile tr td:first-child {
+  border-left: 0px solid #e8e8e8;
+}
+.detail-profile tr td:last-child {
+  border-right: 0px solid #e8e8e8;
+}
+.detail-profile tr td:nth-child(2) {
+  padding: 0 15px;
+}
+.lb {
+  color: #646566;
+  font-size: 16px;
+}
+.vl {
+  color: #646566;
+  font-weight: 600;
+}
+
+.avg-age {
+  color: #004567;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.scale-0_5 {
+  transform: scale(0.5);
+}
+
+.big-progress {
+  --bs-progress-height: 2.5rem;
+  --bs-progress-bg: transparent;
+  width: calc(100% + 30px);
+}
+
+.big-progress .progress-bar{
+    font-size: 16px;
+}
+.lbl-list{
+    position:relative;
+    width:100%;
+    height:26px;
+}
+.lbl{top:0;
+    color: #646566;display:inline-block;
+    font-size: 16px;
+    font-weight: 600;padding-left:20px;
+    letter-spacing: 0.5px;}
+.big-progress .male {
+  width: 50%;
+  background: #c98b27;
+  border-radius: 100px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  z-index: 3;
+}
+
+.big-progress .female {
+  width: calc(30% + 15px);
+  border-radius: 0 100px 100px 0;
+  background-color: #004567;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset,
+    -10px 0px 0px 6px rgb(201 139 39);
+  transform: translate(-15px, 0px);
+  z-index: 2;
+}
+.big-progress .others {
+  width: calc(20% + 30px);
+  border-radius: 0 100px 100px 0;
+  background: #149cde;
+  box-shadow: -3px 4px 4px 0px rgba(0, 0, 0, 0.25) inset,
+    -10px 0px 0px 6px rgb(13 202 240);
+  transform: translate(-30px, 0px);
+}
+
+.mini-barchart li {
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+.mini-barchart .progress{background: #F7F5F5;box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25) inset;}
+.mini-barchart li .name {
+  color: #585858;
+  font-size: 18px;
+  width: 100%;
+  flex: 0 0 135px;
+  text-align: right;
+}
+.mini-barchart li .per {
+  flex: 1;
+}
+.mini-barchart li .val {
+  flex: 0 0 65px;
+}
+.mini-barchart li .progress-bar {
+  background: #0f6d9c;box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+.mini-barchart li .val {
+  color: #646566;
+  /* text-align: right; */
+  font-size: 16px;
+  font-weight: 700;
+  width: 130px;
+}

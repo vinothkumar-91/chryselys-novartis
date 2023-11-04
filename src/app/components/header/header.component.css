@@ -1,0 +1,217 @@
+.live-switch {
+    width: 35px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.navbar-nav .nav-link {
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: 15px;
+    color: #001246;
+    width: 120px;
+    text-align: center;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    font-weight: 700
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+nav {
+    /* height: 120px; */
+    /* padding: 0 70px 0 30px; */
+    /* border-left: 20px solid #c98b27; */
+    /* background: var(--e-light-blue); */
+}
+
+nav .logo {
+    padding: 0 0px 0 0px;
+    z-index: 99;
+}
+
+.navbar-nav {
+    align-items: center;
+}
+
+
+nav .profile-icon {
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+}
+.page-title-breadcrumb{padding-left: 28px;}
+.page-title{color: #004567;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.5px;}
+    .breadcrumb-item.active{color: #767676;}
+.header-btn {
+    font-family: "Montserrat", Sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 22.5px;
+    letter-spacing: 0.5px;
+    fill: #FFFFFF;
+    color: #FFFFFF;
+    background-color: #00679b;
+    border-radius: 4px 4px 4px 4px;
+    padding: 13px 18px 13px 18px;
+    transition: all .3s;
+    transition-property: all;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+
+.header-btn:focus,
+.header-btn:hover {
+    background-color: #1C42AE;
+}
+
+.mobile-view {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: 2;
+    background: #004567;
+    ;
+    opacity: 0;
+    transition: transform 250ms, opacity 400ms;
+    transform: translate(0%, -50%);
+}
+
+.mobile-view.animate {
+    transform: translate(0%, 0%);
+    opacity: 1;
+}
+
+.close {
+    opacity: 1;
+    padding: 15px;
+    cursor: pointer
+}
+
+.m-menu ul {
+    list-style: none;
+    margin-top: 100px;
+    padding: 10px 50px;
+}
+
+.m-menu .nav-link {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 23px;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.m-menu .nav-link.active {
+    color: #0032A3;
+}
+
+.m-menu-footer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.m-menu-footer .text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #FFFFFF;
+}
+
+/* Absolute Center Spinner */
+.overall-loading {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.overall-loading::before {
+    background: linear-gradient(90.01deg, #D1E0FF -16.63%, #FFFFFF 46.36%);
+    content: "";
+    position: fixed;
+    z-index: 998;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.overall-loading img {
+    z-index: 9999;
+    position: relative;
+    transform: translate(-50%, -50%);
+}
+
+::ng-deep .mat-menu-panel {
+    min-height: auto !important;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+    border: 1px solid #f3f3f3;
+    border-radius: 0 !important;
+    transform: translate(-2px, 5px);
+}
+
+.islive {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin: 8px 50px 0 0;
+}
+
+.live {
+    height: 9px;
+    width: 9px;
+    background: #004567;
+    border-radius: 100%;
+    margin-bottom: 8px;
+    margin-right: 3px;
+}
+
+::ng-deep .mat-menu-content:not(:empty) {
+    padding: 0 !important;
+}
+
+::ng-deep .mat-menu-content span {
+    padding: 8px 20px;
+    width: 100%;
+    display: block;
+    background: var(--light);
+}
+
+.dropdown-divider {
+    margin: 0
+}
+
+.dropdown-toggle:hover:after,
+.dropdown-toggle::after{content: '';color: #b28637;}
+
+/* for sanjeeve top serach demo purpose
+::ng-deep .ngx-select.dropdown{height: 38px;width: 300px;margin: 5px 10px;}
+::ng-deep input[type].ngx-select__search{background: none;}
+.media {
+    display: flex;
+    align-items: flex-start;
+  }
+  .media-body {flex: 1;}
+  .media img{margin-right: 15px;height:32px;width:32px;}
+  .media h6{margin-bottom: 0px;font-weight: 600;}
+  .media .account{padding: 0 6px;font-weight: 600;border-radius: 3px;}
+*/

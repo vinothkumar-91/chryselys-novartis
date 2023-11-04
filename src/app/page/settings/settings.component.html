@@ -1,0 +1,24 @@
+<div class="fw-100 card-box">
+    <div class="fw-100 header-title">
+        <strong>Settings</strong>
+        <!-- <b class="float-right"style="font-size:12px;margin-top: 6px;margin-right: 20px;cursor:pointer" routerLink="/dashboard"><< Back to Dashboard</b> -->
+    </div>
+    <!-- tabcontainer slider-l table-card-wrapper scroll-area -->
+    <div class="table-card-wrapper">
+        <div class="table-card">
+            <ul class="tabs">
+                <li (click)="activetab=0;" [ngClass]="{'live':activetab==0}" *ngIf="_gv.userDetail.role=='admin'">User Management</li>
+                <li (click)="activetab=1;" [ngClass]="{'live':activetab==1}" *ngIf="_gv.userDetail.role=='super-admin'">TA/Disease</li>
+                <li (click)="activetab=2;" [ngClass]="{'live':activetab==2}" *ngIf="_gv.userDetail.role=='super-admin'">Client</li>
+                <!-- <a class="float-right mr-3 mt-3 link c-p" *ngIf="activetab==1" (click)="adduser()">+ Add User</a> -->
+            </ul>
+            <div class="tab-details inner-card-box tablescroll fw-100 mt-n2 p-4">
+                <div class="tab" *ngIf="activetab==0"><app-users></app-users></div>
+                <div class="tab" *ngIf="activetab==1"><app-tadisease></app-tadisease></div>
+                <div class="tab" *ngIf="activetab==2"><app-clients></app-clients></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

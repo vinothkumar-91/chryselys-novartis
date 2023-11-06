@@ -8,7 +8,7 @@ import { GlobalVariablesService } from 'src/app/global-variables.service';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  activetab:any=2;
+  activetab:any=0;
 
   constructor(private gv: GlobalVariablesService) { }
   get _gv(){return this.gv}

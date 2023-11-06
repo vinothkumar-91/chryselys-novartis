@@ -1,86 +1,169 @@
-<div class="fw-100">
-    <div class="ms-4 mt-5" style="color: #767676;position: relative;top: 10px;">Powered by</div>
-    <div class="mb-2">
-        <img src="./assets/image/chryselys_logo.svg" alt="" height="50">
+<div class="chat-ui">
+  <div class="outer-container">
+    <div class="left-container">
+      <div class="left-container-top">
+        <div class="logo-section">
+          <img class="" src="./assets/image/logo_white.svg" alt="" width="200">
+        </div>
+        <div class="option-group">
+          <div class="options new-chat active">
+            <img class="option-img" src="./assets/image/start_new.svg" alt="">
+            <div class="option-txt">Start a New Chat</div>
+          </div>
+          <div class="options chat-history">
+            <img class="option-img" src="./assets/image/history.svg" alt="">
+            <div class="option-txt">Chat History</div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-history-list fw-100">
+
+
+        <ul id="accordion" class="accordion fw-100" *ngIf="menus">
+          <ng-container *ngFor="let menu of menus; let i = index">
+            <li class="fw-100" [ngClass]="menu.active ? 'active':''">
+              <!-- <div class="menu" (click)="toggle(i)"> -->
+              <div class="menu">
+                {{ menu.name }}
+                <img class="arrow" src="./assets/image/arrow.svg" alt="">
+              </div>
+              <!-- <ul class="submenu" #submenu *ngIf="menu" [style.height.px]="menu.active ? submenu.scrollHeight : 0"> -->
+              <ul class="submenu" #submenu *ngIf="menu">
+                <li *ngFor="let submenu of menu.submenu">
+                  <img class="chat-icon" src="./assets/image/chat_bubble.svg" alt="" height="10">
+                  <span class="chat-title" [ngClass]="submenu.active?'active':''">{{ submenu.name }}</span>
+                  <img class="delete-icon" src="./assets/image/delete.svg" alt="" height="10">
+                </li>
+              </ul>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+      <div class="bottom-option-group">
+        <div class="options user-management" [routerLink]="'/Novartis/Settings/001'">
+          <img class="option-img" src="./assets/image/settings.svg" alt="">
+          <div class="option-txt">User Management</div>
+        </div>
+      </div>
     </div>
-</div>
-
-<div class="text-center hd">Therapeutic Area</div>
-<div class="text-center" *ngIf="!apiCall && TA.length == 0">No Data Available</div>
-<app-loader   *ngIf="apiCall"></app-loader>
-
-<div class="flex-container" *ngIf="!apiCall">
-    <div class="t-box" [ngClass]="(t.isLock)?'ta-lock':'ta-unlock'" *ngFor="let t of TA;let i=index">
-        <img src="./assets/image/icons/lock.svg" height="30" class="lock" *ngIf="t.isLock">
-        <div class="t-box-inner">
-            <img [src]="t.img" height="110" onerror="this.src='./assets/image/icons/home/Oncology.svg'">
-            <div class="th-name">{{t.therapeutic_name}} </div>
+    <div class="chat-area-container">
+      <div class="chat-area-header">
+        <div class="f-row offside">
+          <div class="f-feilds" *ngFor="let f of filters">
+            <label>{{f.name}}</label>
+            <div class="form-control-layer fw-100">
+              <ng-multiselect-dropdown #multiSelect class="form-control-layer fw-100" [placeholder]="'Select '"
+                [settings]="settings" [data]="filterList[f.id]" [(ngModel)]="filterVal[f.id]" [name]="f.id"
+                [disabled]="false">
+              </ng-multiselect-dropdown>
+            </div>
+          </div>
         </div>
-        <div class="t-box-inner2">
-            <ol class="flex-list">
-                <ng-container  *ngFor="let d of t.disease_data;let j=index">
-                <li [ngClass]="(d.isLock)?'':'c-p'" (click)="setTAD(t,d)">
-                    <div class="disease">{{d.disease_name}}</div>
-                    <div *ngIf="d.isLock"><img src="./assets/image/icons/lock.svg" height="20"></div>
-                    <div *ngIf="!d.isLock"><img src="./assets/image/icons/arrow-up-right.svg" height="20"></div>
-                </li>
-                <li *ngIf="!t.disease_data || t.disease_data.length == 0;" class="justify-content-center">
-                    <div class="disease">No Data Available</div>
-                </li>
-                </ng-container>
-            </ol>
+
+      </div>
+      <div class="chat-container">
+        <div class="init-content" style="display: none;">
+          <img src="./assets/image/mini_logo.svg" height="60">
+          <div class=""
+            style="color: #B1B1B1;text-align: center;font-family: Segoe UI;font-size: 24px;font-style: normal;font-weight: 700;">
+            Hi, I am <span
+              style="color: #023761;font-family: Segoe UI;font-size: 24px;font-style: normal;font-weight: 700;">NOVA!</span>
+            Your AI</div>
+          <p class="" style="color: #B1B1B1;text-align: center;font-family: Segoe UI;font-size: 16px;font-weight: 300;">
+            Type your question to below input and get fast answers</p>
         </div>
+
+        <div class="chat-details">
+
+          <div class="mssg right-mssg">
+            <div class="mssg-img"
+              style="background-image: url(./assets/image/user.svg);background-size: cover;border: 0;"></div>
+              <div class="mssg-details">
+            <div class="mssg-bubble">
+              <div class="mssg-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
+                eget dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                Error occurred during API request. </div>
+            </div>
+            <div class="mssg-footer"><span class="mssg-time float-end">11:45 AM</span></div>
+          </div>
+
+          </div>
+
+          <div class="mssg left-mssg">
+            <div class="mssg-img" style="background-image: url(./assets/image/mini_logo.svg)"></div>
+            <div class="mssg-details">
+              <div class="mssg-bubble">
+              <div class="mssg-info">
+                <div class="mssg-info-name">NOVA</div>
+              </div>
+              <div class="mssg-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
+                eget dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+              </div>
+            </div>
+            <div class="mssg-footer">
+              <span class="mssg-time me-2">11:45 AM</span>
+              <img src="./assets/image/thumpsup.svg" height="24">
+              <img src="./assets/image/thumpsdown.svg" height="24">
+              <img src="./assets/image/thumpsup_active.svg" height="24">
+              <img src="./assets/image/thumpsdown_active.svg" height="24">
+            </div>
+          </div>
+          </div>
+
+          <div class="mssg right-mssg">
+            <div class="mssg-img"
+              style="background-image: url(./assets/image/user.svg);background-size: cover;border: 0;"></div>
+              <div class="mssg-details">
+            <div class="mssg-bubble">
+              <div class="mssg-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
+                eget dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                Error occurred during API request. </div>
+            </div>
+            <div class="mssg-footer"><span class="mssg-time float-end">11:45 AM</span></div>
+          </div>
+
+          </div>
+
+          <div class="mssg left-mssg">
+            <div class="mssg-img" style="background-image: url(./assets/image/mini_logo.svg)"></div>
+            <div class="mssg-details">
+              <div class="mssg-bubble">
+              <div class="mssg-info">
+                <div class="mssg-info-name">NOVA</div>
+              </div>
+              <div class="mssg-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
+                eget dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+              </div>
+            </div>
+            <div class="mssg-footer">
+              <span class="mssg-time me-2">11:45 AM</span>
+              <img src="./assets/image/thumpsup.svg" height="24">
+              <img src="./assets/image/thumpsdown.svg" height="24">
+              <img src="./assets/image/thumpsup_active.svg" height="24">
+              <img src="./assets/image/thumpsdown_active.svg" height="24">
+            </div>
+          </div>
+          </div>
+
+        </div>
+
+        <div class="input-area">
+          <div class="fw-100">
+            <form class="input-form" autocomplete="off"><input class="mssgInput" name="mssg" type="text"
+                placeholder="Type your question here..."><button type="submit">
+                <div class="send-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 18" fill="none">
+                    <path
+                      d="M2.01295 16.9292L18.9993 9.73208C19.7878 9.39531 19.7878 8.29842 18.9993 7.96166L2.01295 0.764532C1.37048 0.485499 0.659881 0.956968 0.659881 1.64012L0.650146 6.07578C0.650146 6.55687 1.01032 6.97061 1.49703 7.02834L15.2516 8.84687L1.49703 10.6558C1.01032 10.7231 0.650146 11.1369 0.650146 11.618L0.659881 16.0536C0.659881 16.7368 1.37048 17.2082 2.01295 16.9292Z"
+                      fill="white" />
+                  </svg>
+                </div>
+              </button></form>
+          </div>
+
+        </div>
+      </div>
+
     </div>
-
-    <!-- <div class="t-box" [ngClass]="(t.isLock)?'ta-lock':'ta-unlock'" *ngFor="let t of TA;let i=index">
-        <img src="./assets/image/icons/lock.svg" height="30" class="lock" *ngIf="t.isLock">
-        <div class="t-box-inner">
-            <img [src]="t.img" height="110">
-            <div class="th-name">{{t.therapeutic_name}} </div>
-        </div>
-        <div class="t-box-inner2">
-            <ol class="flex-list">
-                <ng-container  *ngFor="let d of t.disease_data;let j=index">
-                <li [ngClass]="(d.isLock)?'':'c-p'" (click)="setTAD(t,d)">
-                    <div class="disease">{{d.disease_name}}</div>
-                    <div *ngIf="d.isLock"><img src="./assets/image/icons/lock.svg" height="20"></div>
-                    <div *ngIf="!d.isLock"><img src="./assets/image/icons/arrow-up-right.svg" height="20"></div>
-                </li>
-                <li *ngIf="!t.disease_data || t.disease_data.length == 0;" class="justify-content-center">
-                    <div class="disease">No Data Available</div>
-                </li>
-                </ng-container>
-            </ol>
-        </div>
-    </div> -->
-
-
-    <!-- <div class="t-box" >
-        <div class="t-box-inner">
-            <img src="./assets/image/icons/psychiatry.svg" height="110">
-            <div class="th-name">psychiatry</div>
-        </div>
-        <div class="t-box-inner2">
-            <ol class="flex-list">
-                <li routerLink="/PIT/Landscape" >
-                    <div class="disease">Major Depressive Disorder</div>
-                    <div><img src="./assets/image/icons/arrow-up-right.svg" height="20"></div>
-                </li>
-                <li>
-                    <div class="disease">Bipolar Disorder</div>
-                    <div><img src="./assets/image/icons/arrow-up-right.svg" height="20"></div>
-                </li>
-            </ol>
-        </div>
-    </div>
-    <div class="t-box">
-        <div class="t-box-inner">
-        <img src="./assets/image/icons/neurology.svg" height="110">
-        <div class="th-name">Neurology</div></div>
-    </div>
-    <div class="t-box">
-        <div class="t-box-inner">
-        <img src="./assets/image/icons/oncology.svg" height="110">
-        <div class="th-name">oncology</div></div>
-    </div> -->
   </div>
+</div>

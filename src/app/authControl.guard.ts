@@ -15,7 +15,7 @@ export class AuthControl implements CanActivate {
     ) { }
 
   canActivate(): boolean {
-    console.log(this.authService.isLoggedIn() , this.gv.ispageaccess)
+    // console.log(this.authService.isLoggedIn() , this.gv.ispageaccess)
     if (this.authService.isLoggedIn() && this.gv.ispageaccess) {
       return true;
     }

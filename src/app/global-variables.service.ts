@@ -16,48 +16,7 @@ import { MatTableExporterDirective } from 'mat-table-exporter';
   providedIn: 'root'
 })
 export class GlobalVariablesService {
-  chartColor:any =  [
-    "#425789",
-    "#7E5D42",
-    "#C8A469",
-    "#BCD09E",
-    "#8FABD6",
-    "#8C8A8A",
-    "#AE9B9E",
-    // '#c23531',
-    '#2f4554',
-    '#61a0a8',
-    '#d48265',
-    '#91c7ae',
-    '#749f83',
-    '#ca8622',
-    '#bda29a',
-    '#6e7074',
-    '#546570',
-    '#c4ccd3'
-  ]
-  // chartColor:any =  [
-  //   "#425789",
-  //   "#7E5D42",
-  //   // "#C8A469",
-  //   // "#BCD09E",
-  //   // "#8FABD6",
-  //   "#8C8A8A",
-  //   // "#AE9B9E",
-  //   // '#c23531',
-  //   '#2f4554',
-  //   '#61a0a8',
-  //   '#d48265',
-  //   '#91c7ae',
-  //   '#749f83',
-  //   '#ca8622',
-  //   '#bda29a',
-  //   '#6e7074',
-  //   '#546570',
-  //   '#c4ccd3'
-  // ]
   apiCalls: any[] = [];
-  therapeuticValue: any = ''
   commonPopup: any = []; commonApiResPopup: any = [];
   portalData = { portalId: 0, userId: 0, portalKey: '', createdDate: 0, portalDetailAvailable: false, portalKeyAvailable: false };
   userBaseUrl =
@@ -80,9 +39,9 @@ export class GlobalVariablesService {
   }
   exportDatetime = '';
   pageaccess: any = {
-    "super-admin": ['Home', 'Landscape', 'TrialAnalysis', 'PITargets', 'TrialAnalysisdetail', 'PITargetDetails','Referraltargets', 'REDPLANUPDetails','REDPLANUP', 'Settings','Enrollment','EnrollmentDetails'],
-    "admin": ['Home', 'Landscape', 'TrialAnalysis', 'PITargets', 'TrialAnalysisdetail', 'PITargetDetails','Referraltargets', 'REDPLANUPDetails','REDPLANUP', 'Settings','Enrollment','EnrollmentDetails'],
-    "viewer": ['Home', 'Landscape', 'TrialAnalysis', 'PITargets', 'TrialAnalysisdetail','PITargetDetails','Referraltargets', 'REDPLANUPDetails', 'REDPLANUP','Enrollment','EnrollmentDetails']
+    "super-admin": ['Home', 'Landscape', 'TrialAnalysis', 'PITargets', 'TrialAnalysisdetail', 'PITargetDetails','Referraltargets', 'REDPLANUPDetails','REDPLANUP', 'Settings','Enrollment','overview'],
+    "admin": ['Home', 'Landscape', 'TrialAnalysis', 'PITargets', 'TrialAnalysisdetail', 'PITargetDetails','Referraltargets', 'REDPLANUPDetails','REDPLANUP', 'Settings','Enrollment','overview'],
+    "viewer": ['Home', 'Landscape', 'TrialAnalysis', 'PITargets', 'TrialAnalysisdetail','PITargetDetails','Referraltargets', 'REDPLANUPDetails', 'REDPLANUP','Enrollment','overview']
   }
   menuList: any = {
     "super-admin": [

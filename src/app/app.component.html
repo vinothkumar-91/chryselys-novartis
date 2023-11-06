@@ -13,65 +13,6 @@
     </mat-drawer-content>
 </mat-drawer-container> -->
 
-<div class="modal show confirm-popup" tabindex="-1" role="dialog" aria-labelledby=""
-    *ngIf="_gv.portal['popuptype'] == 'changePassword'">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content p-4">
-            <h3 class="fw-100 mt-2 mb-4 text-center">Change Password</h3>
-
-
-            <form class="single-view"  #form="ngForm" (ngSubmit)="form.form.valid && changepassword()" autocomplete="off">
-                <div class="f-row">
-                    <div class="f-feilds">
-                        <label>Password*</label>
-                        <input type="password" class="form-control" required name="current_password" [(ngModel)]="passwordForm.current_password" #current_password="ngModel" autocomplete="off">
-                        <div class="fw-100"
-                            *ngIf="(current_password.invalid && (current_password.dirty || current_password.touched)) || (form.submitted && current_password.invalid)">
-                            <small class="msg error" *ngIf="current_password.errors?.['required']">Password is
-                                required.</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="f-row">
-                    <div class="f-feilds">
-                        <label>New Password*</label>
-                        <input type="text" class="form-control" [pattern]="_gv.passpattern" required name="new_password" [(ngModel)]="passwordForm.new_password" #new_password="ngModel" autocomplete="off">
-                        <div class="fw-100"
-                            *ngIf="(new_password.invalid && (new_password.dirty || new_password.touched)) || (form.submitted && new_password.invalid)">
-                            <small class="msg error" *ngIf="new_password.errors?.['required']">New Password is
-                                required.</small>
-                    </div>
-                        <small class="msg error" *ngIf="new_password.errors?.pattern"
-                            style="white-space: normal;overflow:inherit;">Password should
-                            mix of alphanumeric with minimum 10 characters</small>
-                        </div>
-                </div>
-                <div class="f-row">
-                    <div class="f-feilds">
-                        <label>Confirm Password*</label>
-                        <input type="password" class="form-control" required name="new_confirm" [(ngModel)]="passwordForm.new_confirm" #new_confirm="ngModel" autocomplete="off">
-                        <div class="fw-100"
-                            *ngIf="(new_confirm.invalid && (new_confirm.dirty || new_confirm.touched)) || (form.submitted && new_confirm.invalid)">
-                            <small class="msg error" *ngIf="new_confirm.errors?.['required']">Confirm Password is
-                                required.</small>
-                        </div>
-                            <small class="msg error"
-                                *ngIf="!new_confirm.errors?.['required'] && (passwordForm.new_password != passwordForm.new_confirm)">Password
-                                not match with New.</small>
-                    </div>
-                </div>
-
-
-                <div class="fw-100 p-2 text-center mt-2">
-                    <button class="btn btn-light me-3" (click)="_gv.portal['popuptype'] = ''" >Cancel</button>
-                    <button class="btn btn-primary me-3" type="submit" [ngClass]="{'forminvalid':(!form.valid || apiCall || (passwordForm.new_password != passwordForm.new_confirm)) }"  [disabled]="apicall">Submit</button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-</div>
-
 
 <ng-container *ngFor="let c of apiResPopup;let i=index">
     <ng-container>

@@ -1,7 +1,7 @@
 <!-- <div class="body-container-wrapper gradient-l-r"> -->
 
 <div class="login-container">
-  <div class="left" >
+  <div class="left">
 
     <div class="mx-auto w-full max-w-sm lg:w-96"
       style="margin: 0 auto;max-width: 30rem;width: 24rem;background: #fff;padding: 50px;border-radius:10px">
@@ -44,16 +44,39 @@
 
         <div class="fw-100" *ngIf="type == 'default'">
           <div class="loginpage l-form mt-0">
-            <form #loginForm="ngForm" name="form" (ngSubmit)="loginForm.valid && onSubmit()" autocomplete="off"
-              class="form form-login full-form text-start" novalidate>
-              <div class="loginform">
 
+
+            <div class="sso-button">
+              <button class="sso-button-link" [disabled]="(Gloader.val =='true')">
+                <span class="self-center" *ngIf="apiCall">Connecting SAML...</span>
+                <span class="self-center" *ngIf="!(Gloader.val =='true') && !apiCall">Sign in via SSO (Microsoft)</span>
+              </button>
+
+            </div>
+
+            <div class="relative mt-5 mb-5">
+              <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                <div class="w-full bg-line"></div>
+              </div>
+              <div class="relative flex justify-center text-sm">
+                <span class="bg-white px-2 text-gray-500">Or continue with</span>
+              </div>
+            </div>
+
+            <form #loginForm="ngForm" name="form" (ngSubmit)="loginForm.valid && onSubmit()" autocomplete="false"
+            class="form form-login full-form text-start" novalidate>
+            <div class="loginform">
+
+
+              <div class="f-row">
 
                 <div class="f-row">
-                  <div class="f-feilds" *ngIf="popupType == 'login' || popupType == 'forgetPassword'">
-                    <label>Email*</label>
-                    <input email type="email" name="email" class="form-control" required [(ngModel)]="loginform.email"
-                      #email="ngModel" placeholder="Enter Email" />
+                  <div class="f-feilds" *ngIf="popupType == 'login'">
+                    <mat-form-field appearance="outline" class="fw-100">
+                      <mat-label>Email*</mat-label>
+                      <input email matInput type="email" name="email" required
+                        [(ngModel)]="loginform.email" #email="ngModel" placeholder="Enter Email" />
+                    </mat-form-field>
                     <div class="fw-100"
                       *ngIf="(email.invalid && (email.dirty || email.touched)) || (loginForm.submitted && email.invalid)">
                       <small class="msg error" *ngIf="email.errors?.['required']">Email is required.</small>
@@ -61,27 +84,16 @@
                         email.</small>
                     </div>
                   </div>
-
-                  <mat-form-field appearance="outline" >
-                    <mat-label>שדה תאריך</mat-label>
-                    <input matInput placeholder="יש למלא את השדה"/>
-                  </mat-form-field>
+                </div>
 
 
-                  <div class="f-feilds" *ngIf="popupType == 'OTP'">
-                    <label>OTP*</label>
-                    <input type="password" name="OTP" class="form-control" required [(ngModel)]="loginform.OTP"
-                      #OTP="ngModel" placeholder="Enter OTP" />
-                    <div class="fw-100"
-                      *ngIf="(OTP.invalid && (OTP.dirty || OTP.touched)) || (loginForm.submitted && OTP.invalid)">
-                      <small class="msg error" *ngIf="OTP.errors?.['required']">OTP is required.</small>
-                    </div>
-                  </div>
-                  <div class="f-feilds password-fld" *ngIf="popupType == 'login'">
-                    <label>Password* </label>
-                    <input type='password' class="form-control" required minlength="6" name="password"
-                      [(ngModel)]="loginform.password" #password="ngModel" placeholder="Enter Password">
-
+                <div class="f-row">
+                  <div class="f-feilds" *ngIf="popupType == 'login'">
+                    <mat-form-field appearance="outline" class="fw-100">
+                      <mat-label>Password*</mat-label>
+                      <input type='password' matInput required minlength="6" name="password"
+                        [(ngModel)]="loginform.password" #password="ngModel" placeholder="Enter Password">
+                    </mat-form-field>
                     <div class="fw-100"
                       *ngIf="(password.invalid && (password.dirty || password.touched)) || (loginForm.submitted && password.invalid)">
                       <small class="msg error" *ngIf="password.errors?.['required']">Password is required.</small>
@@ -89,61 +101,23 @@
                         password</small>
                     </div>
                   </div>
-
-                  <ng-container *ngIf="popupType == 'changePassword'">
-                    <div class="f-row">
-                      <div class="f-feilds">
-                        <label>New Password*</label>
-                        <input type="text" class="form-control" [pattern]="_gv.passpattern" required name="password"
-                          [(ngModel)]="loginform.password" #password="ngModel" autocomplete="off">
-                        <div class="fw-100"
-                          *ngIf="(password.invalid && (password.dirty || password.touched)) || (loginForm.submitted && password.invalid)">
-                          <small class="msg error" *ngIf="password.errors?.['required']">New Password is
-                            required.</small>
-                        </div>
-                        <small class="msg error" *ngIf="password.errors?.pattern"
-                          style="white-space: normal;overflow:inherit;">Password should
-                          mix of alphanumeric with minimum 10 characters</small>
-                      </div>
-                    </div>
-
-                    <div class="f-feilds">
-                      <label>Confirm Password*</label>
-                      <input type="password" class="form-control" required name="new_password"
-                        [(ngModel)]="loginform.new_password" #new_password="ngModel" autocomplete="off">
-                      <div class="fw-100"
-                        *ngIf="(new_password.invalid && (new_password.dirty || new_password.touched)) || (loginForm.submitted && new_password.invalid)">
-                        <small class="msg error" *ngIf="new_password.errors?.['required']">Confirm Password is
-                          required.</small>
-                      </div>
-                      <small class="msg error"
-                        *ngIf="!new_password.errors?.['required'] && (loginform.password != loginform.new_password)">Password
-                        not match with New.</small>
-                    </div>
-                  </ng-container>
-
-
-
-
                 </div>
-
-                <div class="f-row">
-                  <div class="f-feilds h-auto">
-                    <button type="submit" class="submitform" [ngClass]="{'forminvalid':(!loginForm.valid || apiCall ||  ((popupType == 'changePassword' && loginform.password != loginform.new_password)))}">
-                      <span *ngIf="popupType == 'login'">Login</span>
-                      <span *ngIf="popupType != 'login'">Submit</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="fw-100 text-center" *ngIf="popupType == 'login'" (click)="popupType = 'forgetPassword'">
-                  <span class="action-link">Forgot Password</span></div>
-                <div class="fw-100 text-center" *ngIf="popupType != 'login'" (click)="popupType = 'login'"><span
-                    class="action-link">Back to Login</span></div>
 
               </div>
 
-            </form>
+              <div class="f-row">
+                <div class="f-feilds h-auto">
+                  <button type="submit" class="submitform"
+                    [ngClass]="{'forminvalid':(!loginForm.valid || apiCall ||  ((popupType == 'changePassword' && loginform.password != loginform.new_password)))}">
+                    <span *ngIf="popupType == 'login'">Login</span>
+                    <span *ngIf="popupType != 'login'">Submit</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </form>
           </div>
 
         </div>

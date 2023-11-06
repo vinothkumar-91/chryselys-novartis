@@ -1,6 +1,6 @@
-https://www.figma.com/file/jnVE9Lqr10RKQBMnuICFuW/Chryselys---PIT-Dashboard?node-id=413%3A403&mode=dev
+https://www.figma.com/file/jnVE9Lqr10RKQBMnuICFuW/Chryselys---Novartis-Dashboard?node-id=413%3A403&mode=dev
 
-https://www.figma.com/proto/jnVE9Lqr10RKQBMnuICFuW/Chryselys---PIT-Dashboard?page-id=413%3A402&type=design&node-id=413-403&viewport=-2963%2C668%2C0.5&t=7zY7MpKb5qbCDdgM-1&scaling=scale-down-width
+https://www.figma.com/proto/jnVE9Lqr10RKQBMnuICFuW/Chryselys---Novartis-Dashboard?page-id=413%3A402&type=design&node-id=413-403&viewport=-2963%2C668%2C0.5&t=7zY7MpKb5qbCDdgM-1&scaling=scale-down-width
 
 
 
@@ -37,8 +37,8 @@ https://localhost:4200/#/logout-redirect
             "study_status": "Completed",
             "total_payments": 994646
         }
-		
-		
+
+
 { condition:[], nct_id:[], phase:[], sponsor:[], start_date:[], study_status:[], }
 
 
@@ -70,10 +70,10 @@ Challage Facing:
 	- In terms of our .NET experience, we are not on par with the MOJO Team.
 	- Their project/architect plan is good but in code structure is not fine to understand/handle.
 	- They are not followed the file/module/component structure. So it is very defecult to handle the CR's.
-	- Given the current timeline, dedicating four days to unit testing is insufficient. 
+	- Given the current timeline, dedicating four days to unit testing is insufficient.
 	- Need to setup for testing(without error in our dependent module) before we take unit testing.
 	- Our team's PCs are not support for this project. so, we need to upgrade all of our team PC's.
-	
+
 To address these challenges, we believe it is essential for both myself and my team to receive advanced .NET training. Moreover, a comprehensive understanding of the project's code and structure is crucial, as it will significantly benefit our handling of future CRs.
 
 1326052085
@@ -88,6 +88,6 @@ Home page : Currently we have only Psychiatry,Neurology,Oncology icons.we need o
 	- Ophthalmology,
 	- Pulmonology,
 	- Radiology
-	
+
 Header Filter icon issue
 Bookmark start icon issue

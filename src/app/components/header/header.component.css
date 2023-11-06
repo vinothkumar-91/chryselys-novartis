@@ -201,7 +201,7 @@ nav .profile-icon {
 }
 
 .dropdown-toggle:hover:after,
-.dropdown-toggle::after{content: '';color: #b28637;}
+.dropdown-toggle::after{content: '';color: #0FA47F;}
 
 /* for sanjeeve top serach demo purpose
 ::ng-deep .ngx-select.dropdown{height: 38px;width: 300px;margin: 5px 10px;}

@@ -1,67 +1,66 @@
 .login-container {
-    font-family: 'Segoe-UI-Regular';
-    display: flex;
-    min-height: 100%;
+  font-family: "Segoe-UI-Regular";
+  display: flex;
+  min-height: 100%;
 }
 
 .login-container .left {
-    display: flex;
-    flex: 1 1 0%;
-    flex-direction: column;
-    justify-content: center;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    background-size: cover;
-    background-repeat: no-repeat;
-    /* box-shadow: inset 0 0 0 2000px rgb(41 65 94 / 74%); */
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* box-shadow: inset 0 0 0 2000px rgb(41 65 94 / 74%); */
 }
 
 .login-container .right {
-    position: relative;
-    display: none;
-    width: 0px;
-    flex: 1 1 0%;
+  position: relative;
+  display: none;
+  width: 0px;
+  flex: 1 1 0%;
 }
 
 .login-container .right img {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .welcome-msg {
-    margin: 30px 0;
+  margin: 30px 0;
 }
 
 .sso-button {
-    grid-gap: 0.75rem;
-    gap: 0.75rem;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    display: grid;
-    margin-top: 55px;
-    cursor: pointer;
+  grid-gap: 0.75rem;
+  gap: 0.75rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  display: grid;
+  cursor: pointer;
 }
 
 .sso-button-link {
-    font-weight: 500;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    background-color: var(--blue);
-    color: #fff;
-    justify-content: center;
-    width: 100%;
-    display: inline-flex;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: var(--blue);
+  color: #fff;
+  justify-content: center;
+  width: 100%;
+  display: inline-flex;
 }
 
 /* @media (min-width: 1024px) {
@@ -78,50 +77,113 @@
 } */
 
 @media (min-width: 640px) and (max-width: 1024px) {
-    .login-container .left {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
+  .login-container .left {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
 .sso-button-link[disabled] {
-    background: #333
+  background: #333;
 }
 
 #loaderContainer {
-    height: 100vh;
-    width: 100vw;
-    background: radial-gradient(circle, #ffffff 0%, rgb(255 255 255 / 94%) 100%);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100000;
-    display: grid;
-    align-content: center;
-    justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background: radial-gradient(circle, #ffffff 0%, rgb(255 255 255 / 94%) 100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  display: grid;
+  align-content: center;
+  justify-content: center;
 }
 
 #loaderGif {
-    height: 100px;
+  height: 100px;
 }
 
-::ng-deep .mat-form-field-flex{
-    height: 55px!important;
-    padding: 10px!important;}
-    ::ng-deep     .mat-form-field .mat-form-field-label{top:-16px!important;}
-::ng-deep .mat-form-field-flex > .mat-form-field-infix {height: 55px;padding: 0!important; }
-::ng-deep .mat-form-field-label-wrapper { top: 0!important;padding-top:0!important }
-
-::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-    transform: translateY(-23px) scale(.75)!important;
+::ng-deep .mat-form-field-flex {
+  height: 55px !important;
+  padding: 0px !important;
 }
-::ng-deep .mat-form-field-label-wrapper{overflow: visible!important;}
-::ng-deep .mat-input-element{
-    height: 49px!important;
-    margin: 0!important;
-    padding: 0!important;}
-::ng-deep mat-label{
-    position:relative;
-    z-index: 1;}
-    ::ng-deep  mat-label:after{content:'';position:absolute;left:0;top:0;width:100%;height:100%;background-color: #fff;
-        z-index: -1;}
+::ng-deep .mat-form-field .mat-form-field-label {
+    padding: 0 7px;
+    display: inline!important;
+    width: auto!important;
+    transition: all .2s!important;
+  top: 25px !important;left:0px;
+}
+::ng-deep .mat-form-field-flex > .mat-form-field-infix {
+  height: 55px;
+  padding: 0 !important;
+}
+::ng-deep .mat-form-field-label-wrapper {
+  top: 0 !important;
+  padding-top: 0 !important;
+}
+
+::ng-deep
+  .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float
+  .mat-form-field-label {
+    transform: scale(0.9) !important;
+    top: 1px!important;
+}
+
+::ng-deep .mat-form-field-label-wrapper {
+  overflow: visible !important;
+}
+::ng-deep .mat-input-element {
+  height: 49px !important;
+  margin: 0 !important;
+  padding: 4px 14px !important;
+}
+::ng-deep mat-label {
+  position: relative;
+  z-index: 1;
+  padding:0 8px;
+}
+::ng-deep mat-label:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: -1;
+}
+::ng-deep .mat-form-field-infix {
+  border-top: 0;
+}
+
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick
+  .mat-form-field-outline-start,
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick
+  .mat-form-field-outline-end,
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick
+  .mat-form-field-outline-gap {
+  border-width: 0px !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start,
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end{border: 1px solid transparent!important;}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline{box-shadow:none!important}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-gap {border-top: 1px solid transparent!important;border-bottom: 1px solid transparent!important;}
+::ng-deep input:-internal-autofill-selected{background-color:transparent!important}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    box-shadow: 0 0 0px 1px #e9e9e9!important;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+    box-shadow: 0 0 0px 1px #0FA47F!important}
+
+::ng-deep .mat-placeholder-required{display: none;}

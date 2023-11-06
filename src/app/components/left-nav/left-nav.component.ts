@@ -29,7 +29,7 @@ export class LeftNavComponent implements OnInit {
 
   }
   clickedNav(currentValue: any) {
-    this.route.navigate(['/PIT/' + currentValue]);
+    this.route.navigate(['/Novartis/' + currentValue]);
   }
 
 

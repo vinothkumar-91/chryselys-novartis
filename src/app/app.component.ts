@@ -56,9 +56,9 @@ export class AppComponent {
     var log:any = localStorage.getItem('log')
     if(log!=null && log!="null" && log!=undefined && log!="undefined" && log!="" ){
       var ud = JSON.parse(JSON.stringify(this.gv.userDetail))
-      this.router.navigate(['/Novartis/Home']);
+      this.router.navigate(['/Novartis/Settings/001']);
     }else{
-      this.router.navigate(['/login']);
+      this.router.navigate(['/Novartis/Settings/001']);
     }
     this.gv.GloaderSet(false,"");
   }

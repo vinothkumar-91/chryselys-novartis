@@ -22,16 +22,16 @@ export class GlobalVariablesService {
   userBaseUrl =
     (window.location.href.indexOf("localpc") == -1) ?
       (window.location.origin.indexOf("localhost") != -1) ?
-        "http://127.0.0.1:81/" : "http://localhost" + ":81/" : "http://127.0.0.1:81/";
+        "http://localhost:82/" : "http://localhost" + ":82/" : "http://localhost:82/";
   baseUrl =
     (window.location.href.indexOf("localpc") == -1) ?
       (window.location.origin.indexOf("localhost") != -1) ?
-        "http://127.0.0.1:80/" : "http://localhost" + ":80/" : "http://127.0.0.1:80/";
+        "http://localhost:82/" : "http://localhost" + ":82/" : "http://localhost:82/";
 
 
 
   // samlURL = 'http://test.chryselys.com:81/login';
-  samlURL =  "http://127.0.0.1:81/login" //window.location.origin+'/login';
+  samlURL =  "http://localhost:81/login" //window.location.origin+'/login';
 
   apidatas: any = { success: [], error: [] };
   isLocal: boolean = (window.location.origin.indexOf("localhost") != -1) ? true : false;
@@ -39,45 +39,21 @@ export class GlobalVariablesService {
   }
   exportDatetime = '';
   pageaccess: any = {
-    "super-admin": ['Home', 'Landscape', 'TrialAnalysis', 'PITargets', 'TrialAnalysisdetail', 'PITargetDetails','Referraltargets', 'REDPLANUPDetails','REDPLANUP', 'Settings','Enrollment','overview'],
-    "admin": ['Home', 'Landscape', 'TrialAnalysis', 'PITargets', 'TrialAnalysisdetail', 'PITargetDetails','Referraltargets', 'REDPLANUPDetails','REDPLANUP', 'Settings','Enrollment','overview'],
-    "viewer": ['Home', 'Landscape', 'TrialAnalysis', 'PITargets', 'TrialAnalysisdetail','PITargetDetails','Referraltargets', 'REDPLANUPDetails', 'REDPLANUP','Enrollment','overview']
+    "super-admin": ['Home','Settings'],
+    "admin": ['Home','Settings'],
+    "viewer": ['Home','Settings']
   }
   menuList: any = {
     "super-admin": [
       { routerLink: "/Home", src: '', dataPageActive: "Home", name: "Home" ,linetype:'stroke' },
-      { routerLink: "/Landscape", src: '', dataPageActive: "Landscape", name: "Landscape" ,linetype:'stroke' },
-      { routerLink: "/TrialAnalysis", src: '', dataPageActive: "TrialAnalysis", name: "Trial Analysis" ,linetype:'fill' },
-      { routerLink: "/PITargets", src: '', dataPageActive: "PITargets", name: "PI Targets" ,linetype:'stroke' },
-      // { routerLink: "/PotentialPI", src: '', dataPageActive: "PotentialPI", name: "Potential PI" ,linetype:'stroke' },
-      // { routerLink: "/PotentialSite", src: '', dataPageActive: "PotentialSite", name: "Potential Site" ,linetype:'stroke' },
-      { routerLink: "/REDPLANUP", src: '', dataPageActive: "REDPLANUP", name: "REDPLANUP" ,linetype:'stroke' },
-      { routerLink: "/Enrollment", src: '', dataPageActive: "Enrollment", name: "Enrollment" ,linetype:'stroke' },
-      { routerLink: "/Settings/0", src: '', dataPageActive: "Settings", name: "Settings" ,linetype:'stroke' },
     ],
 
     "admin": [
       { routerLink: "/Home", src: '', dataPageActive: "Home", name: "Home" ,linetype:'stroke' },
-      { routerLink: "/Landscape", src: '', dataPageActive: "Landscape", name: "Landscape" ,linetype:'stroke' },
-      { routerLink: "/TrialAnalysis", src: '', dataPageActive: "TrialAnalysis", name: "Trial Analysis" ,linetype:'fill' },
-      { routerLink: "/PITargets", src: '', dataPageActive: "PITargets", name: "PI Targets" ,linetype:'stroke' },
-      // { routerLink: "/PotentialPI", src: '', dataPageActive: "PotentialPI", name: "Potential PI" ,linetype:'stroke' },
-      // { routerLink: "/PotentialSite", src: '', dataPageActive: "PotentialSite", name: "Potential Site" ,linetype:'stroke' },
-      { routerLink: "/REDPLANUP", src: '', dataPageActive: "REDPLANUP", name: "REDPLANUP" ,linetype:'stroke' },
-      { routerLink: "/Enrollment", src: '', dataPageActive: "Enrollment", name: "Enrollment" ,linetype:'stroke' },
-      { routerLink: "/Settings/0", src: '', dataPageActive: "Settings", name: "Settings" ,linetype:'stroke' },
     ],
 
     "viewer": [
       { routerLink: "/Home", src: '', dataPageActive: "Home", name: "Home" ,linetype:'stroke' },
-      { routerLink: "/Landscape", src: '', dataPageActive: "Landscape", name: "Landscape" ,linetype:'stroke' },
-      { routerLink: "/TrialAnalysis", src: '', dataPageActive: "TrialAnalysis", name: "Trial Analysis" ,linetype:'fill' },
-      { routerLink: "/PITargets", src: '', dataPageActive: "PITargets", name: "PI Targets" ,linetype:'stroke' },
-      // { routerLink: "/PotentialPI", src: '', dataPageActive: "PotentialPI", name: "Potential PI" ,linetype:'stroke' },
-      // { routerLink: "/PotentialSite", src: '', dataPageActive: "PotentialSite", name: "Potential Site" ,linetype:'stroke' },
-      { routerLink: "/REDPLANUP", src: '', dataPageActive: "REDPLANUP", name: "REDPLANUP" ,linetype:'stroke' },
-      { routerLink: "/Enrollment", src: '', dataPageActive: "Enrollment", name: "Enrollment" ,linetype:'stroke' },
-      // { routerLink: "/Settings/001", src: '', dataPageActive: "Settings", name: "Settings" ,linetype:'stroke' },
     ],
   }
 

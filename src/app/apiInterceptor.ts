@@ -17,11 +17,8 @@ export class ApiInterceptor implements HttpInterceptor {
             // console.log(user.ta)
             request = request.clone({
                 setHeaders: {
-                    Authorization: String('Bearer ' + user.token),
-                    // ta: '{"Oncology":["Lung Cancer"]}'
-                    ta: JSON.stringify(user.ta)
-                    // email: String((user.email) ? user.data.email : ""),
-                    // role: String((user.role) ? user.role : ""),
+                    // Authorization: String('Bearer ' + user.token),
+                    userId: 'test1@example.com'
                 }
             });
             return next.handle(request);

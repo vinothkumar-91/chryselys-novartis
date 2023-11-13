@@ -48,17 +48,36 @@
     </div>
     <div class="chat-area-container">
       <div class="chat-area-header">
-        <div class="f-row offside">
+        <div class="d-flex w-100">
+        <div class="f-row">
           <div class="f-feilds" *ngFor="let f of filters">
             <label>{{f.name}}</label>
             <div class="form-control-layer fw-100">
-              <ng-multiselect-dropdown #multiSelect class="form-control-layer fw-100" [placeholder]="'Select '"
+              <ng-multiselect-dropdown  class="form-control-layer fw-100" [placeholder]="'Select '"
                 [settings]="settings" [data]="filterList[f.id]" [(ngModel)]="filterVal[f.id]" [name]="f.id"
                 [disabled]="false">
               </ng-multiselect-dropdown>
             </div>
           </div>
         </div>
+        <div class="align-self-center">
+          <span class="nav-link text-secondary">
+              <span class="bi d-block mx-auto mb-1">
+
+                  <a class="mat-menu-trigger nav col-12 col-lg-auto justify-content-center text-small nav-link dropdown-toggle px-0"
+                      id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                      aria-expanded="false" [matMenuTriggerFor]="beforeMenu">
+                      <img src="./assets/image/user.svg" height="48">
+                  </a>
+              </span>
+          </span>
+        </div>
+      </div>
+      <!--  -->
+      <mat-menu #beforeMenu="matMenu" xPosition="before">
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item c-p" (click)="logout()"> Log Out</a>
+      </mat-menu>
 
       </div>
       <div class="chat-container">
@@ -66,9 +85,11 @@
           <img src="./assets/image/mini_logo.svg" height="60">
           <div class=""
             style="color: #B1B1B1;text-align: center;font-family: Segoe UI;font-size: 24px;font-style: normal;font-weight: 700;">
-            Hi, I am <span
+            {{data.org.message}}
+            <!-- Hi, I am <span
               style="color: #023761;font-family: Segoe UI;font-size: 24px;font-style: normal;font-weight: 700;">NOVA!</span>
-            Your AI</div>
+            Your AI -->
+          </div>
           <p class="" style="color: #B1B1B1;text-align: center;font-family: Segoe UI;font-size: 16px;font-weight: 300;">
             Type your question to below input and get fast answers</p>
         </div>
@@ -102,9 +123,9 @@
             </div>
             <div class="mssg-footer">
               <span class="mssg-time me-2">11:45 AM</span>
-              <img src="./assets/image/thumpsup.svg" height="24">
-              <img src="./assets/image/thumpsdown.svg" height="24">
+              <img src="./assets/image/thumpsup.svg" height="24" class="">
               <img src="./assets/image/thumpsup_active.svg" height="24">
+              <img src="./assets/image/thumpsdown.svg" height="24">
               <img src="./assets/image/thumpsdown_active.svg" height="24">
             </div>
           </div>
@@ -146,9 +167,16 @@
           </div>
 
         </div>
+        <div class="info-area">
+         <div class="info-title">Sample</div>
+         <div class="d-flex">
+          <div class="token">What core values drive mCRPC treaters decision-making in prostate cancer generally, and in early-line mCRPC specifically?</div>
+          <div class="token">How do the respondent values play out in the selection of specific treatment options, including sequential ARPIs and chemo?</div>
+          </div>
+        </div>
 
         <div class="input-area">
-          <div class="fw-100">
+          <div class="d-flex w-100">
             <form class="input-form" autocomplete="off"><input class="mssgInput" name="mssg" type="text"
                 placeholder="Type your question here..."><button type="submit">
                 <div class="send-btn">
@@ -159,6 +187,7 @@
                   </svg>
                 </div>
               </button></form>
+              <div class="download-btn"><img src="./assets/image/download.svg" height="24"></div>
           </div>
 
         </div>

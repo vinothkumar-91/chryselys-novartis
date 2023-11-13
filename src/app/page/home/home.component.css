@@ -230,7 +230,8 @@
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #D6D6D6;
   position: relative;
   width: 100%;}
 .chat-container{
@@ -371,3 +372,21 @@
 }
 .mssg-footer{color: #666668;margin: 5px 0;}
 .mssg-footer img{margin-left:5px;}
+
+.download-btn{
+  padding: 15px 15px;
+  margin-left: 12px;
+  background: #F5F5F5;
+  border-radius: 10px;}
+
+
+.info-area .info-title{color: #7E7E7E;padding-left:20px}
+.info-area .token{
+  border-radius: 5px;
+  border: 0.8px solid #B3B3B3;
+  display: inline-flex;
+  padding: 6px 18px;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 10px 0 0px;
+  gap: 10px;}

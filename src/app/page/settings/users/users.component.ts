@@ -5,6 +5,8 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
 import { ApiServiceService } from 'src/app/api-service.service';
 import { GlobalVariablesService } from 'src/app/global-variables.service';
 
@@ -23,10 +25,10 @@ export class UsersComponent implements OnInit {
   tableSortObj: any = { column: 'created_on', order: 'desc' }
   pageSize: any = 5;
   currentPage = 0;
-  data_dataSource: any=new MatTableDataSource([]);
+  data_dataSource: any;
   dataTable: any = [];
   apiCall:any =  {
-    list:true,role:false,ta:false,common:false,
+    uploading:false,list:true,role:false,ta:false,common:false,
   }
   activetab:any=0;
   userFormVisible:boolean=false;
@@ -38,7 +40,7 @@ export class UsersComponent implements OnInit {
   formType='add'
   popuptype:any = '';
   currentObj:any;
-  displayedColumns = ["first_name","last_name","email","role","last_activity","action"];
+  displayedColumns = ["user_id","role","_id"];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator | null;
   @ViewChild(MatSort) sort!: MatSort | null;
@@ -57,51 +59,18 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.apiCall['role']= true
-    this.apiService.getMethod(`${this.gv.userBaseUrl}get_lov?function=role`,(r: any) => {
-      this.list['role'] = r.data //.map((r)=>{return r.role_name});
-      this.apiCall['role']= false;
-      // console.log(this.list['role'])
-    }, (error: any) => { this.apiCall['role']= false; })
-
-
-
-    this.apiCall['ta']= true
-    this.apiService.getMethod(`${this.gv.userBaseUrl}get_lov?function=therapeutic`,(r: any) => {
-        this.list['disease'] = {}
-        this.list['therapeutic_area'] = []
-
-        r.data.forEach((t)=>{
-          this.list['therapeutic_area'].push(t)
-          this.list['disease'][t.therapeutic_name] = t.disease_data //.map((d)=>{return d.disease_name})
-        })
-        // console.log(this.list['therapeutic_area'],this.list['disease'])
-
-        this.apiCall['ta']= false;
-      }, (error: any) => { this.apiCall['ta']= false; })
-
-
 this.getUserDetails()
 
   }
 
   getUserDetails(){
     this.apiCall['list']= true
-  this.apiService.postMethod(`${this.gv.userBaseUrl}get_user_list`,
-  {
-    page: (this.currentPage + 1),
-    search_by:this.filterValue,
-    filter_by:{status:['active']},
-    per_page: this.pageSize,
-    sort_by: this.tableSortObj.column.toLowerCase(),
-    order_by: (this.tableSortObj.order).toLowerCase() //toUpperCase()
-  }, (r: any) => {
-    var res = (r.data) ? r.data : [];
-    this.totalRows = (r.count) ? (r.count) : this.totalRows;
-    this.dataTable = res;
-    // console.log(this.dataTable)
-    this.data_dataSource = new MatTableDataSource(this.dataTable);
-    console.log(this.data_dataSource)
+  this.apiService.getMethod(`${this.gv.baseUrl}/get_user_details`, (r: any) => {
+    var res = (r.data) ? r.data.user_details : [];
+    // this.totalRows = res.length;
+    // this.dataTable = res;
+    this.data_dataSource = new MatTableDataSource(res);
+    // console.log(this.data_dataSource)
     this.tableRedraw()
     this.apiCall['list']= false;
   }, (error: any) => { this.apiCall['list']= false; })
@@ -147,18 +116,26 @@ this.getUserDetails()
 
   }
 
-  ngAfterViewInit() {this.tableRedraw()}
+  // ngAfterViewInit() {this.tableRedraw()}
 
   filter:string | undefined;
   applyFilter(filterValue: string) {
-    // console.log(filterValue)
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+
+    this.data_dataSource.filter = filterValue.trim().toLowerCase();
+    console.log(this.data_dataSource.filter);
+    if (this.data_dataSource.paginator) {
+      this.data_dataSource.paginator.firstPage();
+    }
+    this.tableRedraw()
+
+    // filterValue = filterValue.trim(); // Remove whitespace
+    // filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    // console.log(this.dataTable.filter);
     // this.dataTable.filter = filterValue;
 
-    this.currentPage = 0;
-    this.getUserDetails()
-
+    // if (this.dataTable.paginator) {
+    //   this.dataTable.paginator.firstPage();
+    // }
 
   }
 
@@ -178,34 +155,70 @@ this.getUserDetails()
   // }
 
   tableRedraw(){
-    this.data_dataSource.sort = this.sort;
-      this.dataTable.paginator = this.paginator;
-    // if(this.activetab==0){c
-    //   this.dataTable.sort = this.sort;
-    // }
+    setTimeout(() => {this.data_dataSource.sort = this.sort;}, 1000);
   }
-  sortData(){
-    console.log(this.data_dataSource._sort.active)
-    this.tableSortObj = {
-      column: this.data_dataSource._sort.active,
-      order: this.data_dataSource._sort._direction
+  // tabchanged(tab: number){
+  //   setTimeout(() => {
+  //     this.tableRedraw()
+  //   }, 1);
+  //   this.dataTable.filter = '';
+  //   this.filter = '';
+  // }
+
+
+
+
+  public isExcelValid: boolean = true;
+  public uploadData(event: any) {
+    if (this.isExcelValid) {
+      this.apiCall['uploading'] = true;
+      // console.log(event.target.files[0]);
+
+      var fd = new FormData();
+      fd.append('file', event.target.files[0]);
+
+      this.apiService.filepostMethod(`${this.gv.baseUrl}/update_user_details`, fd, (r: any) => {
+
+        if (r.status_code == 200) {
+          this.getUserDetails()
+          this.gv.setApiResPopup({ data: {}, res: r });
+        }
+        this.popuptype = '';
+        this.apiCall['uploading'] = false;
+      }, (error: any) => { this.apiCall['uploading'] = false; })
+      // }else{
+      //   alert("Invalid Excel")
+      // }
+
+
     };
-    this.currentPage = 0;
-    this.getUserDetails();
   }
 
-  pageChanged(event: PageEvent) {
-    this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex;
-    this.getUserDetails();
+
+  sampleExcel() {
+
+    var header = ["test"]
+
+    // // Create workbook and worksheet
+    const workbook = new Workbook();
+    const worksheet1 = workbook.addWorksheet('data');
+    const headerRow1 = worksheet1.addRow(header);
+
+    // Cell Style : Fill and Border
+    headerRow1.eachCell((cell, number) => {
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'ffffffff' }, bgColor: { argb: '00000000' } };
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    });
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      const blob = new Blob([data], {
+        type:
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      });
+      fs.saveAs(blob, 'Users' + this.datePipe.transform(new Date(), 'medium') + '.xlsx');
+    });
   }
-  tabchanged(tab: number){
-    setTimeout(() => {
-      this.tableRedraw()
-    }, 1);
-    this.dataTable.filter = '';
-    this.filter = '';
-  }
+
 
 
 

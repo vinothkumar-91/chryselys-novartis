@@ -9,6 +9,7 @@ import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import { ApiServiceService } from 'src/app/api-service.service';
 import { GlobalVariablesService } from 'src/app/global-variables.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-users',
@@ -46,7 +47,7 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort | null;
 
 
-  constructor(private datePipe: DatePipe, route: ActivatedRoute, private router: Router, private http: HttpClient, private gv: GlobalVariablesService, private apiService: ApiServiceService)
+  constructor(private datePipe: DatePipe, route: ActivatedRoute, private router: Router, private http: HttpClient, private gv: GlobalVariablesService, private apiService: ApiServiceService, private authService: AuthService)
   {
 
     route.params.subscribe((params) => {
@@ -197,7 +198,7 @@ this.getUserDetails()
 
   sampleExcel() {
 
-    var header = ["test"]
+    var header = ["user_id","role"]
 
     // // Create workbook and worksheet
     const workbook = new Workbook();
@@ -215,11 +216,17 @@ this.getUserDetails()
         type:
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       });
-      fs.saveAs(blob, 'Users' + this.datePipe.transform(new Date(), 'medium') + '.xlsx');
+      fs.saveAs(blob, 'Users_upload_template_sample' + this.datePipe.transform(new Date(), 'medium') + '.xlsx');
     });
+
   }
 
+  get _gv(){
+    return this.gv
+  }
 
-
+  public logout() {
+    this.authService.logOut();
+  }
 
 }

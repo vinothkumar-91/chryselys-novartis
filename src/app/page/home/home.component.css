@@ -310,6 +310,10 @@
   border: 0;
   margin-left: 10px;
 }
+.input-form button[disabled] {
+  opacity: 0.5;cursor: default;
+}
+
 .chat-details{
   flex: 1;
   overflow-y: auto;
@@ -390,3 +394,6 @@
   align-items: center;
   margin: 5px 10px 0 0px;
   gap: 10px;}
+
+
+  .like-dislike-btn img:hover{transform: scale(1.2);transition: all 0.2s;cursor:pointer}

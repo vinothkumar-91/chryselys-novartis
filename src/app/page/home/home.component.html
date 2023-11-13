@@ -10,17 +10,17 @@
             <img class="option-img" src="./assets/image/start_new.svg" alt="">
             <div class="option-txt">Start a New Chat</div>
           </div>
-          <div class="options chat-history">
+          <!-- <div class="options chat-history">
             <img class="option-img" src="./assets/image/history.svg" alt="">
             <div class="option-txt">Chat History</div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="chat-history-list fw-100">
 
 
-        <ul id="accordion" class="accordion fw-100" *ngIf="menus">
-          <ng-container *ngFor="let menu of menus; let i = index">
+        <ul id="accordion" class="accordion fw-100" *ngIf="data['get_chat_history']">
+          <ng-container *ngFor="let menu of data['get_chat_history']; let i = index">
             <li class="fw-100" [ngClass]="menu.active ? 'active':''">
               <!-- <div class="menu" (click)="toggle(i)"> -->
               <div class="menu">
@@ -31,7 +31,7 @@
               <ul class="submenu" #submenu *ngIf="menu">
                 <li *ngFor="let submenu of menu.submenu">
                   <img class="chat-icon" src="./assets/image/chat_bubble.svg" alt="" height="10">
-                  <span class="chat-title" [ngClass]="submenu.active?'active':''">{{ submenu.name }}</span>
+                  <span class="chat-title" [ngClass]="submenu.active?'active':'c-p'">{{ submenu.header_name }}</span>
                   <img class="delete-icon" src="./assets/image/delete.svg" alt="" height="10">
                 </li>
               </ul>
@@ -81,7 +81,7 @@
 
       </div>
       <div class="chat-container">
-        <div class="init-content" style="display: none;">
+        <div class="init-content" *ngIf="currentChatter==''">
           <img src="./assets/image/mini_logo.svg" height="60">
           <div class=""
             style="color: #B1B1B1;text-align: center;font-family: Segoe UI;font-size: 24px;font-style: normal;font-weight: 700;">
@@ -94,18 +94,16 @@
             Type your question to below input and get fast answers</p>
         </div>
 
-        <div class="chat-details">
-
+        <div class="chat-details"  *ngIf="currentChatter!=''">
+<ng-container *ngFor="let c of data['get_all_chat_details']">
           <div class="mssg right-mssg">
             <div class="mssg-img"
               style="background-image: url(./assets/image/user.svg);background-size: cover;border: 0;"></div>
               <div class="mssg-details">
             <div class="mssg-bubble">
-              <div class="mssg-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
-                eget dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                Error occurred during API request. </div>
+              <div class="mssg-text">{{c.question}}</div>
             </div>
-            <div class="mssg-footer"><span class="mssg-time float-end">11:45 AM</span></div>
+            <div class="mssg-footer"><span class="mssg-time float-end">{{c.question_asked_on | date:'medium' }}</span></div>
           </div>
 
           </div>
@@ -117,21 +115,22 @@
               <div class="mssg-info">
                 <div class="mssg-info-name">NOVA</div>
               </div>
-              <div class="mssg-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
-                eget dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+              <div class="mssg-text">{{c.answer}}
               </div>
             </div>
             <div class="mssg-footer">
-              <span class="mssg-time me-2">11:45 AM</span>
-              <img src="./assets/image/thumpsup.svg" height="24" class="">
-              <img src="./assets/image/thumpsup_active.svg" height="24">
-              <img src="./assets/image/thumpsdown.svg" height="24">
-              <img src="./assets/image/thumpsdown_active.svg" height="24">
+              <span class="mssg-time me-2">{{c["answer_replied_on "] | date:'medium' }}</span>
+              <span class="like-dislike-btn">
+                <img src="./assets/image/thumpsup.svg" height="24" class="" *ngIf="c.status != 'like'" (click)="updateChatStatus(c,'like')">
+                <img src="./assets/image/thumpsup_active.svg" height="24" *ngIf="c.status == 'like'"  >
+                <img src="./assets/image/thumpsdown.svg" height="24"  *ngIf="c.status != 'dislike'"  (click)="updateChatStatus(c,'dislike')">
+                <img src="./assets/image/thumpsdown_active.svg" height="24"  *ngIf="c.status == 'dislike'" >
+              </span>
             </div>
           </div>
           </div>
-
-          <div class="mssg right-mssg">
+</ng-container>
+          <!-- <div class="mssg right-mssg">
             <div class="mssg-img"
               style="background-image: url(./assets/image/user.svg);background-size: cover;border: 0;"></div>
               <div class="mssg-details">
@@ -164,7 +163,7 @@
               <img src="./assets/image/thumpsdown_active.svg" height="24">
             </div>
           </div>
-          </div>
+          </div> -->
 
         </div>
         <div class="info-area">
@@ -176,9 +175,15 @@
         </div>
 
         <div class="input-area">
-          <div class="d-flex w-100">
-            <form class="input-form" autocomplete="off"><input class="mssgInput" name="mssg" type="text"
-                placeholder="Type your question here..."><button type="submit">
+          <div class="d-flex w-100" *ngIf="filterVal && filterVal.Study">
+            <form class="input-form" #chatForm="ngForm" name="form" autocomplete="off"  (ngSubmit)="chatForm.valid && triggerChat()"
+            [ngClass]="{'blur-loader-layer':(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)}"
+            >
+                <input class="mssgInput" name="mssg" type="text" [(ngModel)]="chatbox" required placeholder="Type your question here..."
+                [disabled]="(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)"
+                >
+                <!-- (keydown)="keyDownFunction($event)" -->
+                <button type="submit" [disabled]="(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)">
                 <div class="send-btn">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 18" fill="none">
                     <path

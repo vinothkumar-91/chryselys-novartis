@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
+import { ToastrService } from 'ngx-toastr';
 import { ApiServiceService } from 'src/app/api-service.service';
 import { GlobalVariablesService } from 'src/app/global-variables.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -47,7 +48,7 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort | null;
 
 
-  constructor(private datePipe: DatePipe, route: ActivatedRoute, private router: Router, private http: HttpClient, private gv: GlobalVariablesService, private apiService: ApiServiceService, private authService: AuthService)
+  constructor(private datePipe: DatePipe, route: ActivatedRoute, private router: Router, private http: HttpClient, private gv: GlobalVariablesService, private apiService: ApiServiceService, private authService: AuthService,private toastr: ToastrService)
   {
 
     route.params.subscribe((params) => {
@@ -84,7 +85,10 @@ this.getUserDetails()
           this.apiCall['common']= false;
         if(r.status_code == 200){
           this.userFormVisible=false;
-          this.gv.setApiResPopup({ data: {}, res: { message: r.message, status: "User",status_code: 200}})
+
+          this.toastr.success(r.message, "User");
+          // this.gv.setApiResPopup({ data: {}, res: { message: r.message, status: "User",status_code: 200}})
+          this.toastr.success(r.message, "Change Password");
           this.getUserDetails()
         }
       }, (error: any) => { this.apiCall['common']= false; })
@@ -93,7 +97,8 @@ this.getUserDetails()
           this.apiCall['common']= false;
         if(r.status_code == 200){
           this.userFormVisible=false;
-          this.gv.setApiResPopup({ data: {}, res: { message: r.message, status: "User",status_code: 200 }})
+          this.toastr.success(r.message, "User");
+          // this.gv.setApiResPopup({ data: {}, res: { message: r.message, status: "User",status_code: 200 }})
           this.getUserDetails()
         }
       }, (error: any) => { this.apiCall['common']= false; })
@@ -110,7 +115,8 @@ this.getUserDetails()
       if(r.status_code == 200){
         this.userFormVisible=false;
         this.popuptype='';
-        this.gv.setApiResPopup({ data: {}, res: { message: r.message, status: "User Management",status_code: 200 }})
+        this.toastr.success(r.message, "User Management");
+        // this.gv.setApiResPopup({ data: {}, res: { message: r.message, status: "User Management",status_code: 200 }})
         this.getUserDetails()
       }
     }, (error: any) => { this.apiCall['common']= false; })
@@ -123,7 +129,7 @@ this.getUserDetails()
   applyFilter(filterValue: string) {
 
     this.data_dataSource.filter = filterValue.trim().toLowerCase();
-    console.log(this.data_dataSource.filter);
+    // console.log(this.data_dataSource.filter);
     if (this.data_dataSource.paginator) {
       this.data_dataSource.paginator.firstPage();
     }
@@ -182,7 +188,8 @@ this.getUserDetails()
 
         if (r.status_code == 200) {
           this.getUserDetails()
-          this.gv.setApiResPopup({ data: {}, res: r });
+          // this.gv.setApiResPopup({ data: {}, res: r });
+          this.toastr.success(r.message, "");
         }
         this.popuptype = '';
         this.apiCall['uploading'] = false;

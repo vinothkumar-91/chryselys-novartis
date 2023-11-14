@@ -6,7 +6,7 @@
           <img class="" src="./assets/image/logo_white.svg" alt="" width="200">
         </div>
         <div class="option-group">
-          <div class="options new-chat active">
+          <div class="options new-chat active c-p" (click)="newChat()">
             <img class="option-img" src="./assets/image/start_new.svg" alt="">
             <div class="option-txt">Start a New Chat</div>
           </div>
@@ -18,6 +18,7 @@
       </div>
       <div class="chat-history-list fw-100">
 
+        <!-- {{this.data['get_chat_history']|json}} -->
 
         <ul id="accordion" class="accordion fw-100" *ngIf="data['get_chat_history']">
           <ng-container *ngFor="let menu of data['get_chat_history']; let i = index">
@@ -27,13 +28,15 @@
                 {{ menu.name }}
                 <img class="arrow" src="./assets/image/arrow.svg" alt="">
               </div>
-              <!-- <ul class="submenu" #submenu *ngIf="menu" [style.height.px]="menu.active ? submenu.scrollHeight : 0"> -->
-              <ul class="submenu" #submenu *ngIf="menu">
-                <li *ngFor="let submenu of menu.submenu">
-                  <img class="chat-icon" src="./assets/image/chat_bubble.svg" alt="" height="10">
-                  <span class="chat-title" [ngClass]="submenu.active?'active':'c-p'">{{ submenu.header_name }}</span>
-                  <img class="delete-icon" src="./assets/image/delete.svg" alt="" height="10">
-                </li>
+              <!-- <ul class="topics" #topics *ngIf="menu" [style.height.px]="menu.active ? topics.scrollHeight : 0"> -->
+              <ul class="topics" #topics *ngIf="menu">
+                <ng-container  *ngFor="let topics of menu.topics; let j = index">
+                  <li >
+                    <img class="chat-icon" src="./assets/image/chat_bubble.svg" alt="" height="10">
+                    <span class="chat-title" [ngClass]="topics.active?'active':'c-p'" (click)="(!topics.active)?loadChat(topics):''">{{ (topics.header_name)?topics.header_name:topics._id }}</span>
+                    <img class="delete-icon c-p" src="./assets/image/delete.svg" alt="" height="10" (click)="deleteChat(menu,topics,j)">
+                  </li>
+                </ng-container>
               </ul>
             </li>
           </ng-container>
@@ -166,11 +169,11 @@
           </div> -->
 
         </div>
-        <div class="info-area">
+        <div class="info-area"  *ngIf="currentChatter==''">
          <div class="info-title">Sample</div>
          <div class="d-flex">
-          <div class="token">What core values drive mCRPC treaters decision-making in prostate cancer generally, and in early-line mCRPC specifically?</div>
-          <div class="token">How do the respondent values play out in the selection of specific treatment options, including sequential ARPIs and chemo?</div>
+          <div class="token c-p">What core values drive mCRPC treaters decision-making in prostate cancer generally, and in early-line mCRPC specifically?</div>
+          <div class="token c-p">How do the respondent values play out in the selection of specific treatment options, including sequential ARPIs and chemo?</div>
           </div>
         </div>
 
@@ -183,7 +186,8 @@
                 [disabled]="(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)"
                 >
                 <!-- (keydown)="keyDownFunction($event)" -->
-                <button type="submit" [disabled]="(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)">
+                <button type="submit" [disabled]="(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)"
+                class="c-p">
                 <div class="send-btn">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 18" fill="none">
                     <path

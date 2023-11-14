@@ -29,6 +29,7 @@ import { PagenotfoundComponent } from './page/pagenotfound/pagenotfound.componen
 import { FailedComponent } from './failed/failed.component';
 import { UsersComponent } from './page/settings/users/users.component';
 import { LoginComponent } from './page/authentication/login/login.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { LoginComponent } from './page/authentication/login/login.component';
     CommonModule,
     NoopAnimationsModule, SortablejsModule.forRoot({ animation: 150 }),
     NgMultiSelectDropDownModule.forRoot(),
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [DatePipe,
     {

@@ -173,8 +173,8 @@
 }
 
 
-/* Show submenu */
-.accordion li.active .submenu {
+/* Show topics */
+.accordion li.active .topics {
   /*
     height: 0 -> height: auto;는 transition이 동작하지 않는다.
     max-height: 임의의 높이;를 지정하면 transition이 동작하지만 타이밍이 망가진다.
@@ -187,15 +187,15 @@
 
 
 
-.submenu {
+.topics {
   height: 0;max-height: calc(100% - 50px);
   overflow: auto;
   font-size: 14px;
   transition: height 0.4s ease;
 }
-.active .submenu{height: calc(100% - 50px);}
+.active .topics{height: calc(100% - 50px);}
 
-.submenu li {
+.topics li {
   display: flex;
   padding: 10px 20px;
   align-items: center;
@@ -205,7 +205,7 @@
 
 .chat-history-list{height:calc(100vh - 365px)}
 
-.submenu .chat-title{
+.topics .chat-title{
   display: block;
   text-decoration: none;
   color: #d9d9d9;
@@ -216,9 +216,9 @@
   width:100%;
 }
 
-.submenu .chat-title:hover {color: #fff;}
+.topics .chat-title:hover {color: #fff;}
 
-.submenu .chat-title.active{color: #fff;font-size: 15px;}
+.topics .chat-title.active{color: #fff;font-size: 15px;}
 
 
 
@@ -397,3 +397,6 @@
 
 
   .like-dislike-btn img:hover{transform: scale(1.2);transition: all 0.2s;cursor:pointer}
+
+  ::ng-deep .mat-menu-panel{min-height:auto}
+

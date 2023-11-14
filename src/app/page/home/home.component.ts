@@ -1,9 +1,10 @@
+import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/overlay/overlay-directives';
 import { Component, NgModule, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/api-service.service';
 import { GlobalVariablesService } from 'src/app/global-variables.service';
 import { AuthService } from 'src/app/services/auth.service';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -17,7 +18,7 @@ export class HomeComponent implements OnInit {
     config:'',
     org:'',
     get_chat_history:'',
-    get_all_chat_details:'',
+    get_all_chat_details:[],
     add_chat_box:''
   }
   config:any = {multi: false}
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit {
 
 
   currentChatter:any=''
-  constructor(public route: Router, private gv: GlobalVariablesService,private apiService: ApiServiceService, private authService: AuthService) {
+  constructor(public route: Router, private gv: GlobalVariablesService,private apiService: ApiServiceService, private authService: AuthService,private toastr: ToastrService) {
 
     this.apiCall['org'] = true;
     this.apiService.getMethod(`${this.gv.userBaseUrl}get_organisation_details`, (r: any) => {
@@ -80,7 +81,7 @@ export class HomeComponent implements OnInit {
   //     {
   //       name: 'Today',
   //       active: true,
-  //       submenu: [
+  //       topics: [
   //         { name: 'How to write an impacting',active:true},
   //         { name: 'How to write an impacting'},
   //         { name: 'How to write an impacting'},
@@ -96,7 +97,7 @@ export class HomeComponent implements OnInit {
   //     {
   //       name: 'Last Week',
   //       active: true,
-  //       submenu: [
+  //       topics: [
   //         { name: 'How to write an impacting'},
   //         { name: 'How to write an impacting'},
   //         { name: 'How to write an impacting'},
@@ -161,6 +162,7 @@ export class HomeComponent implements OnInit {
 
 
 
+
   get_chat_history(){
     this.apiCall['get_chat_history'] = true;
     this.apiService.getMethod(`${this.gv.userBaseUrl}get_chat_history`, (r: any) => {
@@ -173,7 +175,7 @@ export class HomeComponent implements OnInit {
                 {
                   name: 'Today',
                   active: true,
-                  submenu: r.data
+                  topics: r.data
                 }
           ]
           this.currentChatter = r.data[0]
@@ -219,6 +221,29 @@ export class HomeComponent implements OnInit {
   //   }
   // }
   triggerChat(){
+    if(this.currentChatter==''){
+
+      // console.log(this.data['get_chat_history'][0].topics)
+      // console.log([...[{_id:132}],...this.data['get_chat_history']])
+      this.resetChat();
+      this.currentChatter = {_id:132,active:true}
+      this.data['get_chat_history'][0]['topics'] = [...[this.currentChatter],...this.data['get_chat_history'][0]['topics']]
+      this.insertChat()
+
+      // this.apiService.postMethod(`${this.gv.userBaseUrl}add_chatter_box`,{}, (r: any) => {
+      //   if (r.status_code == 200) {
+      //     this.resetChat();
+      //     this.currentChatter = {_id:r.chatter_id}
+      //     this.data['get_chat_history'][0] = [...[this.currentChatter],...this.data['get_chat_history']]
+      //     this.insertChat()
+      //   }
+      // }, (error: any) => {})
+    }else{
+      this.insertChat()
+    }
+  }
+
+  insertChat(){
     this.apiService.postMethod(`${this.gv.userBaseUrl}add_chat_box`,
     {...{
       "user_id": "test1@example.com",
@@ -231,8 +256,38 @@ export class HomeComponent implements OnInit {
         this.data['get_all_chat_details'].push(r.data)
       }
     }, (error: any) => {this.apiCall['add_chat_box'] = false;})
-
     this.chatbox = ''
   }
+
+
+  newChat(){
+    this.resetChat();
+  }
+
+  resetChat(){
+    this.currentChatter=''
+    this.data['get_chat_history'].forEach((e1, i) => {
+      // this.data['get_chat_history'][i]['active'] = false;
+      e1.topics.forEach((e2, i2) => {this.data['get_chat_history'][i]['topics'][i2]['active'] = false;});
+    });
+  }
+
+  loadChat(obj){
+    this.data['get_all_chat_details'] = []
+    this.resetChat();
+    obj['active']=true;
+    this.currentChatter = obj
+    this.get_all_chat_details()
+  }
+
+
+  deleteChat(obj,topics,j){
+    obj.topics.splice(j, 1);
+    if(topics['active']){
+      if(obj.topics.length==0){this.newChat()}
+      else{obj.topics[0].active=true;this.loadChat(obj.topics[0])}
+    }
+  }
+
 
 }

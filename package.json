@@ -39,6 +39,7 @@
     "ngx-intl-tel-input": "^3.2.0",
     "ngx-select-ex": "^8.0.1",
     "ngx-sortablejs": "^11.1.0",
+    "ngx-toastr": "^13.2.1",
     "oidc-client": "^1.6.1",
     "rxjs": "~7.5.0",
     "sortablejs": "^1.15.0",

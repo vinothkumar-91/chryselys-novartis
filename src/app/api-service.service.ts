@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { GlobalVariablesService } from './global-variables.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class ApiServiceService {
     remove: []
   }
 
-  constructor(private http: HttpClient, public route: Router, private gv: GlobalVariablesService) {
+  constructor(private http: HttpClient, public route: Router, private gv: GlobalVariablesService,private toastr: ToastrService) {
 
   }
 
@@ -230,7 +231,8 @@ export class ApiServiceService {
       this.route.navigateByUrl('/login');
       this.gv.GloaderSet(false, "");
       if(data.url.indexOf('getUserDetails') == -1)
-      this.gv.setApiResPopup({ data: {}, res: { message: "Please login again", status: "Session Expired" },expired:true })
+      // this.gv.setApiResPopup({ data: {}, res: { message: "Please login again", status: "Session Expired" },expired:true })
+      this.toastr.error('Please login again', 'Session Expired');
       localStorage.removeItem('log')
       this.gv.apiCalls = []
     } else {
@@ -258,7 +260,7 @@ export class ApiServiceService {
     }
     if (reData != -1) {
       window.scroll(0, 0);
-      this.gv.setApiResPopup(d)
+      // this.gv.setApiResPopup(d)
     }
   }
 }

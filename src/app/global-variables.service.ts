@@ -175,8 +175,10 @@ export class GlobalVariablesService {
       this.commonApiResPopup = []
       this.commonApiResPopup.push(arrayv)
     }
-    else
+    else{
       this.commonApiResPopup.push(arrayv)
+    }
+    // this.toastrService.error('everything is broken', 'Major Error', {timeOut: 3000,});
   }
 
   errorMesHandling(res: any, mes: any) {

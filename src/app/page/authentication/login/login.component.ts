@@ -4,6 +4,7 @@ import { GlobalVariablesService } from '../../../global-variables.service';
 import { ApiServiceService } from '../../../api-service.service';
 
 import { AuthService } from '../../../services/auth.service'
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
   type:any= ''
   // loginform: any = { email: '', password: '',new_password:'' }
   loginform: any = { email: 'vinothkumar.b@chryselys.com', password: 'Ganesh@123',new_password:'' }
-  constructor(private router: Router,route: ActivatedRoute, private authService: AuthService,  private gv: GlobalVariablesService, private apiService: ApiServiceService) {
+  constructor(private router: Router,route: ActivatedRoute, private authService: AuthService,  private gv: GlobalVariablesService, private apiService: ApiServiceService,private toastr: ToastrService) {
 
 
     route.params.subscribe((params) => {
@@ -53,7 +54,8 @@ export class LoginComponent implements OnInit {
         this.apiCall = false;
         if (r.status_code == 200) {
           this.popupType = 'OTP'
-          this.gv.setApiResPopup({ data: {}, res: {status_code:200, message: "OTP was sent to you registered email.", status: "OTP Sent" }})
+          // this.gv.setApiResPopup({ data: {}, res: {status_code:200, message: "OTP was sent to you registered email.", status: "OTP Sent" }})
+          this.toastr.success("OTP was sent to you registered email.", "OTP Sent");
         }
       },(error: any) => {this.apiCall = false;})
     }
@@ -83,7 +85,8 @@ export class LoginComponent implements OnInit {
         this.apiCall = false;
         if (r.status_code == 200) {
           this.popupType = 'login'
-          this.gv.setApiResPopup({ data: {}, res: {status_code:200, message: r.message, status: "Change Password" }})
+          // this.gv.setApiResPopup({ data: {}, res: {status_code:200, message: r.message, status: "Change Password" }})
+          this.toastr.success(r.message, "Change Password");
         }
       },(error: any) => {this.apiCall = false;})
     }

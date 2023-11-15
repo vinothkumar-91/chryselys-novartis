@@ -154,8 +154,7 @@
   margin: auto;
 }
 
-.accordion > li{
-  height: 50%;}
+/* .accordion > li{height: 50%;} */
 .accordion .menu {display: flex;flex: 0 0 auto;
   position: relative;
   padding: 15px 25px;

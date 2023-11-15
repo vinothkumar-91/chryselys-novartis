@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/api-service.service';
 import { GlobalVariablesService } from 'src/app/global-variables.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-home',
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit {
   }
   config:any = {multi: false}
   apiCall:any = {
+    exportApiCall:false,
     config:false,
     org:false,
     get_all_chat_details:false,
@@ -32,10 +34,10 @@ export class HomeComponent implements OnInit {
 
 
   currentChatter:any=''
-  constructor(public route: Router, private gv: GlobalVariablesService,private apiService: ApiServiceService, private authService: AuthService,private toastr: ToastrService) {
+  constructor(private datePipe: DatePipe,public route: Router, private gv: GlobalVariablesService,private apiService: ApiServiceService, private authService: AuthService,private toastr: ToastrService) {
 
     this.apiCall['org'] = true;
-    this.apiService.getMethod(`${this.gv.userBaseUrl}get_organisation_details`, (r: any) => {
+    this.apiService.getMethod(`${this.gv.baseUrl}get_organisation_details`, (r: any) => {
       this.apiCall['org'] = false;
       if (r.status_code == 200) {
         this.data['org'] = r.data
@@ -43,7 +45,7 @@ export class HomeComponent implements OnInit {
 
 
         this.apiCall['config'] = true;
-        this.apiService.getMethod(`${this.gv.userBaseUrl}get_config_details?organisation_id=`+this.data['org'].organisation_id, (r: any) => {
+        this.apiService.getMethod(`${this.gv.baseUrl}get_config_details?organisation_id=`+this.data['org'].organisation_id, (r: any) => {
           this.apiCall['config'] = false;
           if (r.status_code == 200) {
             this.data['config'] = r.data
@@ -131,12 +133,12 @@ export class HomeComponent implements OnInit {
     {name:'Practice Setting',id:'Practice_Setting'},
   ]
   settings = {
-    // singleSelection: true,
+    singleSelection: false,
     // idField: 'item_id',
     // textField: 'item_text',
     enableCheckAll: false,
-    // selectAllText: 'All',
-    // unSelectAllText: 'UnSelect All',
+    selectAllText: 'All',
+    unSelectAllText: 'UnSelect All',
     allowSearchFilter: false,
     limitSelection: -1,
     clearSearchFilter: true,
@@ -150,7 +152,7 @@ export class HomeComponent implements OnInit {
   };
   toggle(index: number) {
     // if (!this.config.multi) {
-    //   this.menus.filter((menu, i) => i !== index && menu.active).forEach(menu => menu.active = !menu.active);
+    //   this.data['get_chat_history'].filter((menu, i) => i !== index && menu.active).forEach(menu => menu.active = !menu.active);
     // }
     this.data['get_chat_history'][index].active = !this.data['get_chat_history'][index].active;
   }
@@ -165,22 +167,25 @@ export class HomeComponent implements OnInit {
 
   get_chat_history(){
     this.apiCall['get_chat_history'] = true;
-    this.apiService.getMethod(`${this.gv.userBaseUrl}get_chat_history`, (r: any) => {
+    this.apiService.getMethod(`${this.gv.baseUrl}get_chat_history`, (r: any) => {
       this.apiCall['get_chat_history'] = false;
       if (r.status_code == 200) {
-        if(r.data.length){
-          r.data[0]['active']=true;
+          r.data[(r.data.today.length!=0)?'today':'others'][0]['active']=true
           this.data['get_chat_history'] =
           [
                 {
                   name: 'Today',
-                  active: true,
-                  topics: r.data
+                  active: (r.data.today.length==0)?false:true,
+                  topics: r.data.today
+                },
+                {
+                  name: 'Others',
+                  active: (r.data.today.length==0)?true:false,
+                  topics: r.data.others
                 }
           ]
-          this.currentChatter = r.data[0]
+          this.currentChatter = (r.data.today.length!=0)?r.data.today[0]:r.data.others[0]
           this.get_all_chat_details()
-        }
       }
     }, (error: any) => {this.apiCall['get_chat_history'] = false;})
 
@@ -189,7 +194,7 @@ export class HomeComponent implements OnInit {
 
 
   get_all_chat_details(){
-    this.apiService.postMethod(`${this.gv.userBaseUrl}get_all_chat_details`,
+    this.apiService.postMethod(`${this.gv.baseUrl}get_all_chat_details`,
     {"chatter_id": this.currentChatter['_id']}, (r: any) => {
       this.apiCall['get_all_chat_details'] = false;
       if (r.status_code == 200) {
@@ -208,9 +213,9 @@ export class HomeComponent implements OnInit {
   }
 
   updateChatStatus(obj,val){
-    this.apiService.postMethod(`${this.gv.userBaseUrl}add_chat_box`,{"chat_id": obj._id,"status":val}, (r: any) => {
+    this.apiService.postMethod(`${this.gv.baseUrl}add_chat_box`,{"chat_id": obj._id,"feedback_status":val}, (r: any) => {
       this.apiCall['add_chat_box'] = false;
-      if (r.status_code == 200) {obj.status = val;}
+      if (r.status_code == 200) {obj.feedback_status = val;}
     }, (error: any) => {this.apiCall['add_chat_box'] = false;})
   }
 
@@ -223,38 +228,40 @@ export class HomeComponent implements OnInit {
   triggerChat(){
     if(this.currentChatter==''){
 
-      // console.log(this.data['get_chat_history'][0].topics)
-      // console.log([...[{_id:132}],...this.data['get_chat_history']])
-      this.resetChat();
-      this.currentChatter = {_id:132,active:true}
-      this.data['get_chat_history'][0]['topics'] = [...[this.currentChatter],...this.data['get_chat_history'][0]['topics']]
-      this.insertChat()
+      // this.resetChat();
+      // this.currentChatter = {_id:132,active:true}
+      // this.data['get_chat_history'][0]['topics'] = [...[this.currentChatter],...this.data['get_chat_history'][0]['topics']]
+      // this.insertChat()
 
-      // this.apiService.postMethod(`${this.gv.userBaseUrl}add_chatter_box`,{}, (r: any) => {
-      //   if (r.status_code == 200) {
-      //     this.resetChat();
-      //     this.currentChatter = {_id:r.chatter_id}
-      //     this.data['get_chat_history'][0] = [...[this.currentChatter],...this.data['get_chat_history']]
-      //     this.insertChat()
-      //   }
-      // }, (error: any) => {})
+      this.apiService.postMethod(`${this.gv.baseUrl}add_chatter_box`,{}, (r: any) => {
+        if (r.status_code == 200) {
+              this.resetChat();
+              this.currentChatter = {_id:r.chatter_id,active:true}
+              this.data['get_chat_history'][0]['topics'] = [...[this.currentChatter],...this.data['get_chat_history'][0]['topics']]
+              this.insertChat()
+            }
+      }, (error: any) => {})
     }else{
       this.insertChat()
     }
   }
 
   insertChat(){
-    this.apiService.postMethod(`${this.gv.userBaseUrl}add_chat_box`,
+    this.apiService.postMethod(`${this.gv.baseUrl}add_chat_box`,
     {...{
-      "user_id": "test1@example.com",
       "chatter_id": this.currentChatter['_id'],
       "question": this.chatbox,
     },...this.filterVal}
     , (r: any) => {
       this.apiCall['add_chat_box'] = false;
       if (r.status_code == 200) {
-        this.data['get_all_chat_details'].push(r.data)
+        this.apiService.getMethod(`${this.gv.baseUrl}get_chat_details_by_id?chat_id=`+r.chat_id, (r2: any) => {
+          if (r2.status_code == 200) {
+        this.data['get_all_chat_details'].push(r2.data[0])
+        // chat-details
       }
+      }, (error: any) => {})
+    }
     }, (error: any) => {this.apiCall['add_chat_box'] = false;})
     this.chatbox = ''
   }
@@ -289,5 +296,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
+exportChat(){
+  this.apiCall['exportApiCall'] = true;
+  this.apiService.filedownload(`${this.gv.baseUrl}get_all_chat_excel`, (r: any) => {
+          this.gv.exportExcel(r, 'chathistory_' + this.datePipe.transform(new Date(), 'medium')); this.apiCall['exportApiCall'] = false;
+        }, (error: any) => { this.apiCall['exportApiCall'] = false; })
+
+}
 
 }

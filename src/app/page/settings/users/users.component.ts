@@ -81,7 +81,7 @@ this.getUserDetails()
   adduser(){
     this.apiCall['common']= true;
     if(this.formType=='add'){
-      this.apiService.postMethod(`${this.gv.userBaseUrl}add_user_details`, this.userForm,(r: any) => {
+      this.apiService.postMethod(`${this.gv.baseUrl}add_user_details`, this.userForm,(r: any) => {
           this.apiCall['common']= false;
         if(r.status_code == 200){
           this.userFormVisible=false;
@@ -93,7 +93,7 @@ this.getUserDetails()
         }
       }, (error: any) => { this.apiCall['common']= false; })
     }else if(this.formType=='edit'){
-      this.apiService.putMethod(`${this.gv.userBaseUrl}update_user_details`, this.userForm,(r: any) => {
+      this.apiService.putMethod(`${this.gv.baseUrl}update_user_details`, this.userForm,(r: any) => {
           this.apiCall['common']= false;
         if(r.status_code == 200){
           this.userFormVisible=false;
@@ -109,7 +109,7 @@ this.getUserDetails()
 
   deleteCallback(id:any){
     this.apiCall['common']= true;
-    this.apiService.postMethod(`${this.gv.userBaseUrl}delete_user`, {"user_id":this.currentObj.user_id}
+    this.apiService.postMethod(`${this.gv.baseUrl}delete_user`, {"user_id":this.currentObj.user_id}
     ,(r: any) => {
         this.apiCall['common']= false;
       if(r.status_code == 200){

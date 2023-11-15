@@ -3,7 +3,7 @@
     <div class="left-container">
       <div class="left-container-top">
         <div class="logo-section">
-          <img class="" src="./assets/image/logo_white.svg" alt="" width="200">
+          <img class="" src="./assets/image/logo_light.svg" alt="" width="200">
         </div>
         <div class="option-group">
           <div class="options new-chat active c-p" (click)="newChat()">
@@ -17,24 +17,29 @@
         </div>
       </div>
       <div class="chat-history-list fw-100">
-
-        <!-- {{this.data['get_chat_history']|json}} -->
+<!--
+        <div style="display:none">
+          {{this.data['get_chat_history']|json}}
+        </div> -->
 
         <ul id="accordion" class="accordion fw-100" *ngIf="data['get_chat_history']">
           <ng-container *ngFor="let menu of data['get_chat_history']; let i = index">
             <li class="fw-100" [ngClass]="menu.active ? 'active':''">
               <!-- <div class="menu" (click)="toggle(i)"> -->
-              <div class="menu">
+              <div class="menu" (click)="toggle(i)" *ngIf="menu.topics && menu.topics.length!=0">
                 {{ menu.name }}
                 <img class="arrow" src="./assets/image/arrow.svg" alt="">
               </div>
               <!-- <ul class="topics" #topics *ngIf="menu" [style.height.px]="menu.active ? topics.scrollHeight : 0"> -->
-              <ul class="topics" #topics *ngIf="menu">
-                <ng-container  *ngFor="let topics of menu.topics; let j = index">
-                  <li >
+              <ul class="topics" #topics *ngIf="menu && menu.active"  [ngClass]="menu.active ? 'open' : 'closed'">
+                <ng-container *ngFor="let topics of menu.topics; let j = index">
+                  <li>
                     <img class="chat-icon" src="./assets/image/chat_bubble.svg" alt="" height="10">
-                    <span class="chat-title" [ngClass]="topics.active?'active':'c-p'" (click)="(!topics.active)?loadChat(topics):''">{{ (topics.header_name)?topics.header_name:topics._id }}</span>
-                    <img class="delete-icon c-p" src="./assets/image/delete.svg" alt="" height="10" (click)="deleteChat(menu,topics,j)">
+                    <span class="chat-title" [ngClass]="topics.active?'active':'c-p'"
+                      (click)="(!topics.active)?loadChat(topics):''">{{
+                      (topics.header_name)?topics.header_name:topics._id }}</span>
+                    <img class="delete-icon c-p" src="./assets/image/delete.svg" alt="" height="10"
+                      (click)="deleteChat(menu,topics,j)">
                   </li>
                 </ng-container>
               </ul>
@@ -52,40 +57,40 @@
     <div class="chat-area-container">
       <div class="chat-area-header">
         <div class="d-flex w-100">
-        <div class="f-row">
-          <div class="f-feilds" *ngFor="let f of filters">
-            <label>{{f.name}}</label>
-            <div class="form-control-layer fw-100">
-              <ng-multiselect-dropdown  class="form-control-layer fw-100" [placeholder]="'Select '"
-                [settings]="settings" [data]="filterList[f.id]" [(ngModel)]="filterVal[f.id]" [name]="f.id"
-                [disabled]="false">
-              </ng-multiselect-dropdown>
+          <div class="f-row">
+            <div class="f-feilds" *ngFor="let f of filters">
+              <label>{{f.name}}</label>
+              <div class="form-control-layer fw-100">
+                <ng-multiselect-dropdown class="form-control-layer fw-100" [placeholder]="'Select '"
+                  [settings]="settings" [data]="filterList[f.id]" [(ngModel)]="filterVal[f.id]" [name]="f.id"
+                  [disabled]="false">
+                </ng-multiselect-dropdown>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="align-self-center">
-          <span class="nav-link text-secondary">
+          <div class="align-self-center">
+            <span class="nav-link text-secondary">
               <span class="bi d-block mx-auto mb-1">
 
-                  <a class="mat-menu-trigger nav col-12 col-lg-auto justify-content-center text-small nav-link dropdown-toggle px-0"
-                      id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                      aria-expanded="false" [matMenuTriggerFor]="beforeMenu">
-                      <img src="./assets/image/user.svg" height="48">
-                  </a>
+                <a class="mat-menu-trigger nav col-12 col-lg-auto justify-content-center text-small nav-link dropdown-toggle px-0"
+                  id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                  [matMenuTriggerFor]="beforeMenu">
+                  <img src="./assets/image/user.svg" height="48">
+                </a>
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
-      <!--  -->
-      <mat-menu #beforeMenu="matMenu" xPosition="before">
+        <!--  -->
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
           <div class="dropdown-divider"></div>
           <a class="dropdown-item c-p" (click)="logout()"> Log Out</a>
-      </mat-menu>
+        </mat-menu>
 
       </div>
       <div class="chat-container">
         <div class="init-content" *ngIf="currentChatter==''">
-          <img src="./assets/image/mini_logo.svg" height="60">
+          <img src="./assets/image/logo_mini.svg" height="60">
           <div class=""
             style="color: #B1B1B1;text-align: center;font-family: Segoe UI;font-size: 24px;font-style: normal;font-weight: 700;">
             {{data.org.message}}
@@ -97,42 +102,45 @@
             Type your question to below input and get fast answers</p>
         </div>
 
-        <div class="chat-details"  *ngIf="currentChatter!=''">
-<ng-container *ngFor="let c of data['get_all_chat_details']">
-          <div class="mssg right-mssg">
-            <div class="mssg-img"
-              style="background-image: url(./assets/image/user.svg);background-size: cover;border: 0;"></div>
+        <div class="chat-details" *ngIf="currentChatter!=''">
+          <ng-container *ngFor="let c of data['get_all_chat_details']">
+            <div class="mssg right-mssg">
+              <div class="mssg-img"
+                style="background-image: url(./assets/image/user.svg);background-size: cover;border: 0;"></div>
               <div class="mssg-details">
-            <div class="mssg-bubble">
-              <div class="mssg-text">{{c.question}}</div>
-            </div>
-            <div class="mssg-footer"><span class="mssg-time float-end">{{c.question_asked_on | date:'medium' }}</span></div>
-          </div>
-
-          </div>
-
-          <div class="mssg left-mssg">
-            <div class="mssg-img" style="background-image: url(./assets/image/mini_logo.svg)"></div>
-            <div class="mssg-details">
-              <div class="mssg-bubble">
-              <div class="mssg-info">
-                <div class="mssg-info-name">NOVA</div>
+                <div class="mssg-bubble">
+                  <div class="mssg-text">{{c.question}}</div>
+                </div>
+                <div class="mssg-footer"><span class="mssg-time float-end">{{c.question_asked_on | date:'medium'
+                    }}</span></div>
               </div>
-              <div class="mssg-text">{{c.answer}}
+
+            </div>
+
+            <div class="mssg left-mssg">
+              <div class="mssg-img" style="background-image: url(./assets/image/logo_mini.svg)"></div>
+              <div class="mssg-details">
+                <div class="mssg-bubble">
+                  <div class="mssg-info">
+                    <div class="mssg-info-name">NOVA</div>
+                  </div>
+                  <div class="mssg-text">{{c.answer}}
+                  </div>
+                </div>
+                <div class="mssg-footer">
+                  <span class="mssg-time me-2">{{c["answer_replied_on "] | date:'medium' }}</span>
+                  <span class="like-dislike-btn">
+                    <img src="./assets/image/thumpsup.svg" height="24" class="" *ngIf="c.feedback_status != 'like'"
+                      (click)="updateChatStatus(c,'like')">
+                    <img src="./assets/image/thumpsup_active.svg" height="24" *ngIf="c.feedback_status == 'like'">
+                    <img src="./assets/image/thumpsdown.svg" height="24" *ngIf="c.feedback_status != 'dislike'"
+                      (click)="updateChatStatus(c,'dislike')">
+                    <img src="./assets/image/thumpsdown_active.svg" height="24" *ngIf="c.feedback_status == 'dislike'">
+                  </span>
+                </div>
               </div>
             </div>
-            <div class="mssg-footer">
-              <span class="mssg-time me-2">{{c["answer_replied_on "] | date:'medium' }}</span>
-              <span class="like-dislike-btn">
-                <img src="./assets/image/thumpsup.svg" height="24" class="" *ngIf="c.status != 'like'" (click)="updateChatStatus(c,'like')">
-                <img src="./assets/image/thumpsup_active.svg" height="24" *ngIf="c.status == 'like'"  >
-                <img src="./assets/image/thumpsdown.svg" height="24"  *ngIf="c.status != 'dislike'"  (click)="updateChatStatus(c,'dislike')">
-                <img src="./assets/image/thumpsdown_active.svg" height="24"  *ngIf="c.status == 'dislike'" >
-              </span>
-            </div>
-          </div>
-          </div>
-</ng-container>
+          </ng-container>
           <!-- <div class="mssg right-mssg">
             <div class="mssg-img"
               style="background-image: url(./assets/image/user.svg);background-size: cover;border: 0;"></div>
@@ -148,7 +156,7 @@
           </div>
 
           <div class="mssg left-mssg">
-            <div class="mssg-img" style="background-image: url(./assets/image/mini_logo.svg)"></div>
+            <div class="mssg-img" style="background-image: url(./assets/image/logo_mini.svg)"></div>
             <div class="mssg-details">
               <div class="mssg-bubble">
               <div class="mssg-info">
@@ -169,24 +177,27 @@
           </div> -->
 
         </div>
-        <div class="info-area"  *ngIf="currentChatter==''">
-         <div class="info-title">Sample</div>
-         <div class="d-flex">
-          <div class="token c-p">What core values drive mCRPC treaters decision-making in prostate cancer generally, and in early-line mCRPC specifically?</div>
-          <div class="token c-p">How do the respondent values play out in the selection of specific treatment options, including sequential ARPIs and chemo?</div>
+        <div class="info-area" *ngIf="currentChatter==''">
+          <div class="info-title">Sample</div>
+          <div class="d-flex">
+            <div class="token c-p">What core values drive mCRPC treaters decision-making in prostate cancer generally,
+              and in early-line mCRPC specifically?</div>
+            <div class="token c-p">How do the respondent values play out in the selection of specific treatment options,
+              including sequential ARPIs and chemo?</div>
           </div>
         </div>
 
-        <div class="input-area">
+        <div class="input-area"
+        [ngClass]="{'blur-loader-layer':(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)}">
           <div class="d-flex w-100" *ngIf="filterVal && filterVal.Study">
-            <form class="input-form" #chatForm="ngForm" name="form" autocomplete="off"  (ngSubmit)="chatForm.valid && triggerChat()"
-            [ngClass]="{'blur-loader-layer':(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)}"
-            >
-                <input class="mssgInput" name="mssg" type="text" [(ngModel)]="chatbox" required placeholder="Type your question here..."
+            <form class="input-form" #chatForm="ngForm" name="form" autocomplete="off"
+              (ngSubmit)="chatForm.valid && triggerChat()">
+              <input class="mssgInput" name="mssg" type="text" [(ngModel)]="chatbox" required
+                placeholder="Type your question here..."
+                [disabled]="(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)">
+              <!-- (keydown)="keyDownFunction($event)" -->
+              <button type="submit"
                 [disabled]="(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)"
-                >
-                <!-- (keydown)="keyDownFunction($event)" -->
-                <button type="submit" [disabled]="(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)"
                 class="c-p">
                 <div class="send-btn">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 18" fill="none">
@@ -195,8 +206,9 @@
                       fill="white" />
                   </svg>
                 </div>
-              </button></form>
-              <div class="download-btn"><img src="./assets/image/download.svg" height="24"></div>
+              </button>
+            </form>
+            <a class="download-btn" href=""><img src="./assets/image/download.svg" height="24"></a>
           </div>
 
         </div>

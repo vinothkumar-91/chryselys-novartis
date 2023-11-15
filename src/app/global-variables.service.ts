@@ -22,7 +22,7 @@ export class GlobalVariablesService {
   userBaseUrl =
     (window.location.href.indexOf("localpc") == -1) ?
       (window.location.origin.indexOf("localhost") != -1) ?
-        "http://localhost:82/" : "http://localhost" + ":82/" : "http://localhost:82/";
+        "http://localhost:80/" : "http://localhost" + ":80/" : "http://localhost:80/";
   baseUrl =
     (window.location.href.indexOf("localpc") == -1) ?
       (window.location.origin.indexOf("localhost") != -1) ?
@@ -44,17 +44,17 @@ export class GlobalVariablesService {
     "viewer": ['Home','Settings']
   }
   menuList: any = {
-    "super-admin": [
-      { routerLink: "/Home", src: '', dataPageActive: "Home", name: "Home" ,linetype:'stroke' },
-    ],
+    // "super-admin": [
+    //   { routerLink: "/Home", src: '', dataPageActive: "Home", name: "Home" ,linetype:'stroke' },
+    // ],
 
-    "admin": [
-      { routerLink: "/Home", src: '', dataPageActive: "Home", name: "Home" ,linetype:'stroke' },
-    ],
+    // "admin": [
+    //   { routerLink: "/Home", src: '', dataPageActive: "Home", name: "Home" ,linetype:'stroke' },
+    // ],
 
-    "viewer": [
-      { routerLink: "/Home", src: '', dataPageActive: "Home", name: "Home" ,linetype:'stroke' },
-    ],
+    // "viewer": [
+    //   { routerLink: "/Home", src: '', dataPageActive: "Home", name: "Home" ,linetype:'stroke' },
+    // ],
   }
 
   GloaderBtn: any=false;
@@ -155,6 +155,20 @@ export class GlobalVariablesService {
 
 
 
+
+  exportExcel(r: any, filename: any) {
+    // console.log(r)
+    const blob: any = new Blob([r], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    let _link = document.createElement("a");
+    if (_link.download !== undefined) {
+      let url = URL.createObjectURL(blob);
+      _link.setAttribute("href", url);
+      _link.setAttribute("download", filename);
+      document.body.appendChild(_link);
+      _link.click();
+      document.body.removeChild(_link);
+    }
+  }
 
   getApiResPopup() {
     return this.commonApiResPopup;

@@ -20,15 +20,26 @@ export class GlobalVariablesService {
   commonPopup: any = []; commonApiResPopup: any = [];
   portalData = { portalId: 0, userId: 0, portalKey: '', createdDate: 0, portalDetailAvailable: false, portalKeyAvailable: false };
   userBaseUrl =
-    (window.location.href.indexOf("localpc") == -1) ?
-      (window.location.origin.indexOf("localhost") != -1) ?
-        "http://localhost:80/" : "http://localhost" + ":80/" : "http://localhost:80/";
+    window.location.href.indexOf('localpc') == -1
+      ? window.location.origin.indexOf('localhost') != -1
+        ? environment.userManagementDomain +
+          ':' +
+          environment.userManagementPort +
+          '/'
+        : environment.userManagementDomain +
+          ':' +
+          environment.userManagementPort +
+          '/'
+      : environment.userManagementDomain +
+        ':' +
+        environment.userManagementPort +
+        '/';
   baseUrl =
-    (window.location.href.indexOf("localpc") == -1) ?
-      (window.location.origin.indexOf("localhost") != -1) ?
-        "http://localhost:82/" : "http://localhost" + ":82/" : "http://localhost:82/";
-
-
+    window.location.href.indexOf('localpc') == -1
+      ? window.location.origin.indexOf('localhost') != -1
+        ? environment.serverDomain + ':' + environment.serverPort + '/'
+        : environment.serverDomain + ':' + environment.serverPort + '/'
+      : environment.serverDomain + ':' + environment.serverPort + '/';
 
   // samlURL = 'http://test.chryselys.com:81/login';
   samlURL =  "http://localhost:81/login" //window.location.origin+'/login';
@@ -43,20 +54,6 @@ export class GlobalVariablesService {
     "admin": ['Home','Settings'],
     "viewer": ['Home','Settings']
   }
-  menuList: any = {
-    // "super-admin": [
-    //   { routerLink: "/Home", src: '', dataPageActive: "Home", name: "Home" ,linetype:'stroke' },
-    // ],
-
-    // "admin": [
-    //   { routerLink: "/Home", src: '', dataPageActive: "Home", name: "Home" ,linetype:'stroke' },
-    // ],
-
-    // "viewer": [
-    //   { routerLink: "/Home", src: '', dataPageActive: "Home", name: "Home" ,linetype:'stroke' },
-    // ],
-  }
-
   GloaderBtn: any=false;
   Gloader: any = { val: 'false', msg: '' }; currentpage: any = null;
   private defaultToken = new BehaviorSubject<string>('');
@@ -68,6 +65,49 @@ export class GlobalVariablesService {
   get userDetail() {
     // var data = this.userDetails
     var data = localStorage.getItem('log')?JSON.parse(localStorage.getItem('log')|| '{}'):null;
+
+    this.gv.setUserDetail(
+    {
+      "data": {
+          "access": [
+              {
+                  "disease_name": [
+                      "MDD"
+                  ],
+                  "therapeutic_name": "Mental Health"
+              },
+              {
+                  "disease_name": [
+                      "Lung Cancer",
+                      "Prostate Cancer",
+                      "Breast Cancer"
+                  ],
+                  "therapeutic_name": "Oncology"
+              }
+          ],
+          "client_name": "Chryselys",
+          "created_by": "admin user",
+          "created_on": "Thu, 28 Sep 2023 10:28:09 GMT",
+          "disease_name": "MDD",
+          "email": "vinothkumar.b@chryselys.com",
+          "first_name": "Vinothkumar",
+          "last_activity": "Thu, 23 Nov 2023 13:38:29 GMT",
+          "last_name": "Balasubramani",
+          "notes": "changing last name",
+          "product": "PiT",
+          "role": "super-admin",
+          "status": "active",
+          "therapeutic_name": "Mental Health",
+          "updated_by": "vinothkumar.b@chryselys.com",
+          "updated_on": "Sun, 08 Oct 2023 19:46:39 GMT",
+          "user_id": 1
+      },
+      "message": "Data retrieved successfully",
+      "status": "success",
+      "status_code": 200,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDcyNjkxMSwianRpIjoiNzQ5YWY3NzYtYmJlNy00MjcyLWFjZDMtNGYxMDkyMTdkNDJiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJlbWFpbCI6InZpbm90aGt1bWFyLmJAY2hyeXNlbHlzLmNvbSIsInJvbGUiOiJzdXBlci1hZG1pbiIsInVzZXJfaWQiOjEsImNsaWVudF9uYW1lIjoiQ2hyeXNlbHlzIiwiYWNjZXNzIjpbeyJ0aGVyYXBldXRpY19uYW1lIjoiTWVudGFsIEhlYWx0aCIsImRpc2Vhc2VfbmFtZSI6WyJNREQiXX0seyJ0aGVyYXBldXRpY19uYW1lIjoiT25jb2xvZ3kiLCJkaXNlYXNlX25hbWUiOlsiTHVuZyBDYW5jZXIiLCJQcm9zdGF0ZSBDYW5jZXIiLCJCcmVhc3QgQ2FuY2VyIl19XSwicHJvZHVjdCI6IlBpVCIsImJhc2VfdXJsIjoiaHR0cDovL2xvY2FsaG9zdDo4MS8ifSwibmJmIjoxNzAwNzI2OTExLCJleHAiOjE3MDA4MTMzMTF9.bAtPvZfg1z_bm_KYp87SZ_GzgXzlAp1LcT0VBDVNDqI"
+  })
+
     return data;
   }
 

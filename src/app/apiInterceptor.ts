@@ -12,22 +12,12 @@ export class ApiInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        const user = this.gv.userDetail;
-        if (user && user.token && String(user.token)) {
-            // console.log(user.ta)
-            request = request.clone({
-                setHeaders: {
-                    // Authorization: String('Bearer ' + user.token),
-                    userId: 'test1@example.com'
-                }
-            });
-            return next.handle(request);
-        } else {
-            request = request.clone({
-                setHeaders: { Authorization: `Authorization` }
-            });
-            return next.handle(request);
-        }
+        request = request.clone({
+            setHeaders: {
+                userId: 'test1@example.com'
+            }
+        });
+        return next.handle(request);
 
     }
 }

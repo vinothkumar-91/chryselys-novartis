@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  env:{build:"CH"}
+  serverDomain:'http://localhost',
+  serverPort:'82',
+  userManagementDomain:'http://localhost',
+  userManagementPort:'81',
 };
 
 /*

@@ -61,7 +61,7 @@
             <div class="f-feilds" *ngFor="let f of filters">
               <label>{{f.name}}</label>
               <div class="form-control-layer fw-100">
-                <ng-multiselect-dropdown class="form-control-layer fw-100" [placeholder]="'Select '"
+                <ng-multiselect-dropdown class="form-control-layer fw-100" [placeholder]="'Select '" (onSelect)="optionChanged($event)"
                   [settings]="settings" [data]="filterList[f.id]" [(ngModel)]="filterVal[f.id]" [name]="f.id"
                   [disabled]="false">
                 </ng-multiselect-dropdown>
@@ -187,9 +187,9 @@
           </div>
         </div>
 
-        <div class="input-area"
+        <div class="input-area" *ngIf="filterVal && filterVal.Study"
         [ngClass]="{'blur-loader-layer':(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)}">
-          <div class="d-flex w-100" *ngIf="filterVal && filterVal.Study">
+          <div class="d-flex w-100" >
             <form class="input-form" #chatForm="ngForm" name="form" autocomplete="off"
               (ngSubmit)="chatForm.valid && triggerChat()">
               <input class="mssgInput" name="mssg" type="text" [(ngModel)]="chatbox" required

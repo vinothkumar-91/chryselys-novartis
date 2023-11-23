@@ -64,9 +64,9 @@ export class HomeComponent implements OnInit {
 
             // setTimeout(() => {
               this.filterVal={
-                Study:[this.data['config']['Study'][0]],
-                Speciality:[this.data['config']['Speciality'][0]],
-                Practice_Setting:[this.data['config']['Practice_Setting'][0]],
+                Study:this.data['config']['Study'],
+                Speciality:this.data['config']['Speciality'],
+                Practice_Setting:this.data['config']['Practice_Setting'],
               }
             // }, 1000);
           }
@@ -269,6 +269,11 @@ export class HomeComponent implements OnInit {
 
   newChat(){
     this.resetChat();
+    this.filterVal={
+      Study:this.data['config']['Study'],
+      Speciality:this.data['config']['Speciality'],
+      Practice_Setting:this.data['config']['Practice_Setting'],
+    }
   }
 
   resetChat(){
@@ -294,6 +299,10 @@ export class HomeComponent implements OnInit {
       if(obj.topics.length==0){this.newChat()}
       else{obj.topics[0].active=true;this.loadChat(obj.topics[0])}
     }
+  }
+
+  optionChanged(e){
+    console.log(e)
   }
 
 exportChat(){

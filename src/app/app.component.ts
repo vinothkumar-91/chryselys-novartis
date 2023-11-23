@@ -81,8 +81,6 @@ export class AppComponent {
 
   forceReload() {
     localStorage.removeItem('log')
-    localStorage.removeItem('auth')
-    localStorage.removeItem('state')
     window.location.reload()
   }
 

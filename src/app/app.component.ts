@@ -6,7 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { AuthService } from './services/auth.service';
 import { GlobalVariablesService } from './global-variables.service';
 import { ApiServiceService } from './api-service.service';
-import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/overlay/overlay-directives';
+
 
 @Component({
   selector: 'app-root',

@@ -9,7 +9,6 @@ import { ChartsModule } from 'ng2-charts';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
-import { CommonalertComponent } from './components/commonalert/commonalert.component';
 import { ApiInterceptor } from "./apiInterceptor";
 import { WindowRef } from './WindowRef';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,9 +23,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SettingsComponent } from './page/settings/settings.component';
 import { HomeComponent } from './page/home/home.component';
 import { LoaderComponent } from './components/loader/loader.component';
-import { CommonloaderComponent } from './components/commonloader/commonloader.component';
 import { PagenotfoundComponent } from './page/pagenotfound/pagenotfound.component';
-import { FailedComponent } from './failed/failed.component';
 import { UsersComponent } from './page/settings/users/users.component';
 import { LoginComponent } from './page/authentication/login/login.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -35,13 +32,10 @@ import { ToastrModule } from 'ngx-toastr';
   declarations: [
     ShortNumberPipe,
     AppComponent,LoginComponent,
-    CommonalertComponent,
     HomeComponent,
     SettingsComponent,
     LoaderComponent,
-    CommonloaderComponent,
     PagenotfoundComponent,
-    FailedComponent,
     UsersComponent
   ],
   imports: [

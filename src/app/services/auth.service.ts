@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiServiceService } from './../api-service.service';
 import { GlobalVariablesService } from './../global-variables.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/overlay/overlay-directives';
+
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +22,6 @@ export class AuthService {
   }
   logOut() {
     localStorage.removeItem('log');
-    localStorage.removeItem('userToken');
     this.userData.next(null);
     this.route.navigate(['/login']);
   }

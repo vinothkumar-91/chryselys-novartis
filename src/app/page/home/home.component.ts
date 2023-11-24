@@ -1,4 +1,4 @@
-import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/overlay/overlay-directives';
+
 import { Component, NgModule, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/api-service.service';
@@ -14,7 +14,11 @@ import { ToastrService } from 'ngx-toastr';
 
 
 export class HomeComponent implements OnInit {
-
+  source_file_view:any=''
+  chatSource:any = {}
+  popuptype:any = ''
+  currentObj:any = {}
+  LUGPAvisible = false;
   data:any={
     config:'',
     org:'',
@@ -24,6 +28,7 @@ export class HomeComponent implements OnInit {
   }
   config:any = {multi: false}
   apiCall:any = {
+    common:false,
     exportApiCall:false,
     config:false,
     org:false,
@@ -33,6 +38,44 @@ export class HomeComponent implements OnInit {
   };
 
 
+  filterList = {
+    study:[],
+    speciality:[],
+    csv:[],
+    practice_setting:[],
+    LUGPA:['Yes','No']
+  }
+
+  filterVal:any={
+    study:[],
+    speciality:[],
+    practice_setting:[],
+    source_file:[],
+    LUGPA:'Yes'
+  }
+  filters:any= [
+    {name:'study',id:'study'},
+    {name:'speciality',id:'speciality'},
+    {name:'Practice Setting',id:'practice_setting'},
+  ]
+  settings = {
+    singleSelection: false,
+    // idField: 'item_id',
+    // textField: 'item_text',
+    enableCheckAll: true,
+    selectAllText: 'All',
+    unSelectAllText: 'Unselect All',
+    allowSearchFilter: false,
+    limitSelection: -1,
+    clearSearchFilter: true,
+    maxHeight: 197,
+    itemsShowLimit: 1,
+    searchPlaceholderText: 'Select',
+    noDataAvailablePlaceholderText: 'No Data Found',
+    closeDropDownOnSelection: false,
+    showSelectedItemsAtTop: false,
+    defaultOpen: false,
+  };
   currentChatter:any=''
   constructor(private datePipe: DatePipe,public route: Router, private gv: GlobalVariablesService,private apiService: ApiServiceService, private authService: AuthService,private toastr: ToastrService) {
 
@@ -48,27 +91,12 @@ export class HomeComponent implements OnInit {
         this.apiService.getMethod(`${this.gv.baseUrl}get_config_details?organisation_id=`+this.data['org'].organisation_id, (r: any) => {
           this.apiCall['config'] = false;
           if (r.status_code == 200) {
-            this.data['config'] = r.data
+            this.filterList['csv'] = r.data.csv_data
+            this.filterList['study'] = this.filterList['csv'].map(o => o.study_type)
 
-            // this.filterVal={
-            //   Study:[],
-            //   Speciality:[],
-            //   Practice_Setting:[],
-            // }
-
-            this.filterList = {
-              Study:this.data['config']['Study'],
-              Speciality:this.data['config']['Speciality'],
-              Practice_Setting:this.data['config']['Practice_Setting'],
-            }
-
-            // setTimeout(() => {
-              this.filterVal={
-                Study:this.data['config']['Study'],
-                Speciality:this.data['config']['Speciality'],
-                Practice_Setting:this.data['config']['Practice_Setting'],
-              }
-            // }, 1000);
+                // this.filterVal['study']=this.data['config']['study']
+                // this.filterVal['speciality']=this.data['config']['speciality']
+                // this.filterVal['practice_setting']=this.data['config']['practice_setting']
           }
         }, (error: any) => {this.apiCall['config'] = false;})
 
@@ -78,78 +106,20 @@ export class HomeComponent implements OnInit {
     this.get_chat_history()
 
   }
-  ngOnInit(): void {
-  //   this.menus =[
-  //     {
-  //       name: 'Today',
-  //       active: true,
-  //       topics: [
-  //         { name: 'How to write an impacting',active:true},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //       ]
-  //     },
-  //     {
-  //       name: 'Last Week',
-  //       active: true,
-  //       topics: [
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //         { name: 'How to write an impacting'},
-  //       ]
-  //     }
-  //   ];
-  }
-  // menus:any=  []
-  filterList = {
-    Study:[],
-    Speciality:[],
-    Practice_Setting:[],
+
+  setDefaultValue(e){
+    setTimeout(() => {
+      console.log(e)
+      if(e == 'source_file_view')
+        this['source_file_view'] = 'default'
+      else
+        this['chatSource'][e] = 'default'
+
+    }, 0);
   }
 
-  filterVal:any={
-    Study:[],
-    Speciality:[],
-    Practice_Setting:[],
+  ngOnInit(): void {
   }
-  filters:any= [
-    {name:'Study',id:'Study'},
-    {name:'Speciality',id:'Speciality'},
-    {name:'Practice Setting',id:'Practice_Setting'},
-  ]
-  settings = {
-    singleSelection: false,
-    // idField: 'item_id',
-    // textField: 'item_text',
-    enableCheckAll: false,
-    selectAllText: 'All',
-    unSelectAllText: 'UnSelect All',
-    allowSearchFilter: false,
-    limitSelection: -1,
-    clearSearchFilter: true,
-    maxHeight: 197,
-    itemsShowLimit: 1,
-    searchPlaceholderText: 'Select',
-    noDataAvailablePlaceholderText: 'No Data Found',
-    closeDropDownOnSelection: false,
-    showSelectedItemsAtTop: false,
-    defaultOpen: false,
-  };
   toggle(index: number) {
     // if (!this.config.multi) {
     //   this.data['get_chat_history'].filter((menu, i) => i !== index && menu.active).forEach(menu => menu.active = !menu.active);
@@ -194,20 +164,46 @@ export class HomeComponent implements OnInit {
 
 
   get_all_chat_details(){
+
+
+
+
     this.apiService.postMethod(`${this.gv.baseUrl}get_all_chat_details`,
     {"chatter_id": this.currentChatter['_id']}, (r: any) => {
       this.apiCall['get_all_chat_details'] = false;
       if (r.status_code == 200) {
         if(r.data.length){
           this.data['get_all_chat_details'] =r.data
-
-          this.filterVal={
-            Study:r.data[r.data.length-1]['Study'],
-            Speciality:r.data[r.data.length-1]['Speciality'],
-            Practice_Setting:r.data[r.data.length-1]['Practice_Setting'],
-          }
-
+          this.filterVal['study']=r.data[r.data.length-1]['Study']
+          this.filterVal['speciality']=r.data[r.data.length-1]['Speciality']
+          this.filterVal['practice_setting']=r.data[r.data.length-1]['Practice_Setting']
         }
+      }else{
+        r = {
+          "data":[ {
+              "answer": " Hello! I'm Nova, an advanced assistant, and I'll do my best to help you with your question.\n\nThe core values that drive mCRPC treaters' decision-making in prostate cancer generally and early-line mCRPC specifically include:\n\n1. Patient-centered approach: Treaters prioritize the patient's needs, preferences, and quality of life when making decisions.\n2. Evidence-based medicine: Treaters rely on the latest scientific evidence and research findings to inform their decision-making.\n3. Multidisciplinary collaboration: Treaters work closely with other healthcare professionals, such as radiation oncologists, medical oncologists, and urologists, to ensure comprehensive and coordinated care.\n4. Personalized medicine: Treaters tailor their approach to each patient's unique needs and circumstances, taking into account their individual genetic profile, medical history, and lifestyle.\n5. Continuous learning and improvement: Treaters stay up-to-date with the latest advances in prostate cancer diagnosis and treatment, and they continuously evaluate and refine their approaches to ensure the best possible outcomes for their patients.\n6. Emphasis on early detection and intervention: Treaters prioritize early detection and intervention in prostate cancer, recognizing that early treatment can lead to better outcomes and improved quality of life.\n7. Focus on minimally invasive procedures: Treaters prefer minimally invasive procedures whenever possible, as they can reduce recovery time, minimize side effects, and improve patient satisfaction.\n8. Collaboration with referring physicians: Treaters work closely with referring physicians to ensure seamless transitions in care and to ensure that patients receive the most appropriate and effective treatment.\n9. Attention to patient comfort and convenience: Treaters prioritize patient comfort and convenience, recognizing that a positive patient experience can lead to better outcomes and improved adherence to treatment plans.\n10. Commitment to ongoing research and innovation: Treaters are committed to ongoing research and innovation in prostate cancer diagnosis and treatment, recognizing that advances in technology and medical knowledge can lead to better outcomes and improved quality of life for patients.\n\nIn early-line mCRPC specifically, these core values are even more critical, as the treatment landscape is rapidly evolving, and clinicians must stay up-to-date with the latest research and guidelines to provide the best possible care.\n\nI hope this helps! Let me know if you have any further questions.",
+              "answer_replied_on": "2023-11-24 11:39:36",
+              "chat_id": "65603e206d7cd0cfe27069d6",
+              "source_file": [
+                  "FLINCE_ mCRPC 3-Phase Value Drivers and Opportunity Research Interview 2023 6-1 12pm",
+                  "FLINCE_ mCRPC 3-Phase Value Drivers and Opportunity Research Interview 2023 5-24 4pm",
+                  "FLINCE_ mCRPC 3-Phase Value Drivers and Opportunity Research Interview 2023 6-19 7pm",
+                  "FLINCE_ mCRPC 3-Phase Value Drivers and Opportunity Research Interview 2023 5-13 1030am",
+                  "FLINCE_ mCRPC 3-Phase Value Drivers and Opportunity Research Interview 2023 7-5 8pm",
+                  "FLINCE_ mCRPC 3-Phase Value Drivers and Opportunity Research Interview 2023 5-31 830am"
+              ],
+              "source_file_count": 6
+          }],
+          "message": "Data retrieved successfully",
+          "status": "success",
+          "status_code": 200
+      }
+      this.chatSource[r.data[r.data.length-1].chat_id] = 'default'
+      this.data['get_all_chat_details'] =r.data
+      this.filterVal['study']=r.data[r.data.length-1]['study']
+      this.filterVal['speciality']=r.data[r.data.length-1]['speciality']
+      this.filterVal['practice_setting']=r.data[r.data.length-1]['practice_setting']
+
       }
     }, (error: any) => {this.apiCall['get_all_chat_details'] = false;})
   }
@@ -269,12 +265,53 @@ export class HomeComponent implements OnInit {
 
   newChat(){
     this.resetChat();
-    this.filterVal={
-      Study:this.data['config']['Study'],
-      Speciality:this.data['config']['Speciality'],
-      Practice_Setting:this.data['config']['Practice_Setting'],
-    }
+
+    this.filterList['study'] = this.filterList['csv'].map(o => o.study_type)
+    this.filterVal['study'] = this.filterList['csv'].map(o => o.study_type)
+    this.updateFilterList()
+    // this.filterVal['study']=this.filterList['csv'].filter(o => o.study_type=='study')[0]['speciality']
+    // this.filterVal['speciality']=this.filterList['csv'].filter(o => o.study_type=='study')[0]['practice_setting']
+    // this.filterVal['practice_setting']=[]
+
+
+    // this.filterVal['study']=this.data['config']['study']
+    // this.filterVal['speciality']=this.data['config']['speciality']
+    // this.filterVal['practice_setting']=this.data['config']['practice_setting']
   }
+
+  updateFilterList(){
+
+    var speciality = [],practice_setting = [];
+    this.filterList['csv'].forEach(o=>{
+      if(this.filterVal['study'].includes(o.study_type)){
+        speciality = [...speciality,...o.speciality]
+        practice_setting = [...practice_setting,...o.practice_setting]
+      }
+    })
+    this.filterList['speciality'] = this.gv.removeDuplicates(speciality)
+    this.filterList['practice_setting'] = this.gv.removeDuplicates(practice_setting)
+    this.filterVal['speciality'] = this.filterList['speciality']
+    this.filterVal['practice_setting'] = this.filterList['practice_setting']
+
+    this.getFiles()
+    this.checkLUGPAvisible()
+  }
+
+  getFiles(){
+    this.apiService.postMethod(`${this.gv.baseUrl}get_file_list`, this.filterVal,(r: any) => {
+      if (r.status_code == 200) {
+        this.filterVal['source_file'] = r.data.file_list;
+        this.source_file_view='default'
+      }
+      this.apiCall['common'] = false;
+      }, (error: any) => {this.apiCall['common'] = false;})
+  }
+
+  checkLUGPAvisible(){
+    this.LUGPAvisible=(this.filterVal['speciality'].includes("urologist"))
+  }
+
+
 
   resetChat(){
     this.currentChatter=''
@@ -294,15 +331,33 @@ export class HomeComponent implements OnInit {
 
 
   deleteChat(obj,topics,j){
-    obj.topics.splice(j, 1);
-    if(topics['active']){
-      if(obj.topics.length==0){this.newChat()}
-      else{obj.topics[0].active=true;this.loadChat(obj.topics[0])}
-    }
+    this.apiCall['common'] = true;
+    this.apiService.deleteMethod(`${this.gv.baseUrl}delete_chat?chatter_id=`+topics._id, (r: any) => {
+      if (r.status_code == 200) {
+        this.popuptype = ''
+        obj.topics.splice(j, 1);
+        if(topics['active']){
+          if(obj.topics.length==0){this.newChat()}
+          else{obj.topics[0].active=true;this.loadChat(obj.topics[0])}
+        }
+        this.apiCall['common'] = false;
+      }
+    }, (error: any) => {this.apiCall['common'] = false;})
+
+
   }
 
-  optionChanged(e){
-    console.log(e)
+  optionChanged(e,fld){
+    if(fld == 'study'){
+      this.updateFilterList()
+      // this.filterList['speciality'] = this.filterList['csv'].filter(o => o.study_type==e)[0]['speciality']
+      // this.filterList['practice_setting'] = this.filterList['csv'].filter(o => o.study_type==e)[0]['practice_setting']
+    }
+
+
+
+    if(e == "urologist")
+      this.checkLUGPAvisible()
   }
 
 exportChat(){

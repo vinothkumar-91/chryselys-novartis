@@ -3,7 +3,7 @@
     <div class="left-container">
       <div class="left-container-top">
         <div class="logo-section">
-          <img class="" src="./assets/image/logo_light.svg" alt="" width="200">
+          <img class="" src="./assets/image/logo_light.svg" alt="" width="260">
         </div>
         <div class="option-group">
           <div class="options new-chat active c-p" (click)="newChat()">
@@ -39,7 +39,7 @@
                       (click)="(!topics.active)?loadChat(topics):''">{{
                       (topics.header_name)?topics.header_name:topics._id }}</span>
                     <img class="delete-icon c-p" src="./assets/image/delete.svg" alt="" height="10"
-                      (click)="deleteChat(menu,topics,j)">
+                      (click)="popuptype = 'chatDelete';currentObj={menu:menu,topics:topics,j:j}">
                   </li>
                 </ng-container>
               </ul>
@@ -61,12 +61,23 @@
             <div class="f-feilds" *ngFor="let f of filters">
               <label>{{f.name}}</label>
               <div class="form-control-layer fw-100">
-                <ng-multiselect-dropdown class="form-control-layer fw-100" [placeholder]="'Select '" (onSelect)="optionChanged($event)"
+                <ng-multiselect-dropdown class="form-control-layer fw-100" [placeholder]="'Select '"
+                  (onDeSelect)="optionChanged($event,f.id)"
+                 (onSelect)="optionChanged($event,f.id)"
                   [settings]="settings" [data]="filterList[f.id]" [(ngModel)]="filterVal[f.id]" [name]="f.id"
                   [disabled]="false">
                 </ng-multiselect-dropdown>
               </div>
             </div>
+            <div class="f-feilds" *ngIf="LUGPAvisible">
+              <label>LUGPA Membership</label>
+              <div class="form-control-layer fw-100">
+                <select [ngModel]="filterVal['LUGPA']" (ngModelChange)="filterVal['LUGPA']=$event" name="LUGPA" class="form-control" required>
+                  <option [value]="f" *ngFor="let f of filterList['LUGPA']" class="capitalize">{{f}}</option>
+              </select>
+              </div>
+            </div>
+
           </div>
           <div class="align-self-center">
             <span class="nav-link text-secondary">
@@ -86,14 +97,33 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item c-p" (click)="logout()"> Log Out</a>
         </mat-menu>
+        <div class="fw-100" *ngIf="filterVal['source_file'].length !=0">
 
+          <div class="form-control-layer fw-100">
+            <select [(ngModel)]="source_file_view" (ngModelChange)="setDefaultValue('source_file_view')" name="files" class="form-control" >
+              <option [value]="f" *ngFor="let f of filterVal['source_file']">{{f}}</option>
+              <option value="default" > {{filterVal['source_file'].length}} files founded as per the selected filter</option>
+          </select>
+          </div>
+          <!-- <mat-accordion>
+            <mat-expansion-panel hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="justify-content-between">
+                {{filterVal['source_file'].length}} files founded as per the selected filter
+                <mat-icon class="">{{(1==1)  ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</mat-icon>
+              </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p  *ngFor="let f of filterVal['source_file']">{{f}}</p>
+            </mat-expansion-panel>
+            </mat-accordion> -->
+        </div>
       </div>
       <div class="chat-container">
         <div class="init-content" *ngIf="currentChatter==''">
           <img src="./assets/image/logo_mini.svg" height="60">
           <div class=""
             style="color: #B1B1B1;text-align: center;font-family: Segoe UI;font-size: 24px;font-style: normal;font-weight: 700;">
-            {{data.org.message}}
+            Hi,i am {{data.org.botname}},Your AI!
             <!-- Hi, I am <span
               style="color: #023761;font-family: Segoe UI;font-size: 24px;font-style: normal;font-weight: 700;">NOVA!</span>
             Your AI -->
@@ -118,17 +148,26 @@
             </div>
 
             <div class="mssg left-mssg">
-              <div class="mssg-img" style="background-image: url(./assets/image/logo_mini.svg)"></div>
+              <div class="mssg-img" style="background-image: url(./assets/image/logo_mini.svg)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" class="live">
+                  <circle cx="6" cy="6" r="5.375" fill="#34C759" stroke="white" stroke-width="1.25"/>
+                  </svg>
+                </div>
               <div class="mssg-details">
                 <div class="mssg-bubble">
                   <div class="mssg-info">
-                    <div class="mssg-info-name">NOVA</div>
+                    <div class="mssg-info-name">{{data.org.botname}}</div>
                   </div>
-                  <div class="mssg-text">{{c.answer}}
-                  </div>
+                  <div class="mssg-text" [innerHtml]="c.answer"></div>
                 </div>
                 <div class="mssg-footer">
-                  <span class="mssg-time me-2">{{c["answer_replied_on "] | date:'medium' }}</span>
+              <div class="form-control-layer fw-100" *ngIf="chatSource[c.chat_id]">
+                <select [(ngModel)]="chatSource[c.chat_id]" (ngModelChange)="setDefaultValue(c.chat_id)" name="files" class="form-control" >
+                  <option [value]="f" *ngFor="let f of c['source_file']">{{f}}</option>
+                  <option value="default" > {{c['source_file'].length}} files founded as per the selected filter</option>
+              </select>
+              </div>
+                  <span class="mssg-time me-2">{{c["answer_replied_on"] | date:'medium' }}</span>
                   <span class="like-dislike-btn">
                     <img src="./assets/image/thumpsup.svg" height="24" class="" *ngIf="c.feedback_status != 'like'"
                       (click)="updateChatStatus(c,'like')">
@@ -138,6 +177,7 @@
                     <img src="./assets/image/thumpsdown_active.svg" height="24" *ngIf="c.feedback_status == 'dislike'">
                   </span>
                 </div>
+
               </div>
             </div>
           </ng-container>
@@ -180,24 +220,21 @@
         <div class="info-area" *ngIf="currentChatter==''">
           <div class="info-title">Sample</div>
           <div class="d-flex">
-            <div class="token c-p">What core values drive mCRPC treaters decision-making in prostate cancer generally,
-              and in early-line mCRPC specifically?</div>
-            <div class="token c-p">How do the respondent values play out in the selection of specific treatment options,
-              including sequential ARPIs and chemo?</div>
+            <div class="token c-p" *ngFor="let d of ['What core values drive mCRPC treaters decision-making in prostate cancer generally, and in early-line mCRPC specifically?','How do the respondent values play out in the selection of specific treatment options, including sequential ARPIs and chemo?']" (click)="chatbox=d;triggerChat()">{{d}}</div>
           </div>
         </div>
-
-        <div class="input-area" *ngIf="filterVal && filterVal.Study"
-        [ngClass]="{'blur-loader-layer':(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)}">
+        <ng-container *ngIf="filterVal && filterVal.study">
+        <div class="input-area"
+        [ngClass]="{'blur-loader-layer':(filterVal.study.length==0 || filterVal.speciality.length==0 || filterVal.practice_setting.length==0)}">
           <div class="d-flex w-100" >
             <form class="input-form" #chatForm="ngForm" name="form" autocomplete="off"
               (ngSubmit)="chatForm.valid && triggerChat()">
               <input class="mssgInput" name="mssg" type="text" [(ngModel)]="chatbox" required
                 placeholder="Type your question here..."
-                [disabled]="(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)">
+                [disabled]="(filterVal.study.length==0 || filterVal.speciality.length==0 || filterVal.practice_setting.length==0)">
               <!-- (keydown)="keyDownFunction($event)" -->
               <button type="submit"
-                [disabled]="(filterVal.Study.length==0 || filterVal.Speciality.length==0 || filterVal.Practice_Setting.length==0)"
+                [disabled]="(filterVal.study.length==0 || filterVal.speciality.length==0 || filterVal.practice_setting.length==0)"
                 class="c-p">
                 <div class="send-btn">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 18" fill="none">
@@ -211,9 +248,26 @@
             <a class="download-btn" href=""><img src="./assets/image/download.svg" height="24"></a>
           </div>
 
-        </div>
+        </div></ng-container>
       </div>
 
     </div>
   </div>
+</div>
+
+
+
+<div class="modal show confirm-popup" tabindex="-1" role="dialog" aria-labelledby="" *ngIf="popuptype == 'chatDelete'">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-4">
+          <!-- {{currentObj.topics.header_name | json}} -->
+            <h4 class="fw-100 my-2 text-center">Are you sure to delete "{{(currentObj.topics.header_name)?currentObj.topics.header_name:currentObj.topics._id}}" chat?</h4>
+
+            <div class="fw-100 p-2 text-center mt-2">
+                <button class="btn btn-light mt-md me-3" (click)="this.popuptype = ''">Cancel</button>
+                <button class="btn btn-danger mt-md me-3" (click)="deleteChat(currentObj.menu,currentObj.topics,currentObj.j)"
+                    [disabled]="apiCall['common']">Delete</button>
+            </div>
+        </div>
+    </div>
 </div>

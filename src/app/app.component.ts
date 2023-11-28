@@ -1,5 +1,5 @@
 import { Renderer2, Component, HostListener } from '@angular/core';
-import { Router, Event, NavigationStart, NavigationEnd, NavigationError, DefaultUrlSerializer } from '@angular/router';
+import { Router, Event, NavigationStart, NavigationEnd, NavigationError, DefaultUrlSerializer, ActivatedRoute } from '@angular/router';
 import { environment } from './../environments/environment';
 
 import { Title } from '@angular/platform-browser';
@@ -14,13 +14,15 @@ import { ApiServiceService } from './api-service.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  token:any = ''
   local: number = window.location.href.indexOf('localhost');
   title = 'Novartis-gpt';
   apicall:boolean=false;
   currentRoute: any;
   passwordForm:any={current_password:'',new_password:'',new_confirm:''}
 
-  constructor(private router: Router, private authService: AuthService, private gv: GlobalVariablesService, private renderer: Renderer2, private apiService: ApiServiceService) {
+  constructor(private router: Router,private activatedRoute: ActivatedRoute, private authService: AuthService, private gv: GlobalVariablesService, private renderer: Renderer2, private apiService: ApiServiceService) {
+
 
     this.router.events.subscribe((event: Event) => {
       var prevPage;
@@ -52,15 +54,21 @@ export class AppComponent {
   }
 
   chekUserLogin() {
-    this.gv.GloaderSet(true,"User Validation");
+    this.token=window.location.hash.split('?token=')[1]
+    // this.gv.GloaderSet(true,"User Validation");
     var log:any = localStorage.getItem('log')
     if(log!=null && log!="null" && log!=undefined && log!="undefined" && log!="" ){
-      var ud = JSON.parse(JSON.stringify(this.gv.userDetail))
       this.router.navigate(['/Novartis/Home']);
     }else{
-      this.router.navigate(['/Novartis/Home']);
+      if(this.token!='' && this.token){
+        this.gv.setUserDetail({token:this.token,role:'admin'})
+        this.router.navigate(['/Novartis/Home']);
+      }else{
+        window.location.href = this.gv.samlURL
+      }
+      // this.router.navigate(['/Novartis/Home']);
     }
-    this.gv.GloaderSet(false,"");
+    // this.gv.GloaderSet(false,"");
   }
 
   get Gloader() {

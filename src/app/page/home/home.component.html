@@ -10,32 +10,21 @@
             <img class="option-img" src="./assets/image/start_new.svg" alt="">
             <div class="option-txt">Start a New Chat</div>
           </div>
-          <!-- <div class="options chat-history">
-            <img class="option-img" src="./assets/image/history.svg" alt="">
-            <div class="option-txt">Chat History</div>
-          </div> -->
         </div>
       </div>
       <div class="chat-history-list fw-100">
-<!--
-        <div style="display:none">
-          {{this.data['get_chat_history']|json}}
-        </div> -->
-
         <ul id="accordion" class="accordion fw-100" *ngIf="data['get_chat_history']">
           <ng-container *ngFor="let menu of data['get_chat_history']; let i = index">
             <li class="fw-100" [ngClass]="menu.active ? 'active':''">
-              <!-- <div class="menu" (click)="toggle(i)"> -->
               <div class="menu" (click)="toggle(i)" *ngIf="menu.topics && menu.topics.length!=0">
                 {{ menu.name }}
                 <img class="arrow" src="./assets/image/arrow.svg" alt="">
               </div>
-              <!-- <ul class="topics" #topics *ngIf="menu" [style.height.px]="menu.active ? topics.scrollHeight : 0"> -->
               <ul class="topics" #topics *ngIf="menu && menu.active"  [ngClass]="menu.active ? 'open' : 'closed'">
                 <ng-container *ngFor="let topics of menu.topics; let j = index">
                   <li>
                     <img class="chat-icon" src="./assets/image/chat_bubble.svg" alt="" height="10">
-                    <span class="chat-title" [ngClass]="topics.active?'active':'c-p'"
+                    <span class="chat-title" [ngClass]="topics.active?'active':'c-p'" [title]="(topics.header_name)?topics.header_name:topics._id"
                       (click)="(!topics.active)?loadChat(topics):''">{{
                       (topics.header_name)?topics.header_name:topics._id }}</span>
                     <img class="delete-icon c-p" src="./assets/image/delete.svg" alt="" height="10"
@@ -57,23 +46,26 @@
     <div class="chat-area-container">
       <div class="chat-area-header">
         <div class="d-flex w-100">
-          <div class="f-row">
+          <div class="f-row" *ngIf="!apiCall['config']">
             <div class="f-feilds" *ngFor="let f of filters">
               <label>{{f.name}}</label>
               <div class="form-control-layer fw-100">
                 <ng-multiselect-dropdown class="form-control-layer fw-100" [placeholder]="'Select '"
+                  (onSelect)="optionChanged($event,f.id)"
+                  (onSelectAll)="optionChanged($event,f.id)"
                   (onDeSelect)="optionChanged($event,f.id)"
-                 (onSelect)="optionChanged($event,f.id)"
+                  (onDeSelectAll)="optionChanged($event,f.id)"
                   [settings]="settings" [data]="filterList[f.id]" [(ngModel)]="filterVal[f.id]" [name]="f.id"
                   [disabled]="false">
+
                 </ng-multiselect-dropdown>
               </div>
             </div>
-            <div class="f-feilds" *ngIf="LUGPAvisible">
-              <label>LUGPA Membership</label>
+            <div class="f-feilds" *ngIf="lugpavisible">
+              <label>lugpa Membership</label>
               <div class="form-control-layer fw-100">
-                <select [ngModel]="filterVal['LUGPA']" (ngModelChange)="filterVal['LUGPA']=$event" name="LUGPA" class="form-control" required>
-                  <option [value]="f" *ngFor="let f of filterList['LUGPA']" class="capitalize">{{f}}</option>
+                <select [ngModel]="filterVal['lugpa']" (ngModelChange)="filterVal['lugpa']=$event;optionChanged('','')" name="lugpa" class="form-control text-capitalize" required>
+                  <option [value]="f" *ngFor="let f of filterList['lugpa']" class="text-capitalize">{{f}}</option>
               </select>
               </div>
             </div>
@@ -102,20 +94,12 @@
           <div class="form-control-layer fw-100">
             <select [(ngModel)]="source_file_view" (ngModelChange)="setDefaultValue('source_file_view')" name="files" class="form-control" >
               <option [value]="f" *ngFor="let f of filterVal['source_file']">{{f}}</option>
-              <option value="default" > {{filterVal['source_file'].length}} files founded as per the selected filter</option>
+
+              <option value="default" >The above responses are based on {{filterVal['source_file'].length}} transcripts. List of files referenced :-</option>
+              <!-- {{c['source_file'].length}} files founded as per the selected filter</option> -->
+              <!-- <option value="default" > {{filterVal['source_file'].length}} files founded as per the selected filter</option> -->
           </select>
           </div>
-          <!-- <mat-accordion>
-            <mat-expansion-panel hideToggle>
-              <mat-expansion-panel-header>
-                <mat-panel-title class="justify-content-between">
-                {{filterVal['source_file'].length}} files founded as per the selected filter
-                <mat-icon class="">{{(1==1)  ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</mat-icon>
-              </mat-panel-title>
-              </mat-expansion-panel-header>
-              <p  *ngFor="let f of filterVal['source_file']">{{f}}</p>
-            </mat-expansion-panel>
-            </mat-accordion> -->
         </div>
       </div>
       <div class="chat-container">
@@ -124,16 +108,16 @@
           <div class=""
             style="color: #B1B1B1;text-align: center;font-family: Segoe UI;font-size: 24px;font-style: normal;font-weight: 700;">
             Hi,i am {{data.org.botname}},Your AI!
-            <!-- Hi, I am <span
-              style="color: #023761;font-family: Segoe UI;font-size: 24px;font-style: normal;font-weight: 700;">NOVA!</span>
-            Your AI -->
           </div>
           <p class="" style="color: #B1B1B1;text-align: center;font-family: Segoe UI;font-size: 16px;font-weight: 300;">
             Type your question to below input and get fast answers</p>
         </div>
 
-        <div class="chat-details" *ngIf="currentChatter!=''">
+        <div class="chat-details" *ngIf="currentChatter!=''"  #scrollMe>
+
+
           <ng-container *ngFor="let c of data['get_all_chat_details']">
+
             <div class="mssg right-mssg">
               <div class="mssg-img"
                 style="background-image: url(./assets/image/user.svg);background-size: cover;border: 0;"></div>
@@ -158,83 +142,69 @@
                   <div class="mssg-info">
                     <div class="mssg-info-name">{{data.org.botname}}</div>
                   </div>
-                  <div class="mssg-text" [innerHtml]="c.answer"></div>
+                  <div class="mssg-text" >
+                    <span *ngIf="c.answer=='' && apiCall['add_chat_box']">
+                      <div class="chat-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </span>
+                    <span>{{c.answer}}</span>
+                  </div>
                 </div>
-                <div class="mssg-footer">
+                <div class="mssg-footer"  *ngIf="c.answer">
               <div class="form-control-layer fw-100" *ngIf="chatSource[c.chat_id]">
                 <select [(ngModel)]="chatSource[c.chat_id]" (ngModelChange)="setDefaultValue(c.chat_id)" name="files" class="form-control" >
                   <option [value]="f" *ngFor="let f of c['source_file']">{{f}}</option>
-                  <option value="default" > {{c['source_file'].length}} files founded as per the selected filter</option>
+                  <option value="default" >The above responses are based on {{c['source_file'].length}} transcripts. List of files referenced :-</option>
+                    <!-- {{c['source_file'].length}} files founded as per the selected filter -->
               </select>
               </div>
                   <span class="mssg-time me-2">{{c["answer_replied_on"] | date:'medium' }}</span>
                   <span class="like-dislike-btn">
                     <img src="./assets/image/thumpsup.svg" height="24" class="" *ngIf="c.feedback_status != 'like'"
-                      (click)="updateChatStatus(c,'like')">
+                      (click)="updateChatStatus(c,'like','feedback_status')">
                     <img src="./assets/image/thumpsup_active.svg" height="24" *ngIf="c.feedback_status == 'like'">
                     <img src="./assets/image/thumpsdown.svg" height="24" *ngIf="c.feedback_status != 'dislike'"
-                      (click)="updateChatStatus(c,'dislike')">
+                      (click)="updateChatStatus(c,'dislike','feedback_status')">
                     <img src="./assets/image/thumpsdown_active.svg" height="24" *ngIf="c.feedback_status == 'dislike'">
                   </span>
+                  <span class="badge bg-secondary ms-2">{{c.feedback_comments}}</span>
                 </div>
 
               </div>
             </div>
           </ng-container>
-          <!-- <div class="mssg right-mssg">
-            <div class="mssg-img"
-              style="background-image: url(./assets/image/user.svg);background-size: cover;border: 0;"></div>
-              <div class="mssg-details">
-            <div class="mssg-bubble">
-              <div class="mssg-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
-                eget dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                Error occurred during API request. </div>
-            </div>
-            <div class="mssg-footer"><span class="mssg-time float-end">11:45 AM</span></div>
-          </div>
-
-          </div>
-
-          <div class="mssg left-mssg">
-            <div class="mssg-img" style="background-image: url(./assets/image/logo_mini.svg)"></div>
-            <div class="mssg-details">
-              <div class="mssg-bubble">
-              <div class="mssg-info">
-                <div class="mssg-info-name">NOVA</div>
-              </div>
-              <div class="mssg-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
-                eget dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-              </div>
-            </div>
-            <div class="mssg-footer">
-              <span class="mssg-time me-2">11:45 AM</span>
-              <img src="./assets/image/thumpsup.svg" height="24">
-              <img src="./assets/image/thumpsdown.svg" height="24">
-              <img src="./assets/image/thumpsup_active.svg" height="24">
-              <img src="./assets/image/thumpsdown_active.svg" height="24">
-            </div>
-          </div>
-          </div> -->
-
         </div>
+
+        <div class="info-area" *ngIf="data['get_all_chat_details'].length>0 && data['get_all_chat_details'][data['get_all_chat_details'].length-1].feedback_comments==''">
+          <div class="info-title">Auto feedback for dislikes / improvement</div>
+          <div class="d-flex">
+            <div class="token c-p" *ngFor="let d of env.autofeedback" (click)="updateChatStatus(data['get_all_chat_details'][data['get_all_chat_details'].length-1],d,'feedback_comments')">{{d}}</div>
+          </div>
+        </div>
+
         <div class="info-area" *ngIf="currentChatter==''">
           <div class="info-title">Sample</div>
           <div class="d-flex">
-            <div class="token c-p" *ngFor="let d of ['What core values drive mCRPC treaters decision-making in prostate cancer generally, and in early-line mCRPC specifically?','How do the respondent values play out in the selection of specific treatment options, including sequential ARPIs and chemo?']" (click)="chatbox=d;triggerChat()">{{d}}</div>
+            <div class="token c-p" *ngFor="let d of env.sampleQus" (click)="chatbox=d;triggerChat()">{{d}}</div>
           </div>
         </div>
-        <ng-container *ngIf="filterVal && filterVal.study">
+        <ng-container *ngIf="filterVal">
         <div class="input-area"
-        [ngClass]="{'blur-loader-layer':(filterVal.study.length==0 || filterVal.speciality.length==0 || filterVal.practice_setting.length==0)}">
+        [ngClass]="{'blur-loader-layer':(filterVal.study_type.length==0 || filterVal.speciality.length==0 || filterVal.practice_setting.length==0)}">
           <div class="d-flex w-100" >
             <form class="input-form" #chatForm="ngForm" name="form" autocomplete="off"
               (ngSubmit)="chatForm.valid && triggerChat()">
               <input class="mssgInput" name="mssg" type="text" [(ngModel)]="chatbox" required
                 placeholder="Type your question here..."
-                [disabled]="(filterVal.study.length==0 || filterVal.speciality.length==0 || filterVal.practice_setting.length==0)">
+                [disabled]="(filterVal.study_type.length==0 || filterVal.speciality.length==0 || filterVal.practice_setting.length==0)">
               <!-- (keydown)="keyDownFunction($event)" -->
               <button type="submit"
-                [disabled]="(filterVal.study.length==0 || filterVal.speciality.length==0 || filterVal.practice_setting.length==0)"
+                [disabled]="(filterVal.study_type.length==0 || filterVal.speciality.length==0 || filterVal.practice_setting.length==0)"
                 class="c-p">
                 <div class="send-btn">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 18" fill="none">
@@ -245,7 +215,7 @@
                 </div>
               </button>
             </form>
-            <a class="download-btn" href=""><img src="./assets/image/download.svg" height="24"></a>
+            <span class="download-btn c-p" (click)="exportChat()"><img src="./assets/image/download.svg" height="24"></span>
           </div>
 
         </div></ng-container>
@@ -260,7 +230,6 @@
 <div class="modal show confirm-popup" tabindex="-1" role="dialog" aria-labelledby="" *ngIf="popuptype == 'chatDelete'">
     <div class="modal-dialog" role="document">
         <div class="modal-content p-4">
-          <!-- {{currentObj.topics.header_name | json}} -->
             <h4 class="fw-100 my-2 text-center">Are you sure to delete "{{(currentObj.topics.header_name)?currentObj.topics.header_name:currentObj.topics._id}}" chat?</h4>
 
             <div class="fw-100 p-2 text-center mt-2">

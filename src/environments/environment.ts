@@ -8,6 +8,9 @@ export const environment = {
   serverPort:'82',
   userManagementDomain:'http://localhost',
   userManagementPort:'81',
+  samlURL:"http://localhost:8080/login",
+  autofeedback:['Answer not accurate','Should elaborate more','Should be more concise'],
+  sampleQus:['What core values drive mCRPC treaters decision-making in prostate cancer generally, and in early-line mCRPC specifically?','How do the respondent values play out in the selection of specific treatment options, including sequential ARPIs and chemo?']
 };
 
 /*

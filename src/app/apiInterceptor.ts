@@ -11,13 +11,13 @@ export class ApiInterceptor implements HttpInterceptor {
     constructor(private gv: GlobalVariablesService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+        var log = localStorage.getItem('log')? JSON.parse(localStorage.getItem('log')).token: null
         request = request.clone({
             setHeaders: {
+                Authorization: String('Bearer ' + log),
                 userId: 'test1@example.com'
             }
         });
         return next.handle(request);
-
     }
 }

@@ -506,13 +506,13 @@ ngx-mat-file-input .filename{display:none!important;}
 
 
 
-@media screen and (max-width:1300px) {.f-feilds{ width: 25%;}}
-@media screen and (max-width:1000px) {.f-feilds{ width: 50%;}}
+@media screen and (min-width:1300px) {.f-feilds{ width: 25%;}}
+@media screen and (max-width:1300px) {.f-feilds{ width: 50%;}}
 /* @media screen and (max-width:1400px) {.f-feilds{ width: 25%;}} */
 
 /* .f-feilds:nth-child(odd) { padding-right: 20px; }
 .f-feilds:nth-child(even) { padding-left: 20px; } */
-.f-feilds label { margin-bottom: 3px;color:#BABABA;text-transform: capitalize;}
+.f-feilds label { margin-bottom: 3px;color:#0460A9;text-transform: capitalize;}
 label.form-check-label{float:none;display: inline;}
 .form-check-inline{display: inline-block;margin-right: 10px;margin-top: 11px;}
 .head { font-size: 14px; text-transform: capitalize; font-weight: 300;}
@@ -611,7 +611,7 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-btn .selected-item {
     min-height: 22px;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 88%;
+    max-width: 75%;
     margin-bottom: 2px;
     font-size: 12px;
 }
@@ -628,11 +628,27 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-btn .dropdown-up {
 ng-multiselect-dropdown .multiselect-dropdown {min-height: 40px;}
 ng-multiselect-dropdown .dropdown-list .filter-textbox{padding:0px}
 ng-multiselect-dropdown .dropdown-list .filter-textbox input{padding:10px}
-ng-multiselect-dropdown .multiselect-dropdown .dropdown-btn .selected-item {border: 1px solid #e4e4e4;background: #f6f6f6;color: #000;}
-ng-multiselect-dropdown .multiselect-dropdown .dropdown-btn .selected-item a{color: #000!important;}
+ng-multiselect-dropdown .multiselect-dropdown .dropdown-btn .selected-item {
+    border: 1px solid #e4e4e4;
+    background: #f2f2f7;
+    color: #000;
+    text-transform: capitalize;
+    position: relative;
+    padding-right: 30px;}
+ng-multiselect-dropdown .multiselect-dropdown .dropdown-btn .selected-item a{
+    color: #fff!important;
+    position: absolute;
+    right: 4px;
+    top: -1px;
+    right: 0px;    padding: 2px!important;
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    background: #afafaf;}
 ng-multiselect-dropdown .multiselect-dropdown .dropdown-btn .selected-item:hover {box-shadow: 1px 1px #959595;}
 ng-multiselect-dropdown .multiselect-item-checkbox input[type=checkbox]+div:before {color: #797979;border: 1px solid #797979;border-radius: 4px;background: transparent!important;}
 ng-multiselect-dropdown .multiselect-item-checkbox input[type=checkbox]+div:after {width: 6px;height: 2px;border-width: 0 0 2px 2px;border-color: #797979;}
+ng-multiselect-dropdown .multiselect-item-checkbox input[type=checkbox]+div {text-transform: capitalize;}
 /************************************************/
 :root {
     --switches-bg-color: var(--light-blue);

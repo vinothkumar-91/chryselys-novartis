@@ -119,6 +119,11 @@ export class LoginComponent implements OnInit {
 
   }
 
+  ssoLink(){
+    this.apiCall = true
+    window.location.href = this.gv.samlURL
+  }
+
   get _gv() {
     return this.gv
   }

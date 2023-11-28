@@ -47,14 +47,14 @@
 
 
             <div class="sso-button">
-              <button class="sso-button-link" [disabled]="(Gloader.val =='true')">
-                <span class="self-center" *ngIf="apiCall">Connecting SAML...</span>
+              <button class="sso-button-link" [disabled]="(Gloader.val =='true')" (click)="ssoLink()">
+                <span class="self-center" *ngIf="apiCall">Connecting SSO...</span>
                 <span class="self-center" *ngIf="!(Gloader.val =='true') && !apiCall">Sign in via SSO (Microsoft)</span>
               </button>
 
             </div>
 
-            <div class="relative mt-5 mb-5">
+            <!-- <div class="relative mt-5 mb-5">
               <div class="absolute inset-0 flex items-center" aria-hidden="true">
                 <div class="w-full bg-line"></div>
               </div>
@@ -117,7 +117,7 @@
 
             </div>
 
-          </form>
+          </form> -->
           </div>
 
         </div>

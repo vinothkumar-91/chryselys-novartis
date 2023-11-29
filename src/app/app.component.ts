@@ -24,6 +24,7 @@ export class AppComponent {
   constructor(private router: Router,private activatedRoute: ActivatedRoute, private authService: AuthService, private gv: GlobalVariablesService, private renderer: Renderer2, private apiService: ApiServiceService) {
 
 
+    this.gv.setUserDetail({token:132,role:'admin'})
     this.router.events.subscribe((event: Event) => {
       var prevPage;
       if (event instanceof NavigationStart) {

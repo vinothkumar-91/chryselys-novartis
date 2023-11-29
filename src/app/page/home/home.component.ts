@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
   filterList = {
     study_type: [],
     speciality: [],
-    csv: [],
+    csv: {},
     practice_setting: [],
     lugpa: ['yes','no'],
   };
@@ -110,7 +110,24 @@ export class HomeComponent implements OnInit {
               this.data['org'].organisation_id,
             (r: any) => {
               if (r.status_code == 200) {
-                this.filterList['csv'] = [this.changeToSpace(r.data.csv_data[0])];
+                this.filterList['csv_filter'] = {};
+                var csv = {practice_setting:[],speciality:[],study_type:[]}
+                r.data.csv_data.map((b)=>{
+                  this.filterList['csv_filter'][b.study_type[0].replaceAll("_"," ")] = {
+                    speciality:b.speciality.map((b)=>{ return b.replaceAll("_"," ") }),
+                    practice_setting:b.practice_setting.map((b)=>{ return b.replaceAll("_"," ") })
+                  };console.log(this.filterList['csv_filter'][b.study_type])
+                  csv['study_type'] = [...csv['study_type'],...b.study_type]
+                  csv['speciality'] = [...csv['speciality'],...b.speciality]
+                  csv['practice_setting'] = [...csv['practice_setting'],...b.practice_setting]
+                })
+                csv['study_type'] = this.gv.removeDuplicates(csv['study_type'])
+                csv['speciality'] = this.gv.removeDuplicates(csv['speciality'])
+                csv['practice_setting'] = this.gv.removeDuplicates(csv['practice_setting'])
+
+                // console.log(JSON.stringify(csv))
+                // console.log(JSON.stringify([this.changeToSpace(csv)]))
+                this.filterList['csv'] = this.changeToSpace(csv);
                 this.selectAllFilter();
                 this.apiCall['config'] = false;
 
@@ -365,14 +382,14 @@ export class HomeComponent implements OnInit {
   }
 
   selectAllFilter() {
-    this.filterList['study_type'] = [];
-    this.filterVal['study_type'] = [];
-    this.filterList['csv'].map((o) => {
-      if (o['study_type'][0]) {
-        this.filterList['study_type'].push(o['study_type'][0]);
-        this.filterVal['study_type'].push(o['study_type'][0]);
-      }
-    });
+    this.filterList['study_type'] = this.filterList['csv']['study_type'];
+    this.filterVal['study_type'] = this.filterList['csv']['study_type'];
+    // this.filterList['csv'].map((o) => {
+    //   if (o['study_type']) {
+    //     this.filterList['study_type'].push(o['study_type']);
+    //     this.filterVal['study_type'].push(o['study_type']);
+    //   }
+    // });
     this.apiCall['config'] = false;
     this.updateFilterList();
   }
@@ -386,14 +403,10 @@ export class HomeComponent implements OnInit {
   updateFilterList() {
     var speciality = [],
       practice_setting = [];
-    this.filterList['csv'].forEach((o) => {
-      if (
-        this.filterVal['study_type'] &&
-        this.filterVal['study_type'].includes(o['study_type'][0])
-      ) {
-        speciality = [...speciality, ...o['speciality']];
-        practice_setting = [...practice_setting, ...o['practice_setting']];
-      }
+
+    this.filterVal['study_type'].forEach((o) => {
+        speciality = [...speciality, ...this.filterList['csv_filter'][o]['speciality']];
+        practice_setting = [...practice_setting, ...this.filterList['csv_filter'][o]['practice_setting']];
     });
     this.filterList['speciality'] = this.gv.removeDuplicates(speciality);
     this.filterList['practice_setting'] =
@@ -529,6 +542,8 @@ export class HomeComponent implements OnInit {
 
 
   changeToSpace(a){
+    // console.log(a)
+    // return a
     return {
         study_type:a.study_type.map((b)=>{ return b.replaceAll("_"," ") }),
         speciality:a.speciality.map((b)=>{ return b.replaceAll("_"," ") }),
@@ -539,7 +554,7 @@ export class HomeComponent implements OnInit {
   }
 
   changeToUnderscore(a){
-    console.log(a)
+    // console.log(a)
     return {
         source_file:(a.source_file)?a.source_file:[],
         lugpa:(a.lugpa)?a.lugpa:'yes',

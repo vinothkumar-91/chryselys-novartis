@@ -25,21 +25,21 @@ https://localhost:4200/#/logout-redirect
             "actual_primary_completion_date": "2017-08-31",
             "anticipated_enrollment_max": 131,
             "anticipated_primary_completion_date": "2018-04-01",
-            "brief_title": "A study of Prexasertib (LY2606368) in Participants With Extensive Stage Disease Small Cell Lung Cancer",
+            "brief_title": "A study_type of Prexasertib (LY2606368) in Participants With Extensive Stage Disease Small Cell Lung Cancer",
             "condition": "Small Cell Lung Cancer",
             "interventions": "Prexasertib",
             "nct_id": "NCT02735980",
             "number_of_facilities": 41,
-            "official_title": "A Phase 2 study of LY2606368 in Patients With Extensive Stage Disease Small Cell Lung Cancer",
+            "official_title": "A Phase 2 study_type of LY2606368 in Patients With Extensive Stage Disease Small Cell Lung Cancer",
             "phase": "Phase 2",
             "sponsor": "Eli Lilly and Company",
             "start_date": "11-05-2016",
-            "study_status": "Completed",
+            "study_type_status": "Completed",
             "total_payments": 994646
         }
 
 
-{ condition:[], nct_id:[], phase:[], sponsor:[], start_date:[], study_status:[], }
+{ condition:[], nct_id:[], phase:[], sponsor:[], start_date:[], study_type_status:[], }
 
 
 From our perspective,
